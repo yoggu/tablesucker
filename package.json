@@ -8,6 +8,7 @@
   "dependencies": {
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@tailwindcss/container-queries": "^0.1.1",
     "autoprefixer": "10.4.15",
     "geist": "^1.0.0",
     "next": "latest",
