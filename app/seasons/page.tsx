@@ -1,23 +1,10 @@
+import SeasonDateRange from "@/components/season-date-range";
+import SeasonTitle from "@/components/season-title";
 import { Badge } from "@/components/ui/badge";
 import { getSeasons, isCompletedSeason } from "@/utils/seasons";
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  let month = `${date.getMonth() + 1}`;
-  let year = `${date.getFullYear()}`.slice(-2);
-  if (month.length < 2) {
-    month = `0${month}`;
-  }
-  return `${month}/${year}`;
-};
-
-
+import Link from "next/link";
 
 export default async function Seasons() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
   const { data, error } = await getSeasons();
 
   if (error) throw error;
@@ -26,19 +13,25 @@ export default async function Seasons() {
       <div>
         <h1>Seasons</h1>
       </div>
-      <ul>
+      <ul className="mt-6 flex flex-col gap-5">
         {data?.map((season) => (
-          <li key={season.id}>
-            <div className="flex gap-3">
-              <span>Season {formatDate(season.start_date)}</span>
-              <span>
-                {isCompletedSeason(season.end_date) ? (
-                  <Badge variant="destructive">completed</Badge>
+          <li key={season.id} className="border-b py-2">
+            <Link href={`/seasons/${season.id}`}>
+              <div className="flex gap-3 ">
+                <SeasonTitle date={season.start_date} />
+                <div>
+                  {isCompletedSeason(season.end_date) ? (
+                    <Badge variant="destructive">completed</Badge>
                   ) : (
-                  <Badge>running</Badge>
-                )}
-              </span>
-            </div>
+                    <Badge>running</Badge>
+                  )}
+                </div>
+              </div>
+              <SeasonDateRange
+                startDate={season.start_date}
+                endDate={season.end_date}
+              />
+            </Link>
           </li>
         ))}
       </ul>
