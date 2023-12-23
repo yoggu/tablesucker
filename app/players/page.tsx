@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { cookies } from "next/headers";
 
 export default async function Players() {
@@ -6,12 +7,18 @@ export default async function Players() {
   const supabase = createClient(cookieStore);
   const { data, error } = await supabase.from("players").select("*");
 
-  console.log(data);
+  if (error) throw error;
+
   return (
     <div>
       Players
       {data?.map((player) => (
-        <div key={player.id}>{player.name}</div>
+        <div key={player.id}>
+          <Avatar>
+            <AvatarImage src={player?.image_url ?? ""} />
+            <AvatarFallback>{player.name}</AvatarFallback>
+          </Avatar>
+        </div>
       ))}
     </div>
   );

@@ -1,4 +1,4 @@
-import { ModeToggle } from "./ModeToggle";
+import { ModeToggle } from "./mode-toggle";
 
 export default async function Header() {
 
