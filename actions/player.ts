@@ -1,7 +1,7 @@
 "use server";
 
-import { PlayerFormSchema } from "@/lib/schema";
-import { createClient } from "./supabase/server";
+import { PlayerFormSchema } from "@/utils/schema";
+import { createClient } from "../utils/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";

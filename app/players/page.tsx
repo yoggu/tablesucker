@@ -3,11 +3,12 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import PlayerForm from "@/components/player-form";
+import { getPlayers } from "@/utils/players";
 
 export default async function Players() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const { data, error } = await supabase.from("players").select("*");
+  const { data, error } = await getPlayers();
 
   if (error) throw error;
 

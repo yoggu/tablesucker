@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { useToast } from "@/utils/use-toast";
+import { useToast } from "@/utils/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { PlayerFormSchema } from "@/lib/schema";
-import { createPlayer } from "@/utils/actions";
+import { PlayerFormSchema } from "@/utils/schema";
+import { createPlayer } from "@/actions/player";
 
 type Inputs = z.infer<typeof PlayerFormSchema>;
 
