@@ -5,7 +5,7 @@ export default function Menu() {
     <nav>
       <ul>
         <li>
-          <Link href="/" className="text-blue-800 dark:text-green-500">Live</Link>
+          <Link href="/" className="">Live</Link>
         </li>
         <li>
           <Link href="/players">Players</Link>

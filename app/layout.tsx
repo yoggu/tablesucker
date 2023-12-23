@@ -3,6 +3,7 @@ import "./globals.css";
 import Menu from "@/components/layout/menu";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import Header from "@/components/layout/header";
+import { Toaster } from "@/components/ui/toaster";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -21,22 +22,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="dark:bg-slate-800 min-h-screen">
+      <body className="flex min-h-screen dark:bg-slate-800">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <div className="flex">
-            <aside>
-              <Menu />
-            </aside>
-            <main className="flex-grow flex flex-col items-center">
-              {children}
-            </main>
-          </div>
+          <aside className="pt-4 px-4">
+            <Menu />
+          </aside>
+          <main className="flex flex-grow flex-col pt-4 px-4">
+            {children}
+          </main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
