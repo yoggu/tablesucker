@@ -23,7 +23,7 @@ export default async function Seasons() {
                   {isCompletedSeason(season.end_date) ? (
                     <Badge variant="destructive">completed</Badge>
                   ) : (
-                    <Badge>running</Badge>
+                    <Badge>active</Badge>
                   )}
                 </div>
               </div>

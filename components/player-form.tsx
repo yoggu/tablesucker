@@ -37,16 +37,16 @@ export default function PlayerForm() {
       toast({
         variant: "destructive",
         title: "There was a problem with your request.",
-        description: (error as Error).message || "An unexpected error occurred.",
+        description:
+          (error as Error).message || "An unexpected error occurred.",
       });
       return;
     }
-    if (player) {
-      toast({
-        title: "Player created successfully",
-        description: `${player[0].name} was created successfully.`,
-      });
-    }
+
+    toast({
+      title: "Player created successfully",
+      description: `${player![0].name} was created successfully.`,
+    });
   }
 
   return (

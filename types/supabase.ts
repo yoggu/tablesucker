@@ -11,25 +11,25 @@ export interface Database {
     Tables: {
       game_players: {
         Row: {
-          created_at: string | null
+          created_at: string
           game_id: number
           id: number
           player_id: number
-          team: string | null
+          team: Database["public"]["Enums"]["team"]
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           game_id: number
           id?: never
           player_id: number
-          team?: string | null
+          team: Database["public"]["Enums"]["team"]
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           game_id?: number
           id?: never
           player_id?: number
-          team?: string | null
+          team?: Database["public"]["Enums"]["team"]
         }
         Relationships: [
           {
@@ -50,21 +50,21 @@ export interface Database {
       }
       games: {
         Row: {
-          created_at: string | null
+          created_at: string
           id: number
           season_id: number
           team_blue_score: number
           team_red_score: number
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           id?: never
           season_id: number
           team_blue_score: number
           team_red_score: number
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           id?: never
           season_id?: number
           team_blue_score?: number
@@ -82,19 +82,19 @@ export interface Database {
       }
       players: {
         Row: {
-          created_at: string | null
+          created_at: string
           id: number
           image_url: string | null
           name: string
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           id?: never
           image_url?: string | null
           name: string
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           id?: never
           image_url?: string | null
           name?: string
@@ -103,19 +103,19 @@ export interface Database {
       }
       seasons: {
         Row: {
-          created_at: string | null
+          created_at: string
           end_date: string | null
           id: number
           start_date: string
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           end_date?: string | null
           id?: never
           start_date: string
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           end_date?: string | null
           id?: never
           start_date?: string
@@ -130,7 +130,7 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      team: "team_red" | "team_blue"
     }
     CompositeTypes: {
       [_ in never]: never
