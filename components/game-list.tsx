@@ -16,7 +16,7 @@ export default function GameList({ games }: GameListProps) {
           <div className="flex flex-col items-end">
             <div className="flex flex-col">
               <div className="h-7">{game.winner === TEAM.Red && <Badge>Winner</Badge>}</div>
-              <h2>Team Red</h2>
+              <span>Team Red</span>
             </div>
             <ul className="flex gap-2 mt-3">
               {game.teamRed.players.map((player) => (
@@ -44,7 +44,7 @@ export default function GameList({ games }: GameListProps) {
           <div className="flex flex-col">
             <div className="flex flex-col">
               <div className="h-7">{game.winner === TEAM.Blue && <Badge>Winner</Badge>}</div>
-              <h2>Team Blue</h2>
+              <span>Team Blue</span>
             </div>
             <ul className="flex gap-2 mt-3">
               {game.teamBlue.players.map((player) => (

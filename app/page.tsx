@@ -1,5 +1,7 @@
 import GameList from "@/components/game-list";
+import TopscorerList from "@/components/topscorer-list";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import WinRateList from "@/components/win-rate-list";
 import { TEAM } from "@/types/types";
 import { calculatePlayerStats, getGamesBySeason } from "@/utils/games";
 import { getLatestActiveSeason } from "@/utils/seasons";
@@ -23,47 +25,9 @@ export default async function Live() {
         <h1>Live</h1>
       </div>
       <GameList games={games} />
-      <div>
-        <h2>Top Scorers</h2>
-        <ul>
-          {topScorers.map((player) => (
-            <li key={player.id}>
-              <Link href={`/players/${player.id}`}>
-                <div>
-                  <Avatar>
-                    <AvatarImage src={player?.imageUrl ?? ""} />
-                    <AvatarFallback>
-                      {player.name.slice(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span>{player.name}</span>
-                  <span>{player.goalsScored}</span>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h2>Win Rates</h2>
-        <ul>
-          {winRates.map((player) => (
-            <li key={player.id}>
-              <Link href={`/players/${player.id}`}>
-                <div>
-                  <Avatar>
-                    <AvatarImage src={player?.imageUrl ?? ""} />
-                    <AvatarFallback>
-                      {player.name.slice(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span>{player.name}</span>
-                  <span>{player.winRate * 100}%</span>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <div className="mt-6 flex gap-10 justify-center">
+        <TopscorerList players={topScorers} />
+        <WinRateList players={winRates} />
       </div>
     </div>
   );
