@@ -135,14 +135,18 @@ export async function getGamesByPlayerAndSeason(
 
   // Construct and execute the subquery to get game IDs
   let gameIdsQuery = supabase
-    .from('game_players')
-    .select('game_id')
-    .eq('player_id', playerId);
+    .from("game_players")
+    .select("game_id")
+    .eq("player_id", playerId);
 
   // If a seasonId is provided, filter games by seasonId
   if (seasonId !== undefined) {
-    gameIdsQuery = gameIdsQuery
-      .in('game_id', supabase.from('games').select('id').eq('season_id', seasonId));
+    const gameIdsArray = await supabase
+      .from("games")
+      .select("id")
+      .eq("season_id", seasonId)
+      .then((response) => response.data?.map((game) => game.id) || []);
+    gameIdsQuery = gameIdsQuery.in("game_id", gameIdsArray);
   }
 
   // Execute the subquery to get game IDs
@@ -153,19 +157,22 @@ export async function getGamesByPlayerAndSeason(
   }
 
   // Extract game IDs from the query results
-  const gameIds = gameIdsData.map(g => g.game_id);
+  const gameIds = gameIdsData.map((g) => g.game_id);
 
   // Fetch game details from games table based on the fetched game IDs
   const { data: gamesData, error: gamesError } = await supabase
-    .from('games')
-    .select(`
+    .from("games")
+    .select(
+      `
       *,
       game_players!inner (
         *,
         players (*)
       )
-    `)
-    .in('id', gameIds);
+    `,
+    )
+    .in("id", gameIds)
+    .returns<GameWithGamePlayer[]>();
 
   if (gamesError) {
     console.error("Error fetching games:", gamesError);
@@ -176,5 +183,3 @@ export async function getGamesByPlayerAndSeason(
 
   return { data: transformedData, error: null };
 }
-
-
