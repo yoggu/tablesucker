@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TEAM } from "@/types/types";
-import { getGamesBySeason } from "@/utils/games";
+import { calculatePlayerStats, getGamesBySeason } from "@/utils/games";
 import { getLatestActiveSeason } from "@/utils/seasons";
 import Link from "next/link";
 
@@ -10,6 +10,14 @@ export default async function Live() {
   const { data: games, error: gamesError } = await getGamesBySeason(season!.id);
   if (gamesError) return <div>error</div>;
   console.log("games", games);
+  const playerStats = calculatePlayerStats(games!);
+
+  console.log("playerStats", playerStats);
+
+  const topScorers = playerStats.toSorted(
+    (a, b) => b.goalsScored - a.goalsScored,
+  );
+  const highestWinRate = playerStats.toSorted((a, b) => b.winRate - a.winRate);
 
   return (
     <div>
@@ -21,7 +29,7 @@ export default async function Live() {
           <li key={game.id}>
             <div>
               <span>Team Red</span>
-              {game.winner === TEAM.Red && <span>Winner</span> }
+              {game.winner === TEAM.Red && <span>Winner</span>}
               <span>{game.teamRed.score}</span>
               <div>
                 {game.teamRed.players.map((player) => (
@@ -38,7 +46,7 @@ export default async function Live() {
             </div>
             <div>
               <span>Team Blue</span>
-              {game.winner === TEAM.Blue && <span>Winner</span> }
+              {game.winner === TEAM.Blue && <span>Winner</span>}
               <span>{game.teamBlue.score}</span>
               <div>
                 {game.teamBlue.players.map((player) => (
@@ -56,6 +64,48 @@ export default async function Live() {
           </li>
         ))}
       </ul>
+      <div>
+        <h2>Top Scorers</h2>
+        <ul>
+          {topScorers.map((player) => (
+            <li key={player.id}>
+              <Link href={`/players/${player.id}`}>
+                <div>
+                  <Avatar>
+                    <AvatarImage src={player?.imageUrl ?? ""} />
+                    <AvatarFallback>
+                      {player.name.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span>{player.name}</span>
+                  <span>{player.goalsScored}</span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>Highest Win Rate</h2>
+        <ul>
+          {highestWinRate.map((player) => (
+            <li key={player.id}>
+              <Link href={`/players/${player.id}`}>
+                <div>
+                  <Avatar>
+                    <AvatarImage src={player?.imageUrl ?? ""} />
+                    <AvatarFallback>
+                      {player.name.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span>{player.name}</span>
+                  <span>{player.winRate * 100}%</span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

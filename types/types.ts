@@ -17,7 +17,7 @@ export enum TEAM {
   Blue = 'team_blue'
 }
 
-export interface TransformedGame {
+export interface GameStats {
   id: number;
   createdAt: string;
   seasonId: number;
@@ -30,4 +30,16 @@ export interface TransformedGame {
     score: number;
     players: Player[];
   };
+}
+
+export interface PlayerStats {
+  id: number;
+  createdAt: string;
+  imageUrl: string | null;
+  name: string;
+  winRate: number;
+  wins: number;
+  gamesPlayed: number;
+  goalsScored: number;
+  goalsConceded: number;
 }
