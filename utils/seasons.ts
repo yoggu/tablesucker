@@ -1,15 +1,14 @@
 import { cookies } from "next/headers";
 import { createClient } from "./supabase/server";
 
-export const cookieStore = cookies();
-export const supabase = createClient(cookieStore);
-
 export async function getSeasons() {
+  const supabase = createClient(cookies());
   const { data, error } = await supabase.from("seasons").select("*");
   return { data, error };
 }
 
 export async function getLatestActiveSeason() {
+  const supabase = createClient(cookies());
   const today = new Date().toISOString();
   console.log(today);
   const { data, error } = await supabase

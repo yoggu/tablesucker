@@ -2,10 +2,8 @@ import { cookies } from 'next/headers';
 import { createClient } from './supabase/server';
 import { TransformedGame, ExtendedGamePlayers, TEAM } from '@/types/types';
 
-export const cookieStore = cookies();
-export const supabase = createClient(cookieStore);
-
 export async function getGamesBySeason(seasonId: number) {
+  const supabase = createClient(cookies());
   const { data, error } = await supabase
     .from('game_players')
     .select(`
@@ -57,6 +55,7 @@ export const transformGameData = (gamePlayers: ExtendedGamePlayers[]): Transform
 
 
 export async function getGamesByPlayer() {
+  const supabase = createClient(cookies());
   const { data, error } = await supabase.from("games").select("*");
   return { data, error };
 }
