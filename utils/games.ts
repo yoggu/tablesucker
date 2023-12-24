@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 import { createClient } from "./supabase/server";
 import {
+  GameWithGamePlayer,
   GameStats,
-  ExtendedGamePlayers,
   TEAM,
   PlayerStats,
 } from "@/types/types";
@@ -10,56 +10,54 @@ import {
 export async function getGamesBySeason(seasonId: number) {
   const supabase = createClient(cookies());
   const { data, error } = await supabase
-    .from("game_players")
+    .from("games")
     .select(
       `
+    *,
+    game_players!inner (
       *,
-      games (
-        *,
-        seasons (id)
-      ),
       players (*)
-    `,
     )
-    .eq("games.season_id", seasonId).returns<ExtendedGamePlayers[]>();
+  `,
+    )
+    .eq("season_id", seasonId)
+    .returns<GameWithGamePlayer[]>();
 
   if (error) return { data: null, error };
 
+  console.log("GamesWithPlayers", data[1].game_players);
   const transformedData = gameStats(data);
 
   return { data: transformedData, error: null };
 }
 
-export const gameStats = (gamePlayers: ExtendedGamePlayers[]): GameStats[] => {
-  const gameStats: Record<number, GameStats> = {};
+export const gameStats = (gamesData: GameWithGamePlayer[]): GameStats[] => {
+  const gameStatsArray = gamesData.map((game) => {
+    const teamRedPlayers = game.game_players
+      .filter((gamePlayer) => gamePlayer.team === TEAM.Red)
+      .map((gamePlayer) => gamePlayer.players);
 
-  gamePlayers.forEach((gamePlayer) => {
-    const gameId = gamePlayer.games.id;
-    if (!gameStats[gameId]) {
-      gameStats[gameId] = {
-        id: gameId,
-        createdAt: gamePlayer.games.created_at,
-        seasonId: gamePlayer.games.season_id,
-        winner:
-          gamePlayer.games.team_red_score > gamePlayer.games.team_blue_score
-            ? TEAM.Red
-            : TEAM.Blue,
-        teamRed: {
-          score: gamePlayer.games.team_red_score,
-          players: [],
-        },
-        teamBlue: {
-          score: gamePlayer.games.team_blue_score,
-          players: [],
-        },
-      };
-    }
+    const teamBluePlayers = game.game_players
+      .filter((gamePlayer) => gamePlayer.team === TEAM.Blue)
+      .map((gamePlayer) => gamePlayer.players);
 
-    const teamKey = gamePlayer.team === TEAM.Red ? "teamRed" : "teamBlue";
-    gameStats[gameId][teamKey].players.push(gamePlayer.players);
+    return {
+      id: game.id,
+      createdAt: game.created_at,
+      seasonId: game.season_id,
+      winner: game.team_red_score > game.team_blue_score ? TEAM.Red : TEAM.Blue,
+      teamRed: {
+        score: game.team_red_score,
+        players: teamRedPlayers,
+      },
+      teamBlue: {
+        score: game.team_blue_score,
+        players: teamBluePlayers,
+      },
+    };
   });
 
-  return Object.values(gameStats).sort(
+  return gameStatsArray.sort(
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
   );
 };
@@ -122,10 +120,10 @@ export const calculatePlayerStats = (games: GameStats[]) => {
     const stats = playerStats[playerId];
 
     if (stats) {
-      stats.winRate = stats.gamesPlayed > 0 ? stats.wins / stats.gamesPlayed : 0;
+      stats.winRate =
+        stats.gamesPlayed > 0 ? stats.wins / stats.gamesPlayed : 0;
     }
   });
-
 
   return Object.values(playerStats);
 };

@@ -6,10 +6,12 @@ export type GamePlayer = Tables<"game_players">;
 
 export type Player = Tables<"players">;
 
-export interface ExtendedGamePlayers extends GamePlayer {
-  team: TEAM;
-  games: Game;
+export interface GamePlayersWithPlayer extends GamePlayer {
   players: Player;
+}
+
+export interface GameWithGamePlayer extends Game {
+  game_players: GamePlayersWithPlayer[];
 }
 
 export enum TEAM {
