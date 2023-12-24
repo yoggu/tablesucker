@@ -9,15 +9,12 @@ export default async function Live() {
   if (seasonError) return <div>error</div>;
   const { data: games, error: gamesError } = await getGamesBySeason(season!.id);
   if (gamesError) return <div>error</div>;
-  console.log("games", games);
+
   const playerStats = calculatePlayerStats(games!);
-
-  console.log("playerStats", playerStats);
-
   const topScorers = playerStats.toSorted(
     (a, b) => b.goalsScored - a.goalsScored,
   );
-  const highestWinRate = playerStats.toSorted((a, b) => b.winRate - a.winRate);
+  const winRates = playerStats.toSorted((a, b) => b.winRate - a.winRate);
 
   return (
     <div>
@@ -86,9 +83,9 @@ export default async function Live() {
         </ul>
       </div>
       <div>
-        <h2>Highest Win Rate</h2>
+        <h2>Win Rates</h2>
         <ul>
-          {highestWinRate.map((player) => (
+          {winRates.map((player) => (
             <li key={player.id}>
               <Link href={`/players/${player.id}`}>
                 <div>
