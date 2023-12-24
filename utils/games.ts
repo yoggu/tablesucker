@@ -25,7 +25,6 @@ export async function getGamesBySeason(seasonId: number) {
 
   if (error) return { data: null, error };
 
-  console.log("GamesWithPlayers", data[1].game_players);
   const transformedData = gameStats(data);
 
   return { data: transformedData, error: null };
@@ -116,7 +115,7 @@ export const calculatePlayerStats = (games: GameStats[]) => {
   });
 
   Object.keys(playerStats).forEach((key) => {
-    const playerId = parseInt(key, 10); // Convert key to a number
+    const playerId = parseInt(key, 10);
     const stats = playerStats[playerId];
 
     if (stats) {
@@ -128,8 +127,54 @@ export const calculatePlayerStats = (games: GameStats[]) => {
   return Object.values(playerStats);
 };
 
-export async function getGamesByPlayer() {
+export async function getGamesByPlayerAndSeason(
+  playerId: number,
+  seasonId?: number,
+) {
   const supabase = createClient(cookies());
-  const { data, error } = await supabase.from("games").select("*");
-  return { data, error };
+
+  // Construct and execute the subquery to get game IDs
+  let gameIdsQuery = supabase
+    .from('game_players')
+    .select('game_id')
+    .eq('player_id', playerId);
+
+  // If a seasonId is provided, filter games by seasonId
+  if (seasonId !== undefined) {
+    gameIdsQuery = gameIdsQuery
+      .in('game_id', supabase.from('games').select('id').eq('season_id', seasonId));
+  }
+
+  // Execute the subquery to get game IDs
+  const { data: gameIdsData, error: gameIdsError } = await gameIdsQuery;
+  if (gameIdsError || !gameIdsData) {
+    console.error("Error fetching game IDs:", gameIdsError);
+    return { data: null, error: gameIdsError };
+  }
+
+  // Extract game IDs from the query results
+  const gameIds = gameIdsData.map(g => g.game_id);
+
+  // Fetch game details from games table based on the fetched game IDs
+  const { data: gamesData, error: gamesError } = await supabase
+    .from('games')
+    .select(`
+      *,
+      game_players!inner (
+        *,
+        players (*)
+      )
+    `)
+    .in('id', gameIds);
+
+  if (gamesError) {
+    console.error("Error fetching games:", gamesError);
+    return { data: null, error: gamesError };
+  }
+
+  const transformedData = gameStats(gamesData);
+
+  return { data: transformedData, error: null };
 }
+
+

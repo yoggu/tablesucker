@@ -7,6 +7,16 @@ export async function getSeasons() {
   return { data, error };
 }
 
+export async function getSeasonById(id: number) {
+  const supabase = createClient(cookies());
+  const { data, error } = await supabase
+    .from("seasons")
+    .select("*")
+    .eq("id", id)
+    .single();
+  return { data, error };
+}
+
 export async function getLatestActiveSeason() {
   const supabase = createClient(cookies());
   const today = new Date().toISOString();
