@@ -30,7 +30,7 @@ export default function WinRateList({ players }: WinRateListProps) {
               </div>
             </Link>
             <span className="col-span-2 text-center">
-              {player.winRate * 100}%
+              {player.winRate}%
             </span>
           </li>
         ))}

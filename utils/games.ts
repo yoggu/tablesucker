@@ -120,7 +120,7 @@ export const calculatePlayerStats = (games: GameStats[]) => {
 
     if (stats) {
       stats.winRate =
-        stats.gamesPlayed > 0 ? stats.wins / stats.gamesPlayed : 0;
+        stats.gamesPlayed > 0 ? Math.round((stats.wins / stats.gamesPlayed) * 100) : 0;
     }
   });
 
