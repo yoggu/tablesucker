@@ -1,5 +1,6 @@
+import SeasonBadge from "@/components/season-badge";
 import SeasonDateRange from "@/components/season-date-range";
-import SeasonTitle from "@/components/season-title";
+import SeasonName from "@/components/season-title";
 import { Badge } from "@/components/ui/badge";
 import { getSeasons, isCompletedSeason } from "@/utils/seasons";
 import Link from "next/link";
@@ -17,15 +18,9 @@ export default async function Seasons() {
         {data?.map((season) => (
           <li key={season.id} className="border-b py-2">
             <Link href={`/seasons/${season.id}`}>
-              <div className="flex gap-3 ">
-                <SeasonTitle date={season.start_date} />
-                <div>
-                  {isCompletedSeason(season.end_date) ? (
-                    <Badge variant="destructive">completed</Badge>
-                  ) : (
-                    <Badge>active</Badge>
-                  )}
-                </div>
+              <div className="flex gap-3">
+                <span><SeasonName date={season.start_date} /></span>
+                <SeasonBadge date={season.end_date} />
               </div>
               <SeasonDateRange
                 startDate={season.start_date}

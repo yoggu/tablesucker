@@ -8,10 +8,10 @@ const formatTitle = (dateString: string) => {
   return `${month}/${year}`;
 };
 
-type SeasonTitleProps = {
+type SeasonNameProps = {
   date: string;
 };
 
-export default function SeasonTitle({ date}: SeasonTitleProps) {
-  return <span>Season {formatTitle(date)}</span>;
+export default function SeasonName({ date }: SeasonNameProps) {
+  return <>Season {formatTitle(date)}</>;
 }

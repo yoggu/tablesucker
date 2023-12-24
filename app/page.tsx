@@ -1,3 +1,4 @@
+import GameList from "@/components/game-list";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TEAM } from "@/types/types";
 import { calculatePlayerStats, getGamesBySeason } from "@/utils/games";
@@ -21,46 +22,7 @@ export default async function Live() {
       <div>
         <h1>Live</h1>
       </div>
-      <ul>
-        {games?.map((game) => (
-          <li key={game.id}>
-            <div>
-              <span>Team Red</span>
-              {game.winner === TEAM.Red && <span>Winner</span>}
-              <span>{game.teamRed.score}</span>
-              <div>
-                {game.teamRed.players.map((player) => (
-                  <Link key={player.id} href={`/players/${player.id}`}>
-                    <Avatar>
-                      <AvatarImage src={player?.image_url ?? ""} />
-                      <AvatarFallback>
-                        {player.name.slice(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Link>
-                ))}
-              </div>
-            </div>
-            <div>
-              <span>Team Blue</span>
-              {game.winner === TEAM.Blue && <span>Winner</span>}
-              <span>{game.teamBlue.score}</span>
-              <div>
-                {game.teamBlue.players.map((player) => (
-                  <Link key={player.id} href={`/players/${player.id}`}>
-                    <Avatar>
-                      <AvatarImage src={player?.image_url ?? ""} />
-                      <AvatarFallback>
-                        {player.name.slice(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <GameList games={games} />
       <div>
         <h2>Top Scorers</h2>
         <ul>
