@@ -13,21 +13,18 @@ export interface Database {
         Row: {
           created_at: string
           game_id: number
-          id: number
           player_id: number
           team: Database["public"]["Enums"]["team"]
         }
         Insert: {
           created_at?: string
           game_id: number
-          id?: never
           player_id: number
           team: Database["public"]["Enums"]["team"]
         }
         Update: {
           created_at?: string
           game_id?: number
-          id?: never
           player_id?: number
           team?: Database["public"]["Enums"]["team"]
         }
