@@ -25,10 +25,11 @@ export default async function Live() {
         <h1>Live</h1>
       </div>
       <GameList games={games} />
-      <div className="mt-6 flex gap-10 justify-center">
+      <div className="mt-6 flex justify-center gap-10">
         <TopscorerList players={topScorers} />
         <WinRateList players={winRates} />
       </div>
+      <GameForm />
     </div>
   );
 }
