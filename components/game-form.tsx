@@ -46,7 +46,6 @@ export default function GameForm({ players, seasonId }: GameFormProps) {
   });
 
   async function onSubmit(data: Inputs) {
-    console.log("data", data);
     const { data: game, error } = await createGame(data);
     if (error) {
       toast({

@@ -31,7 +31,7 @@ export async function createGame(inputData: GameFormInputs) {
       .insert(gamesRows)
       .select()
       .single();
-    if (gameError) return { data: null, gameError };
+    if (gameError) return { data: null, error: gameError };
 
     const gamePlayersRows: InsertGamePlayer[] = [
       ...parsed.data.team_red.players.map((player) => ({
@@ -49,7 +49,15 @@ export async function createGame(inputData: GameFormInputs) {
       .from("game_players")
       .insert(gamePlayersRows)
       .select();
-    if (gamePlayerError) return { data: null, gamePlayerError };
+
+    if (gamePlayerError) {
+      await supabase
+        .from("games")
+        .delete()
+        .match({ id: gameData.id });
+
+      return { data: null, error: gamePlayerError };
+    }
 
     revalidatePath("/");
     return { data: gameData, error: null };
