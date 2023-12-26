@@ -11,15 +11,22 @@ export const PlayerFormSchema = z.object({
     }),
 });
 
-
 export const GameFormSchema = z.object({
   season_id: z.number().int(),
   team_red: z.object({
-    score: z.number().int(),
-    players: z.array(z.number().int()),
+    score: z.string().refine((value) => parseInt(value) >= 0, {
+      message: "Score must be a non-negative number",
+    }),
+    players: z.array(z.number().int()).min(1, {
+      message: "At least one player is required.",
+    }),
   }),
   team_blue: z.object({
-    score: z.number().int(),
-    players: z.array(z.number().int()),
-  })
+    score: z.string().refine((value) => parseInt(value) >= 0, {
+      message: "Score must be a non-negative number",
+    }),
+    players: z.array(z.number().int()).min(1, {
+      message: "At least one player is required.",
+    }),
+  }),
 });

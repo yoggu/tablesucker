@@ -20,7 +20,6 @@ export async function getSeasonById(id: number) {
 export async function getLatestActiveSeason() {
   const supabase = createClient(cookies());
   const today = new Date().toISOString();
-  console.log(today);
   const { data, error } = await supabase
     .from("seasons")
     .select("*")

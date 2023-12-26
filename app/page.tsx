@@ -1,9 +1,11 @@
+import GameForm from "@/components/game-form";
 import GameList from "@/components/game-list";
 import TopscorerList from "@/components/topscorer-list";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import WinRateList from "@/components/win-rate-list";
 import { TEAM } from "@/types/types";
 import { calculatePlayerStats, getGamesBySeason } from "@/utils/games";
+import { getPlayers } from "@/utils/players";
 import { getLatestActiveSeason } from "@/utils/seasons";
 import Link from "next/link";
 
@@ -12,6 +14,8 @@ export default async function Live() {
   if (seasonError) return <div>error</div>;
   const { data: games, error: gamesError } = await getGamesBySeason(season!.id);
   if (gamesError) return <div>error</div>;
+  const { data: players, error: playersError } = await getPlayers();
+  if (playersError) return <div>error</div>;
 
   const playerStats = calculatePlayerStats(games!);
   const topScorers = playerStats.toSorted(
@@ -29,7 +33,7 @@ export default async function Live() {
         <TopscorerList players={topScorers} />
         <WinRateList players={winRates} />
       </div>
-      <GameForm />
+      <GameForm seasonId={season!.id} players={players!} />
     </div>
   );
 }

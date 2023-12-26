@@ -14,15 +14,15 @@ type InsertGamePlayer = Omit<GamePlayer, "created_at">;
 const cookieStore = cookies();
 const supabase = createClient(cookieStore);
 
-export async function createPlayer(inputData: GameFormInputs) {
+export async function createGame(inputData: GameFormInputs) {
   const parsed = GameFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
 
   const gamesRows: InsertGame[] = [
     {
       season_id: parsed.data.season_id,
-      team_red_score: parsed.data.team_red.score,
-      team_blue_score: parsed.data.team_blue.score,
+      team_red_score: parseInt(parsed.data.team_red.score),
+      team_blue_score: parseInt(parsed.data.team_blue.score),
     },
   ];
   try {
@@ -42,10 +42,9 @@ export async function createPlayer(inputData: GameFormInputs) {
       ...parsed.data.team_blue.players.map((player) => ({
         game_id: gameData.id,
         player_id: player,
-        team: TEAM.Red,
+        team: TEAM.Blue,
       })),
     ];
-
     const { data: gamePlayerData, error: gamePlayerError } = await supabase
       .from("game_players")
       .insert(gamePlayersRows)
@@ -53,9 +52,8 @@ export async function createPlayer(inputData: GameFormInputs) {
     if (gamePlayerError) return { data: null, gamePlayerError };
 
     revalidatePath("/");
-    return { gameData, error: null };
+    return { data: gameData, error: null };
   } catch (error) {
     return { data: null, error };
   }
-
 }
