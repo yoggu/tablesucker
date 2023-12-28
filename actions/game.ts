@@ -20,7 +20,7 @@ export async function createGame(inputData: GameFormInputs) {
 
   const gamesRows: InsertGame[] = [
     {
-      season_id: parsed.data.season_id,
+      season_id: parseInt(parsed.data.season_id),
       team_red_score: parseInt(parsed.data.team_red.score),
       team_blue_score: parseInt(parsed.data.team_blue.score),
     },
