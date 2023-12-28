@@ -6,6 +6,8 @@ export type GamePlayer = Tables<"game_players">;
 
 export type Player = Tables<"players">;
 
+export type Season = Tables<"seasons">;
+
 export interface GamePlayersWithPlayer extends GamePlayer {
   players: Player;
 }

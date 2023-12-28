@@ -1,8 +1,7 @@
 import SeasonBadge from "@/components/season-badge";
 import SeasonDateRange from "@/components/season-date-range";
 import SeasonName from "@/components/season-title";
-import { Badge } from "@/components/ui/badge";
-import { getSeasons, isCompletedSeason } from "@/utils/seasons";
+import { getSeasons } from "@/utils/seasons";
 import Link from "next/link";
 
 export default async function Seasons() {

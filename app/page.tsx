@@ -1,18 +1,16 @@
 import GameForm from "@/components/game-form";
 import GameList from "@/components/game-list";
 import TopscorerList from "@/components/topscorer-list";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import WinRateList from "@/components/win-rate-list";
-import { TEAM } from "@/types/types";
 import { calculatePlayerStats, getGamesBySeason } from "@/utils/games";
 import { getPlayers } from "@/utils/players";
-import { getLatestActiveSeason } from "@/utils/seasons";
-import Link from "next/link";
+import { getActiveSeasons } from "@/utils/seasons";
 
 export default async function Live() {
-  const { data: season, error: seasonError } = await getLatestActiveSeason();
+  const { data: seasons, error: seasonError } = await getActiveSeasons();
   if (seasonError) return <div>error</div>;
-  const { data: games, error: gamesError } = await getGamesBySeason(season!.id);
+  const LatestActiveSeason = seasons![0];
+  const { data: games, error: gamesError } = await getGamesBySeason(LatestActiveSeason?.id);
   if (gamesError) return <div>error</div>;
   const { data: players, error: playersError } = await getPlayers();
   if (playersError) return <div>error</div>;
@@ -33,7 +31,7 @@ export default async function Live() {
         <TopscorerList players={topScorers} />
         <WinRateList players={winRates} />
       </div>
-      <GameForm seasonId={season!.id} players={players!} />
+      <GameForm seasons={seasons!} players={players!} />
     </div>
   );
 }

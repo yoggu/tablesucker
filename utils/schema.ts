@@ -12,7 +12,9 @@ export const PlayerFormSchema = z.object({
 });
 
 export const GameFormSchema = z.object({
-  season_id: z.number().int(),
+  season_id: z.string().refine((value) => parseInt(value) >= 0, {
+    message: "Season ID must be a number",
+  }),
   team_red: z.object({
     score: z.string().refine((value) => parseInt(value) >= 0, {
       message: "Score must be a non-negative number",

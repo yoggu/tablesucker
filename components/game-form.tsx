@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,16 +18,24 @@ import { Input } from "@/components/ui/input";
 
 import { GameFormSchema } from "@/utils/schema";
 import { createGame } from "@/actions/game";
-import { Player } from "@/types/types";
+import { Player, Season } from "@/types/types";
 import { Checkbox } from "./ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { formatSeasonTitle } from "@/utils/seasons-client";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
   players: Player[];
-  seasonId: number;
+  seasons: Season[];
 };
 
-export default function GameForm({ players, seasonId }: GameFormProps) {
+export default function GameForm({ players, seasons }: GameFormProps) {
   const { toast } = useToast();
   const form = useForm<Inputs>({
     resolver: zodResolver(GameFormSchema),
@@ -41,7 +48,7 @@ export default function GameForm({ players, seasonId }: GameFormProps) {
         players: [],
         score: "",
       },
-      season_id: seasonId,
+      season_id: seasons && seasons.length > 0 ? seasons[0]?.id?.toString() : ""
     },
   });
 
@@ -68,6 +75,36 @@ export default function GameForm({ players, seasonId }: GameFormProps) {
       <h2>Add Game</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">
+          <FormField
+            control={form.control}
+            name="season_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Season</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field?.value?.toString()}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an active season" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {seasons.map((season) => (
+                      <SelectItem
+                        key={season.id}
+                        value={season?.id?.toString()}
+                      >
+                        Season {formatSeasonTitle(season.start_date)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="flex gap-5">
             <div>
               <span>Team Red</span>

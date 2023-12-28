@@ -17,26 +17,14 @@ export async function getSeasonById(id: number) {
   return { data, error };
 }
 
-export async function getLatestActiveSeason() {
+export async function getActiveSeasons() {
   const supabase = createClient(cookies());
   const today = new Date().toISOString();
   const { data, error } = await supabase
     .from("seasons")
     .select("*")
     .or(`end_date.is.null,end_date.gte.${today}`)
-    .order("start_date", { ascending: false })
-    .limit(1)
-    .single();
+    .order("start_date", { ascending: false });
 
   return { data, error };
-}
-
-export function isCompletedSeason(dateString: string | null) {
-  if (!dateString) return false;
-
-  const endDate = new Date(dateString);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  return endDate < today;
 }
