@@ -4,10 +4,10 @@ import TopscorerList from "@/components/topscorer-list";
 import WinRateList from "@/components/win-rate-list";
 import { calculatePlayerStats, getGamesBySeason } from "@/utils/games";
 import { getPlayers } from "@/utils/players";
-import { getActiveSeasons } from "@/utils/seasons";
+import { getSeasons } from "@/utils/seasons";
 
 export default async function Live() {
-  const { data: seasons, error: seasonError } = await getActiveSeasons();
+  const { data: seasons, error: seasonError } = await getSeasons(true);
   if (seasonError) return <div>error</div>;
   const LatestActiveSeason = seasons![0];
   const { data: games, error: gamesError } = await getGamesBySeason(LatestActiveSeason?.id);

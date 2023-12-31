@@ -1,4 +1,4 @@
-import { isCompletedSeason } from "@/utils/seasons-client";
+import { isCompletedSeason } from "@/utils/seasons";
 import { Badge } from "./ui/badge";
 
 type SeasonBadgeProps = {

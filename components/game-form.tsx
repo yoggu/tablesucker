@@ -27,7 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { formatSeasonTitle } from "@/utils/seasons-client";
+import SeasonTitle from "./season-title";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
@@ -96,7 +96,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                         key={season.id}
                         value={season?.id?.toString()}
                       >
-                        Season {formatSeasonTitle(season.start_date)}
+                        <SeasonTitle date={season.start_date} />
                       </SelectItem>
                     ))}
                   </SelectContent>
