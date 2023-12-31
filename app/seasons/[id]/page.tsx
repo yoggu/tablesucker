@@ -2,7 +2,6 @@ import GamesList from "@/components/games-list";
 import SeasonBadge from "@/components/season-badge";
 import SeasonDateRange from "@/components/season-date-range";
 import SeasonName from "@/components/season-title";
-import { getGamesBySeason } from "@/utils/games";
 import { getSeasonById } from "@/utils/seasons";
 
 type SeasonProps = {

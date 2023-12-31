@@ -17,7 +17,7 @@ export default async function Live() {
       <div>
         <h1>Live</h1>
       </div>
-      <GamesList season={LatestActiveSeason} />
+      <GamesList season={LatestActiveSeason} limit={2} />
       <div className="mt-6 flex justify-center gap-10">
         <TopscorerList season={LatestActiveSeason} />
         <WinRateList season={LatestActiveSeason} />

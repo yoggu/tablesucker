@@ -1,16 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GameStats, PlayerStats, Season, TEAM } from "@/types/types";
+import { Season } from "@/types/types";
 import Link from "next/link";
-import { Badge } from "./ui/badge";
-import { formatDate } from "@/utils/utils";
-import { calculatePlayerStats, getGames, getGamesBySeason } from "@/utils/games";
+import { calculatePlayerStats } from "@/utils/games";
+import { fetchGames } from "@/actions/game";
 
 type WinRateListProps = {
   season: Season;
 };
 
 export default async function WinRateList({ season }: WinRateListProps) {
-  const { data: games, error: gamesError } = await getGames(season.id);
+  const { data: games, error: gamesError } = await fetchGames(season.id);
   if (gamesError) throw gamesError;
   const playerStats = calculatePlayerStats(games!);
   const winRates = playerStats.toSorted((a, b) => b.winRate - a.winRate);

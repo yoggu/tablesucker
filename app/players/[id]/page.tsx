@@ -1,8 +1,4 @@
-import { TEAM } from "@/types/types";
-import { getGamesByPlayerAndSeason } from "@/utils/games";
 import { getPlayerById } from "@/utils/players";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import Link from "next/link";
 import GamesList from "@/components/games-list";
 
 type PlayerProps = {
