@@ -1,4 +1,4 @@
-import GameList from "@/components/game-list";
+import GamesList from "@/components/games-list";
 import SeasonBadge from "@/components/season-badge";
 import SeasonDateRange from "@/components/season-date-range";
 import SeasonName from "@/components/season-title";
@@ -13,9 +13,8 @@ type SeasonProps = {
 
 export default async function Season({ params }: SeasonProps) {
   const { data: season, error: seasonError } = await getSeasonById(params.id);
-  if (seasonError) return <div>error</div>;
-  const { data: games, error: gamesError } = await getGamesBySeason(season!.id);
-  if (gamesError) return <div>error</div>;
+  if (seasonError) throw seasonError;
+
   return (
     <div>
       <div>
@@ -25,7 +24,7 @@ export default async function Season({ params }: SeasonProps) {
           </div>
           <SeasonDateRange startDate={season!.start_date} endDate={season!.end_date} />
       </div>
-      <GameList games={games} />
+      <GamesList season={season!} />
     </div>
   );
 }

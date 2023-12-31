@@ -1,14 +1,19 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GameStats, TEAM } from "@/types/types";
+import { GameStats, Player, Season, TEAM } from "@/types/types";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { formatDate } from "@/utils/utils";
+import { getGames } from "@/utils/games";
 
 type GameListProps = {
-  games: GameStats[];
+  season?: Season;
+  player?: Player;
 };
 
-export default function GameList({ games }: GameListProps) {
+export default async function GamesList({ season, player }: GameListProps) {
+  const { data: games, error: gamesError } = await getGames(season?.id, player?.id);
+  if (gamesError) throw gamesError;
+
   return (
     <ul className="mx-auto mt-6 flex max-w-fit flex-col gap-6">
       {games?.map((game) => (

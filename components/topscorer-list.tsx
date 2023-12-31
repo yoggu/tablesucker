@@ -1,19 +1,27 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GameStats, PlayerStats, TEAM } from "@/types/types";
+import { GameStats, PlayerStats, Season, TEAM } from "@/types/types";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { formatDate } from "@/utils/utils";
+import { calculatePlayerStats, getGames, getGamesBySeason } from "@/utils/games";
 
 type TopscorerListProps = {
-  players: PlayerStats[];
+  season: Season;
 };
 
-export default function TopscorerList({ players }: TopscorerListProps) {
+export default async function TopscorerList({ season }: TopscorerListProps) {
+  const { data: games, error: gamesError } = await getGames(season.id);
+  if (gamesError) throw gamesError;
+  const playerStats = calculatePlayerStats(games!);
+  const topScorers = playerStats.toSorted(
+    (a, b) => b.goalsScored - a.goalsScored,
+  );
+
   return (
     <div>
       <h2>Top Scorers</h2>
       <ul className="flex max-w-fit flex-col gap-3">
-        {players.map((player) => (
+        {topScorers.map((player) => (
           <li
             key={player.id}
             className="grid grid-cols-6 items-center gap-4 border-b py-4 px-4"
