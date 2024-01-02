@@ -12,10 +12,8 @@ type GameFormInputs = z.infer<typeof GameFormSchema>;
 type InsertGame = Omit<Game, "id" | "created_at">;
 type InsertGamePlayer = Omit<GamePlayer, "created_at">;
 
-const cookieStore = cookies();
-const supabase = createClient(cookieStore);
-
 export async function createGame(inputData: GameFormInputs) {
+  const supabase = createClient(cookies());
   const parsed = GameFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
 
@@ -52,10 +50,7 @@ export async function createGame(inputData: GameFormInputs) {
       .select();
 
     if (gamePlayerError) {
-      await supabase
-        .from("games")
-        .delete()
-        .match({ id: gameData.id });
+      await supabase.from("games").delete().match({ id: gameData.id });
 
       return { data: null, error: gamePlayerError };
     }
@@ -67,9 +62,13 @@ export async function createGame(inputData: GameFormInputs) {
   }
 }
 
-export async function fetchGames(seasonId?: number, playerId?: number, offset: number = 0, limit?: number) {
+export async function fetchGames(
+  seasonId?: number,
+  playerId?: number,
+  offset: number = 0,
+  limit?: number,
+) {
   const supabase = createClient(cookies());
-
   let query = supabase.from("games").select(`
     *,
     game_players!inner (
