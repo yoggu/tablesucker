@@ -26,6 +26,7 @@ import {
 } from "./ui/select";
 import SeasonTitle from "./season-title";
 import { AvatarCheckbox } from "./ui/avatar-checkbox";
+import { useState } from "react";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
@@ -35,6 +36,8 @@ type GameFormProps = {
 
 export default function GameForm({ players, seasons }: GameFormProps) {
   const { toast } = useToast();
+  const [teamRedPlayers, setTeamRedPlayers] = useState<Player[]>(players);
+  const [teamBluePlayers, setTeamBluePlayers] = useState<Player[]>(players);
   const form = useForm<Inputs>({
     resolver: zodResolver(GameFormSchema),
     defaultValues: {
@@ -113,7 +116,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                   name="team_red.players"
                   render={() => (
                     <FormItem>
-                      {players.map((player) => (
+                      {teamRedPlayers.map((player) => (
                         <FormField
                           key={player.id}
                           control={form.control}
@@ -128,16 +131,20 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                                   <AvatarCheckbox
                                     checked={field.value?.includes(player.id)}
                                     onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([
-                                            ...field?.value,
-                                            player.id,
-                                          ])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                              (value) => value !== player.id,
-                                            ),
-                                          );
+                                      if (checked) {
+                                        field.onChange([
+                                          ...field?.value,
+                                          player.id,
+                                        ]);
+                                        setTeamBluePlayers(teamBluePlayers.filter((p) => p.id !== player.id));
+                                      } else {
+                                        field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== player.id,
+                                          ),
+                                        );
+                                        setTeamBluePlayers([...teamBluePlayers, player]);
+                                      }
                                     }}
                                     player={player}
                                   />
@@ -173,7 +180,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                   name="team_blue.players"
                   render={() => (
                     <FormItem>
-                      {players.map((player) => (
+                      {teamBluePlayers.map((player) => (
                         <FormField
                           key={player.id}
                           control={form.control}
@@ -188,16 +195,20 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                                   <AvatarCheckbox
                                     checked={field.value?.includes(player.id)}
                                     onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([
-                                            ...field?.value,
-                                            player.id,
-                                          ])
-                                        : field.onChange(
-                                            field.value?.filter(
-                                              (value) => value !== player.id,
-                                            ),
-                                          );
+                                      if (checked) {
+                                        field.onChange([
+                                          ...field?.value,
+                                          player.id,
+                                        ]);
+                                        setTeamRedPlayers(teamRedPlayers.filter((p) => p.id !== player.id));
+                                      } else {
+                                        field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== player.id,
+                                          ),
+                                        );
+                                        setTeamRedPlayers([...teamRedPlayers, player]);
+                                      }
                                     }}
                                     player={player}
                                   />
