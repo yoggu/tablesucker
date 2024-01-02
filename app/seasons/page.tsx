@@ -1,5 +1,6 @@
 import SeasonBadge from "@/components/season-badge";
 import SeasonDateRange from "@/components/season-date-range";
+import SeasonForm from "@/components/season-form";
 import SeasonName from "@/components/season-title";
 import { getSeasons } from "@/utils/seasons";
 import Link from "next/link";
@@ -29,6 +30,9 @@ export default async function Seasons() {
           </li>
         ))}
       </ul>
+      <div className="mt-5">
+        <SeasonForm />
+      </div>
     </div>
   );
 }
