@@ -28,7 +28,7 @@ export default function GamesListLoadMore({
   const [isPending, startTransition] = useTransition();
   const [games, setGames] = useState<GameStats[]>(initialGames);
   const [offset, setOffset] = useState<number>(initialOffset);
-  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(initialGames.length === limit);
 
   async function loadMoreGames() {
     const newOffset = offset + limit;
@@ -42,6 +42,9 @@ export default function GamesListLoadMore({
     if (games?.length) {
       setOffset(newOffset);
       setGames((prevGames: GameStats[]) => [...prevGames, ...games]);
+      if (games.length < limit) {
+        setShowLoadMore(false);
+      }
     } else {
       setShowLoadMore(false);
     }
