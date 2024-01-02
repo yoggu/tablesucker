@@ -13,10 +13,16 @@ const AvatarCheckbox = React.forwardRef<
     player: Player;
   }
 >(({ className, player, ...props }, ref) => (
-  <CheckboxPrimitive.Root ref={ref} {...props} className="relative">
+  <CheckboxPrimitive.Root
+    ref={ref}
+    {...props}
+    className={cn("relative", { "opacity-50": props.disabled })}
+  >
     <PlayerAvatar player={player} />
     <CheckboxPrimitive.Indicator
-      className={cn("absolute h-full w-full -top-[2px] -left-[2px] rounded-full border-2 box-content border-blue-500")}
+      className={cn(
+        "absolute -left-[2px] -top-[2px] box-content h-full w-full rounded-full border-2 border-blue-500",
+      )}
     ></CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ));

@@ -116,7 +116,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                   name="team_red.players"
                   render={() => (
                     <FormItem>
-                      {teamRedPlayers.map((player) => (
+                      {players.map((player) => (
                         <FormField
                           key={player.id}
                           control={form.control}
@@ -130,6 +130,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                                 <FormControl>
                                   <AvatarCheckbox
                                     checked={field.value?.includes(player.id)}
+                                    disabled={!teamRedPlayers.some((p) => p.id === player.id)}
                                     onCheckedChange={(checked) => {
                                       if (checked) {
                                         field.onChange([
@@ -180,7 +181,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                   name="team_blue.players"
                   render={() => (
                     <FormItem>
-                      {teamBluePlayers.map((player) => (
+                      {players.map((player) => (
                         <FormField
                           key={player.id}
                           control={form.control}
@@ -194,6 +195,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                                 <FormControl>
                                   <AvatarCheckbox
                                     checked={field.value?.includes(player.id)}
+                                    disabled={!teamBluePlayers.some((p) => p.id === player.id)}
                                     onCheckedChange={(checked) => {
                                       if (checked) {
                                         field.onChange([
