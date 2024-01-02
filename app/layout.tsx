@@ -1,5 +1,5 @@
 import { GeistSans } from "geist/font/sans";
-import "./globals.css";
+import "@/styles/globals.css";
 import Menu from "@/components/layout/menu";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import Header from "@/components/layout/header";

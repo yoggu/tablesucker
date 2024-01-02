@@ -18,20 +18,70 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { PlayerFormSchema } from "@/utils/schema";
-import { createPlayer } from "@/actions/player";
+import { createPlayer, uploadPlayerImage } from "@/actions/player";
+import FileUpload from "@/components/ui/file-upload";
+import { useState } from "react";
+import Uppy from "@uppy/core";
+import ImageEditor from "@uppy/image-editor";
+import Link from "next/link";
 
 type Inputs = z.infer<typeof PlayerFormSchema>;
 
 export default function PlayerForm() {
+  // IMPORTANT: passing an initializer function to prevent Uppy from being reinstantiated on every render.
+  const [uppy] = useState(() =>
+    new Uppy({
+      restrictions: {
+        maxFileSize: 5242880, // 5MB
+        maxNumberOfFiles: 1,
+        allowedFileTypes: ["image/*"],
+      },
+    }).use(ImageEditor, {
+      actions: {
+        revert: true,
+        rotate: true,
+        granularRotate: false,
+        flip: true,
+        zoomIn: true,
+        zoomOut: true,
+        cropSquare: false,
+        cropWidescreen: false,
+        cropWidescreenVertical: false,
+      },
+      cropperOptions: {
+        aspectRatio: 1,
+        croppedCanvasOptions: {},
+      },
+    }),
+  );
   const { toast } = useToast();
   const form = useForm<Inputs>({
     resolver: zodResolver(PlayerFormSchema),
     defaultValues: {
       name: "",
+      image_url: "",
     },
   });
 
   async function onSubmit(data: Inputs) {
+    const file = uppy.getFiles()[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file.data, file.name);
+      const { data: image, error: imageError } =
+        await uploadPlayerImage(formData);
+      if (imageError) {
+        toast({
+          variant: "destructive",
+          title: "There was a problem with your request.",
+          description:
+            (imageError as Error).message || "An unexpected error occurred.",
+        });
+        return;
+      }
+      console.log(image);
+      data.image_url = image?.publicUrl || "";
+    }
     const { data: player, error } = await createPlayer(data);
     if (error) {
       toast({
@@ -45,13 +95,14 @@ export default function PlayerForm() {
 
     toast({
       title: "Player created successfully",
-      description: `${player![0].name} was created successfully.`,
+      description: <><Link href={`/players/${player!.id}`}>{player!.name}</Link> was created successfully.</>,
     });
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FileUpload uppy={uppy} />
         <FormField
           control={form.control}
           name="name"

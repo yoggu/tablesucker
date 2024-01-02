@@ -18,6 +18,8 @@
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "@tailwindcss/container-queries": "^0.1.1",
+    "@uppy/image-editor": "^2.4.0",
+    "@uppy/react": "^3.2.1",
     "autoprefixer": "10.4.15",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",

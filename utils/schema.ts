@@ -9,6 +9,7 @@ export const PlayerFormSchema = z.object({
     .min(2, {
       message: "Name must be at least 2 characters.",
     }),
+  image_url: z.string().optional(),
 });
 
 export const GameFormSchema = z
