@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
 import { useToast } from "@/utils/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,11 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import { GameFormSchema } from "@/utils/schema";
 import { createGame } from "@/actions/game";
 import { Player, Season } from "@/types/types";
-import { Checkbox } from "./ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -29,7 +26,6 @@ import {
 } from "./ui/select";
 import SeasonTitle from "./season-title";
 import { AvatarCheckbox } from "./ui/avatar-checkbox";
-import PlayerAvatar from "./ui/player-avatar";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
