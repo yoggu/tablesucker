@@ -4,8 +4,10 @@ import { GameStats, Player, Season, TEAM } from "@/types/types";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { formatDate } from "@/utils/utils";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { fetchGames } from "@/actions/game";
+import { Button } from "./ui/button";
+import { Loader2 } from "lucide-react";
 
 type GamesListLoadMoreProps = {
   initialGames: GameStats[];
@@ -22,8 +24,10 @@ export default function GamesListLoadMore({
   initialOffset = 0,
   limit,
 }: GamesListLoadMoreProps) {
+  const [isPending, startTransition] = useTransition();
   const [games, setGames] = useState<GameStats[]>(initialGames);
   const [offset, setOffset] = useState<number>(initialOffset);
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(true);
 
   async function loadMoreGames() {
     const newOffset = offset + limit;
@@ -37,6 +41,8 @@ export default function GamesListLoadMore({
     if (games?.length) {
       setOffset(newOffset);
       setGames((prevGames: GameStats[]) => [...prevGames, ...games]);
+    } else {
+      setShowLoadMore(false);
     }
   }
 
@@ -101,14 +107,26 @@ export default function GamesListLoadMore({
           </li>
         ))}
       </ul>
-      <div className="mt-6 flex justify-center">
-        <button
-          className="rounded-md border px-4 py-2"
-          onClick={loadMoreGames}
-        >
-          Load More
-        </button>
-      </div>
+      {showLoadMore && (
+        <div className="mt-6 flex justify-center">
+          {isPending ? (
+            <Button disabled={isPending} variant={"outline"}>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading
+            </Button>
+          ) : (
+            <Button
+              variant={"outline"}
+              onClick={() => {
+                startTransition(() => {
+                  loadMoreGames();
+                });
+              }}
+            >
+              Load More
+            </Button>
+          )}
+        </div>
+      )}
     </>
   );
 }

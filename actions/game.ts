@@ -70,7 +70,6 @@ export async function createGame(inputData: GameFormInputs) {
 export async function fetchGames(seasonId?: number, playerId?: number, offset: number = 0, limit?: number) {
   const supabase = createClient(cookies());
 
-  // Construct the base query
   let query = supabase.from("games").select(`
     *,
     game_players!inner (
@@ -98,13 +97,11 @@ export async function fetchGames(seasonId?: number, playerId?: number, offset: n
     query = query.eq("season_id", seasonId);
   }
 
-  console.log("limit", limit, "offset", offset);
   // Apply range for pagination after all filters
   if (limit !== undefined) {
     query = query.range(offset, offset + limit - 1);
   }
 
-  // Execute the query
   const { data, error } = await query.returns<GameWithGamePlayer[]>();
 
   if (error) return { data: null, error };
