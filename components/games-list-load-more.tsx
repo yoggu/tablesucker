@@ -8,6 +8,7 @@ import { useState, useTransition } from "react";
 import { fetchGames } from "@/actions/game";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
+import PlayerAvatar from "./ui/player-avatar";
 
 type GamesListLoadMoreProps = {
   initialGames: GameStats[];
@@ -65,12 +66,7 @@ export default function GamesListLoadMore({
                 {game.teamRed.players.map((player) => (
                   <li key={player.id}>
                     <Link href={`/players/${player.id}`}>
-                      <Avatar>
-                        <AvatarImage src={player?.image_url ?? ""} />
-                        <AvatarFallback>
-                          {player.name.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
+                      <PlayerAvatar player={player} />
                     </Link>
                   </li>
                 ))}
@@ -93,12 +89,7 @@ export default function GamesListLoadMore({
                 {game.teamBlue.players.map((player) => (
                   <li key={player.id}>
                     <Link href={`/players/${player.id}`}>
-                      <Avatar>
-                        <AvatarImage src={player?.image_url ?? ""} />
-                        <AvatarFallback>
-                          {player.name.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
+                      <PlayerAvatar player={player} />
                     </Link>
                   </li>
                 ))}

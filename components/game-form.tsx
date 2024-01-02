@@ -28,6 +28,8 @@ import {
   SelectValue,
 } from "./ui/select";
 import SeasonTitle from "./season-title";
+import { AvatarCheckbox } from "./ui/avatar-checkbox";
+import PlayerAvatar from "./ui/player-avatar";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
@@ -48,7 +50,8 @@ export default function GameForm({ players, seasons }: GameFormProps) {
         players: [],
         score: "",
       },
-      season_id: seasons && seasons.length > 0 ? seasons[0]?.id?.toString() : ""
+      season_id:
+        seasons && seasons.length > 0 ? seasons[0]?.id?.toString() : "",
     },
   });
 
@@ -126,7 +129,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                                 className="flex flex-row items-start space-x-3 space-y-0"
                               >
                                 <FormControl>
-                                  <Checkbox
+                                  <AvatarCheckbox
                                     checked={field.value?.includes(player.id)}
                                     onCheckedChange={(checked) => {
                                       return checked
@@ -140,11 +143,9 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                                             ),
                                           );
                                     }}
+                                    player={player}
                                   />
                                 </FormControl>
-                                <FormLabel className="font-normal">
-                                  {player.name}
-                                </FormLabel>
                               </FormItem>
                             );
                           }}
@@ -188,7 +189,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                                 className="flex flex-row items-start space-x-3 space-y-0"
                               >
                                 <FormControl>
-                                  <Checkbox
+                                  <AvatarCheckbox
                                     checked={field.value?.includes(player.id)}
                                     onCheckedChange={(checked) => {
                                       return checked
@@ -202,11 +203,9 @@ export default function GameForm({ players, seasons }: GameFormProps) {
                                             ),
                                           );
                                     }}
+                                    player={player}
                                   />
                                 </FormControl>
-                                <FormLabel className="font-normal">
-                                  {player.name}
-                                </FormLabel>
                               </FormItem>
                             );
                           }}
