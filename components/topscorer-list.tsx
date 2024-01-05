@@ -1,8 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GameStats, PlayerStats, Season, TEAM } from "@/types/types";
+import { Season } from "@/types/types";
 import Link from "next/link";
-import { Badge } from "./ui/badge";
-import { formatDate } from "@/utils/utils";
 import { calculatePlayerStats } from "@/utils/games";
 import { fetchGames } from "@/actions/game";
 
@@ -15,7 +13,7 @@ export default async function TopscorerList({ season }: TopscorerListProps) {
   if (gamesError) throw gamesError;
   const playerStats = calculatePlayerStats(games!);
   const topScorers = playerStats.toSorted(
-    (a, b) => b.goalsScored - a.goalsScored,
+    (a, b) => b.goalsFor - a.goalsFor,
   );
 
   return (
@@ -39,7 +37,7 @@ export default async function TopscorerList({ season }: TopscorerListProps) {
               </div>
             </Link>
             <span className="col-span-2 text-center">
-              {player.goalsScored}
+              {player.goalsFor}
             </span>
           </li>
         ))}

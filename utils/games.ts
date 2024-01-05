@@ -47,45 +47,43 @@ export const calculatePlayerStats = (games: GameStats[]) => {
     game.teamRed.players.forEach((player) => {
       if (!playerStats[player.id]) {
         playerStats[player.id] = {
-          id: player.id,
-          createdAt: player.created_at,
-          imageUrl: player.image_url,
-          name: player.name,
-          winRate: 0,
+          player,
+          played: 0,
           wins: 0,
-          gamesPlayed: 0,
-          goalsScored: 0,
-          goalsConceded: 0,
+          losses: 0,
+          winRate: 0,
+          goalsFor: 0,
+          goalsAgainst: 0,
+          goalDifference: 0,
         };
       }
       if (winner === TEAM.Red) {
         playerStats[player.id].wins += 1;
       }
-      playerStats[player.id].gamesPlayed += 1;
-      playerStats[player.id].goalsScored += teamRedScore;
-      playerStats[player.id].goalsConceded += teamBlueScore;
+      playerStats[player.id].played += 1;
+      playerStats[player.id].goalsFor += teamRedScore;
+      playerStats[player.id].goalsAgainst += teamBlueScore;
     });
 
     game.teamBlue.players.forEach((player) => {
       if (!playerStats[player.id]) {
         playerStats[player.id] = {
-          id: player.id,
-          createdAt: player.created_at,
-          imageUrl: player.image_url,
-          name: player.name,
-          winRate: 0,
+          player,
+          played: 0,
           wins: 0,
-          gamesPlayed: 0,
-          goalsScored: 0,
-          goalsConceded: 0,
+          losses: 0,
+          winRate: 0,
+          goalsFor: 0,
+          goalsAgainst: 0,
+          goalDifference: 0,
         };
       }
       if (winner === TEAM.Blue) {
         playerStats[player.id].wins += 1;
       }
-      playerStats[player.id].gamesPlayed += 1;
-      playerStats[player.id].goalsScored += teamBlueScore;
-      playerStats[player.id].goalsConceded += teamRedScore;
+      playerStats[player.id].played += 1;
+      playerStats[player.id].goalsFor += teamBlueScore;
+      playerStats[player.id].goalsAgainst += teamRedScore;
     });
   });
 
@@ -95,9 +93,10 @@ export const calculatePlayerStats = (games: GameStats[]) => {
 
     if (stats) {
       stats.winRate =
-        stats.gamesPlayed > 0
-          ? Math.round((stats.wins / stats.gamesPlayed) * 100)
-          : 0;
+        stats.played > 0 ? Math.round((stats.wins / stats.played) * 100) : 0;
+
+      stats.goalDifference = stats.goalsFor - stats.goalsAgainst;
+      stats.losses = stats.played - stats.wins;
     }
   });
 

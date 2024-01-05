@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Player, Season, TEAM } from "@/types/types";
 import Link from "next/link";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 import { formatDate } from "@/utils/utils";
 import { fetchGames } from "@/actions/game";
 import GamesListLoadMore from "./games-list-load-more";

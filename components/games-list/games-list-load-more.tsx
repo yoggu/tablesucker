@@ -2,13 +2,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GameStats, Player, Season, TEAM } from "@/types/types";
 import Link from "next/link";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 import { formatDate } from "@/utils/utils";
 import { useState, useTransition } from "react";
 import { fetchGames } from "@/actions/game";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
-import PlayerAvatar from "./ui/player-avatar";
+import PlayerAvatar from "../ui/player-avatar";
 
 type GamesListLoadMoreProps = {
   initialGames: GameStats[];

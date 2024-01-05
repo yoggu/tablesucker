@@ -37,13 +37,12 @@ export interface GameStats {
 }
 
 export interface PlayerStats {
-  id: number;
-  createdAt: string;
-  imageUrl: string | null;
-  name: string;
-  winRate: number;
+  player: Player;
+  played: number;
   wins: number;
-  gamesPlayed: number;
-  goalsScored: number;
-  goalsConceded: number;
+  losses: number;
+  winRate: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDifference: number;
 }

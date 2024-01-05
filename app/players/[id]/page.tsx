@@ -1,5 +1,5 @@
 import { getPlayerById } from "@/utils/players";
-import GamesList from "@/components/games-list";
+import GamesList from "@/components/games-list/games-list";
 
 type PlayerProps = {
   params: {
