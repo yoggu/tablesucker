@@ -48,7 +48,7 @@ export const calculatePlayerStats = (games: GameStats[]) => {
       if (!playerStats[player.id]) {
         playerStats[player.id] = {
           player,
-          played: 0,
+          games: 0,
           wins: 0,
           losses: 0,
           winRate: 0,
@@ -60,7 +60,7 @@ export const calculatePlayerStats = (games: GameStats[]) => {
       if (winner === TEAM.Red) {
         playerStats[player.id].wins += 1;
       }
-      playerStats[player.id].played += 1;
+      playerStats[player.id].games += 1;
       playerStats[player.id].goalsFor += teamRedScore;
       playerStats[player.id].goalsAgainst += teamBlueScore;
     });
@@ -69,7 +69,7 @@ export const calculatePlayerStats = (games: GameStats[]) => {
       if (!playerStats[player.id]) {
         playerStats[player.id] = {
           player,
-          played: 0,
+          games: 0,
           wins: 0,
           losses: 0,
           winRate: 0,
@@ -81,7 +81,7 @@ export const calculatePlayerStats = (games: GameStats[]) => {
       if (winner === TEAM.Blue) {
         playerStats[player.id].wins += 1;
       }
-      playerStats[player.id].played += 1;
+      playerStats[player.id].games += 1;
       playerStats[player.id].goalsFor += teamBlueScore;
       playerStats[player.id].goalsAgainst += teamRedScore;
     });
@@ -93,10 +93,10 @@ export const calculatePlayerStats = (games: GameStats[]) => {
 
     if (stats) {
       stats.winRate =
-        stats.played > 0 ? Math.round((stats.wins / stats.played) * 100) : 0;
+        stats.games > 0 ? Math.round((stats.wins / stats.games) * 100) : 0;
 
       stats.goalDifference = stats.goalsFor - stats.goalsAgainst;
-      stats.losses = stats.played - stats.wins;
+      stats.losses = stats.games - stats.wins;
     }
   });
 

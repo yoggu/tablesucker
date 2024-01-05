@@ -20,7 +20,7 @@ export default async function TopscorerList({ season }: TopscorerListProps) {
     <div>
       <h2>Top Scorers</h2>
       <ul className="flex max-w-fit flex-col gap-3">
-        {topScorers.map((player) => (
+        {topScorers.map(({goalsFor, player}) => (
           <li
             key={player.id}
             className="grid grid-cols-6 items-center gap-4 border-b py-4 px-4"
@@ -28,7 +28,7 @@ export default async function TopscorerList({ season }: TopscorerListProps) {
             <Link className="col-span-4" href={`/players/${player.id}`}>
               <div className="flex items-center gap-2">
                 <Avatar>
-                  <AvatarImage src={player?.imageUrl ?? ""} />
+                  <AvatarImage src={player?.image_url ?? ""} />
                   <AvatarFallback>
                     {player.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
@@ -37,7 +37,7 @@ export default async function TopscorerList({ season }: TopscorerListProps) {
               </div>
             </Link>
             <span className="col-span-2 text-center">
-              {player.goalsFor}
+              {goalsFor}
             </span>
           </li>
         ))}

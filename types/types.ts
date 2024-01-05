@@ -38,7 +38,7 @@ export interface GameStats {
 
 export interface PlayerStats {
   player: Player;
-  played: number;
+  games: number;
   wins: number;
   losses: number;
   winRate: number;

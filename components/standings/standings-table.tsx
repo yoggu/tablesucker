@@ -35,20 +35,21 @@ export function StandingsTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    enableSortingRemoval: false,
     state: {
       sorting,
     },
   });
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border @container">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="p-0" key={header.id}>
+                  <TableHead className="px-2" key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -69,7 +70,7 @@ export function StandingsTable<TData, TValue>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell className="px-6" key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

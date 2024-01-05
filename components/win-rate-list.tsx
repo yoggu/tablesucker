@@ -18,7 +18,7 @@ export default async function WinRateList({ season }: WinRateListProps) {
     <div>
       <h2>Win Rate</h2>
       <ul className="flex max-w-fit flex-col gap-3">
-        {winRates.map((player) => (
+        {winRates.map(({winRate, player}) => (
           <li
             key={player.id}
             className="grid grid-cols-6 items-center gap-4 border-b px-4 py-4"
@@ -26,7 +26,7 @@ export default async function WinRateList({ season }: WinRateListProps) {
             <Link className="col-span-4" href={`/players/${player.id}`}>
               <div className="flex items-center gap-2">
                 <Avatar>
-                  <AvatarImage src={player?.imageUrl ?? ""} />
+                  <AvatarImage src={player?.image_url ?? ""} />
                   <AvatarFallback>
                     {player.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
@@ -34,7 +34,7 @@ export default async function WinRateList({ season }: WinRateListProps) {
                 <span>{player.name}</span>
               </div>
             </Link>
-            <span className="col-span-2 text-center">{player.winRate}%</span>
+            <span className="col-span-2 text-center">{winRate}%</span>
           </li>
         ))}
       </ul>

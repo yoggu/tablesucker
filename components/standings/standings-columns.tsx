@@ -6,11 +6,12 @@ import PlayerAvatar from "@/components/ui/player-avatar";
 import Link from "next/link";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/utils/utils";
 
 export const columns: ColumnDef<PlayerStats>[] = [
   {
     accessorKey: "player",
-    header: ({ column }) => <SortableHeader column={column} initialSortDirection="asc" title="Player" />,
+    header: ({ column }) => <SortableHeader column={column} title="Player" />,
     cell: ({ row }) => {
       const player: Player = row.getValue("player");
       return (
@@ -20,7 +21,7 @@ export const columns: ColumnDef<PlayerStats>[] = [
             href={`/players/${player.id}`}
           >
             <PlayerAvatar player={player} />
-            <span>{player.name}</span>
+            <span className="hidden @lg:inline">{player.name}</span>
           </Link>
         </div>
       );
@@ -28,70 +29,83 @@ export const columns: ColumnDef<PlayerStats>[] = [
     sortingFn: (rowA, rowB) => {
       const rowAPlayer: Player = rowA.getValue("player");
       const rowBPlayer: Player = rowB.getValue("player");
-      return rowAPlayer.name.localeCompare(rowBPlayer.name);
+      return rowBPlayer.name.localeCompare(rowAPlayer.name);
     },
   },
   {
-    accessorKey: "played",
-    header: ({ column }) => <SortableHeader column={column} title="Played" />,
+    accessorKey: "games",
+    header: ({ column }) => (
+      <SortableHeader column={column} title="Games" shortTitle="G" />
+    ),
+    sortDescFirst: true,
   },
   {
     accessorKey: "wins",
-    header: ({ column }) => <SortableHeader column={column} title="Wins" />,
+    header: ({ column }) => (
+      <SortableHeader column={column} title="Wins" shortTitle="W" />
+    ),
+    sortDescFirst: true,
   },
   {
     accessorKey: "losses",
-    header: ({ column }) => <SortableHeader column={column} title="Losses" />,
+    header: ({ column }) => (
+      <SortableHeader column={column} title="Losses" shortTitle="L" />
+    ),
+    sortDescFirst: true,
   },
   {
     accessorKey: "goalsFor",
     header: ({ column }) => (
-      <SortableHeader column={column} title="Goals For" />
+      <SortableHeader column={column} title="Goals For" shortTitle="GF" />
     ),
   },
   {
     accessorKey: "goalsAgainst",
     header: ({ column }) => (
-      <SortableHeader column={column} title="Goals Against" />
+      <SortableHeader column={column} title="Goals Against" shortTitle="GA" />
     ),
   },
   {
     accessorKey: "goalDifference",
     header: ({ column }) => (
-      <SortableHeader column={column} title="Goal Difference" />
+      <SortableHeader column={column} title="Goal Difference" shortTitle="GD" />
     ),
+    sortDescFirst: true,
   },
   {
     accessorKey: "winRate",
-    header: ({ column }) => <SortableHeader column={column} title="Winrate" />,
+    header: ({ column }) => (
+      <SortableHeader column={column} title="Win Rate" shortTitle="WR" />
+    ),
     cell: ({ row }) => row.getValue("winRate") + "%",
+    sortDescFirst: true,
   },
 ];
 
 export type SortableHeaderProps<TData, TValue> = {
   column: Column<TData, TValue>;
   title: string;
-  initialSortDirection?: "asc" | "desc";
+  shortTitle?: string;
 };
 
 function SortableHeader<TData, TValue>({
   column,
-  initialSortDirection = "desc",
   title,
+  shortTitle,
 }: SortableHeaderProps<TData, TValue>) {
+  const isSorted = column.getIsSorted();
   return (
     <Button
+      className={cn({
+        "text-slate-900 dark:text-slate-50": isSorted,
+      })}
       variant="ghost"
       onClick={() => {
-        const isSorted = column.getIsSorted();
-        if (isSorted === false) {
-          column.toggleSorting(initialSortDirection === "desc");
-        } else {
-          column.toggleSorting();
-        }
+        column.toggleSorting();
       }}
     >
-      {title}
+      <span className="@lg:hidden">{shortTitle}</span>
+      <span className={cn({ "hidden @lg:inline": shortTitle })}>{title}</span>
       <ArrowUpDown className="ml-2 h-4 w-4" />
     </Button>
   );
