@@ -9,8 +9,10 @@ import {
 
 export default function Menu() {
   return (
-    <nav className="">
-      <ul className="flex flex-col gap-2">
+    <nav
+      className="h-full border-r px-2 pt-6 dark:border-r-gray-700 @container"
+    >
+      <menu className="flex flex-col gap-2">
         <li>
           <MenuLink href="/">
             <TooltipProvider>
@@ -21,13 +23,13 @@ export default function Menu() {
                 <TooltipContent
                   side="right"
                   sideOffset={12}
-                  className="xl:hidden"
+                  className="@[180px]:hidden"
                 >
                   <p>Live</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            <span className="hidden xl:inline">Live</span>
+            <span className="hidden @[180px]:inline">Live</span>
           </MenuLink>
         </li>
         <li>
@@ -40,14 +42,14 @@ export default function Menu() {
                 <TooltipContent
                   side="right"
                   sideOffset={12}
-                  className="xl:hidden"
+                  className="@[180px]:hidden"
                 >
                   <p>Players</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
-            <span className="hidden xl:inline">Players</span>
+            <span className="hidden @[180px]:inline">Players</span>
           </MenuLink>
         </li>
         <li>
@@ -60,17 +62,17 @@ export default function Menu() {
                 <TooltipContent
                   side="right"
                   sideOffset={12}
-                  className="xl:hidden"
+                  className="@[180px]:hidden"
                 >
                   <p>Seasons</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
-            <span className="hidden xl:inline">Seasons</span>
+            <span className="hidden @[180px]:inline">Seasons</span>
           </MenuLink>
         </li>
-      </ul>
+      </menu>
     </nav>
   );
 }
