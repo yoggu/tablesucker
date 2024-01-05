@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="grid grid-cols-[56px_minmax(0,1fr)] lg:grid-cols-[200px_minmax(0,1fr)] min-h-screen dark:bg-gray-950">
+      <body className="grid grid-cols-[56px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)] min-h-screen dark:bg-gray-950">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -35,7 +35,7 @@ export default function RootLayout({
           ">
             <Menu />
           </aside>
-          <main className="flex flex-col pt-6 px-4 lg:px-8">
+          <main className="flex flex-col pt-6 px-4 xl:px-8">
             {children}
           </main>
           <Toaster />
