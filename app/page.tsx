@@ -15,7 +15,7 @@ export default async function CurrentSeason() {
   return (
     <div>
       <div>
-        <h1>Current Season</h1>
+        <h1>Live</h1>
       </div>
       <GamesList season={LatestActiveSeason} limit={5} />
       <div className="mt-6 flex justify-center gap-10">

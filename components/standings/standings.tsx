@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlayerStats, Season } from "@/types/types";
-import Link from "next/link";
 import { calculatePlayerStats } from "@/utils/games";
 import { fetchGames } from "@/actions/game";
 import { StandingsTable } from "./standings-table";
