@@ -52,7 +52,7 @@ export default function GamesListLoadMore({
 
   return (
     <>
-      <ul className="mx-auto mt-6 flex max-w-fit flex-col gap-6">
+      <ul className="mx-auto flex max-w-fit flex-col gap-6">
         {games?.map((game) => (
           <li
             key={game.id}

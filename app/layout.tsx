@@ -2,7 +2,7 @@ import { GeistSans } from "geist/font/sans";
 import "@/styles/globals.css";
 import Menu from "@/components/layout/menu";
 import { ThemeProvider } from "@/components/layout/theme-provider";
-import Header from "@/components/layout/header";
+import Header from "@/components/layout/page-header";
 import { Toaster } from "@/components/ui/toaster";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import MobileMenu from "@/components/layout/mobile-menu";
@@ -35,7 +35,7 @@ export default function RootLayout({
             <Menu />
           </aside>
           <MobileMenu />
-          <main className="flex flex-col px-4 pt-6 xl:px-8">{children}</main>
+          <main className="flex flex-col px-4 pt-6 sm:px-8">{children}</main>
           <Toaster />
         </ThemeProvider>
       </body>

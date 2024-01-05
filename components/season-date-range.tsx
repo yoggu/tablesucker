@@ -1,18 +1,20 @@
 "use client";
 
-import { formatDate } from "@/utils/utils";
+import { cn, formatDate } from "@/utils/utils";
 
 type SeasonDateRangeProps = {
   startDate: string;
   endDate: string | null;
+  className?: string;
 };
 
 export default function SeasonDateRange({
   startDate,
   endDate,
+  className
 }: SeasonDateRangeProps) {
   return (
-    <div className="mt-1 text-xs">
+    <div className={cn("mt-1 text-xs", className)}>
       {formatDate(startDate)}
       {endDate && ` - ${formatDate(endDate)}`}
     </div>

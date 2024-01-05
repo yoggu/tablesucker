@@ -2,6 +2,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import PlayerForm from "@/components/player-form";
 import { getPlayers } from "@/utils/players";
+import PageHeader from "@/components/layout/page-header";
+import PageTitle from "@/components/ui/page-title";
 
 export default async function Players() {
   const { data, error } = await getPlayers();
@@ -10,9 +12,9 @@ export default async function Players() {
 
   return (
     <>
-      <div>
-        <h1>Players</h1>
-      </div>
+      <PageHeader>
+        <PageTitle>Players</PageTitle>
+      </PageHeader>
       <div className="flex gap-3 mt-3">
         {data?.map((player) => (
           <div key={player.id}>

@@ -1,6 +1,9 @@
 import GameForm from "@/components/game-form";
 import GamesList from "@/components/games-list/games-list";
+import PageHeader from "@/components/layout/page-header";
+import SeasonName from "@/components/season-title";
 import TopscorerList from "@/components/topscorer-list";
+import PageTitle from "@/components/ui/page-title";
 import WinRateList from "@/components/win-rate-list";
 import { getPlayers } from "@/utils/players";
 import { getSeasons } from "@/utils/seasons";
@@ -13,16 +16,16 @@ export default async function CurrentSeason() {
   if (playersError) throw playersError;
 
   return (
-    <div>
-      <div>
-        <h1>Live</h1>
-      </div>
+    <>
+      <PageHeader>
+        <PageTitle><SeasonName date={LatestActiveSeason.start_date} /></PageTitle>
+      </PageHeader>
       <GamesList season={LatestActiveSeason} limit={5} />
       <div className="mt-6 flex justify-center gap-10">
         <TopscorerList season={LatestActiveSeason} />
         <WinRateList season={LatestActiveSeason} />
       </div>
       <GameForm seasons={seasons!} players={players!} />
-    </div>
+    </>
   );
 }
