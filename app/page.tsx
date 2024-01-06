@@ -27,14 +27,8 @@ export default async function Live() {
         </PageTitle>
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
-        <div className="col-span-full lg:col-span-4">
+        <div className="col-span-full lg:col-span-4 flex flex-col gap-6">
           <Games season={latestActiveSeason} limit={5} realtime={true} />
-        </div>
-        <div className="col-span-full flex flex-col gap-6 lg:col-span-2">
-          <WinRate season={latestActiveSeason} realtime={true} />
-          <Topscorer season={latestActiveSeason} realtime={true} />
-        </div>
-        <div className="col-span-full lg:col-span-4">
           <Card>
             <CardHeader>
               <CardTitle>Add Game</CardTitle>
@@ -43,6 +37,10 @@ export default async function Live() {
               <GameForm seasons={seasons!} players={players!} />
             </CardContent>
           </Card>
+        </div>
+        <div className="col-span-full flex flex-col gap-6 lg:col-span-2">
+          <WinRate season={latestActiveSeason} realtime={true} />
+          <Topscorer season={latestActiveSeason} realtime={true} />
         </div>
       </div>
     </>

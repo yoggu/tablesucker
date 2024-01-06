@@ -1,10 +1,8 @@
 import { GameStats, TEAM } from "@/types/types";
 import { formatDate } from "@/utils/utils";
 import PlayerAvatar from "@/components/ui/player-avatar";
-import { Badge } from "../ui/badge";
 import Link from "next/link";
 import { Award } from "lucide-react";
-import { Card, CardHeader, CardTitle } from "../ui/card";
 
 type GameListProps = {
   games: GameStats[];
@@ -16,14 +14,18 @@ export default function GamesList({ games }: GameListProps) {
       {games?.map((game) => (
         <li
           key={game.id}
-          className="flex justify-center gap-12 border-b pb-4 last:border-0 dark:border-slate-700"
+          className="grid grid-cols-[minmax(80px,1fr)_minmax(0,100px)_minmax(80px,1fr)] gap-4 border-b pb-4 last:border-0 last:pb-0 md:gap-8 xl:gap-12 dark:border-slate-700"
         >
-          <div className="flex flex-col items-end gap-3">
-            <div className="flex gap-2">
-              {game.winner === TEAM.Red && <Award />}
-              <span>Team Red</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex justify-end ">
+              <span className="relative">
+                Team Red
+                {game.winner === TEAM.Red && (
+                  <Award className="absolute -left-6 top-0 size-5 sm:-left-8 sm:size-6" />
+                )}
+              </span>
             </div>
-            <ul className="flex gap-2">
+            <ul className="flex flex-wrap justify-end gap-3">
               {game.teamRed.players.map((player) => (
                 <li key={player.id}>
                   <Link href={`/players/${player.id}`}>
@@ -33,18 +35,22 @@ export default function GamesList({ games }: GameListProps) {
               ))}
             </ul>
           </div>
-          <div className="flex flex-col items-center justify-end px-4">
-            <span className="text-xl lg:text-5xl">
+          <div className="flex flex-col items-center justify-end">
+            <span className="text-4xl lg:text-5xl">
               {game.teamRed.score}:{game.teamBlue.score}
             </span>
             <span className="mt-3 text-xs">{formatDate(game.createdAt)}</span>
           </div>
           <div className="flex flex-col gap-3">
-            <div className="flex gap-2">
-              <span>Team Blue</span>
-              {game.winner === TEAM.Blue && <Award />}
+            <div className="flex">
+              <span className="relative">
+                Team Blue
+                {game.winner === TEAM.Blue && (
+                  <Award className="absolute -right-6 top-0 size-5 sm:-right-8 sm:size-6" />
+                )}
+              </span>
             </div>
-            <ul className="flex gap-2">
+            <ul className="flex flex-wrap gap-3">
               {game.teamBlue.players.map((player) => (
                 <li key={player.id}>
                   <Link href={`/players/${player.id}`}>

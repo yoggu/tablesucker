@@ -21,7 +21,7 @@ const AvatarCheckbox = React.forwardRef<
     <PlayerAvatar player={player} />
     <CheckboxPrimitive.Indicator
       className={cn(
-        "absolute -left-[2px] -top-[2px] box-content h-full w-full rounded-full border-2 border-blue-500",
+        "absolute -left-[2px] -top-[2px] box-content h-full w-full rounded-full border-2 border-blue-400",
       )}
     ></CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
