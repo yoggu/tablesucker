@@ -1,3 +1,4 @@
+import Games from "@/components/games/games";
 import GamesList from "@/components/games/games-list";
 import PageHeader from "@/components/layout/page-header";
 import SeasonBadge from "@/components/season/season-badge";
@@ -33,7 +34,7 @@ export default async function Season({ params }: SeasonProps) {
         />
       </PageHeader>
       <Standings season={season!} />
-      <GamesList limit={5} season={season!} />
+      <Games limit={5} season={season!} />
     </>
   );
 }
