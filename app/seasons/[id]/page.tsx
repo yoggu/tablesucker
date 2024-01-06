@@ -1,4 +1,4 @@
-import GamesList from "@/components/games-list/games-list";
+import GamesList from "@/components/games/games-list";
 import PageHeader from "@/components/layout/page-header";
 import SeasonBadge from "@/components/season-badge";
 import SeasonDateRange from "@/components/season-date-range";

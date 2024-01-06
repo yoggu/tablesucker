@@ -1,5 +1,5 @@
 import { getPlayerById } from "@/utils/players";
-import GamesList from "@/components/games-list/games-list";
+import GamesList from "@/components/games/games-list";
 import PageHeader from "@/components/layout/page-header";
 import PageTitle from "@/components/ui/page-title";
 import PlayerAvatar from "@/components/ui/player-avatar";

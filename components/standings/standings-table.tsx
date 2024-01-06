@@ -42,11 +42,11 @@ export function StandingsTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border @container">
+    <div className="rounded-md border dark:border-gray-700 @container">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="dark:border-gray-700">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead className="px-2" key={header.id}>
@@ -68,6 +68,7 @@ export function StandingsTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="dark:border-gray-700"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell className="px-6" key={cell.id}>

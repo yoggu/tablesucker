@@ -1,5 +1,7 @@
 import GameForm from "@/components/game-form";
-import GamesList from "@/components/games-list/games-list";
+import Games from "@/components/games/games";
+import GamesList from "@/components/games/games-list";
+import RealtimeGames from "@/components/games/realtime-games";
 import PageHeader from "@/components/layout/page-header";
 import SeasonName from "@/components/season-title";
 import TopscorerList from "@/components/topscorer-list";
@@ -20,7 +22,7 @@ export default async function Live() {
       <PageHeader>
         <PageTitle><SeasonName date={LatestActiveSeason.start_date} /></PageTitle>
       </PageHeader>
-      <GamesList season={LatestActiveSeason} limit={5} isRealtime={true} />
+      <Games season={LatestActiveSeason} limit={5} realtime={true}  />
       <div className="mt-6 flex justify-center gap-10">
         <TopscorerList season={LatestActiveSeason} />
         <WinRateList season={LatestActiveSeason} />
