@@ -1,6 +1,6 @@
 import PageHeader from "@/components/layout/page-header";
-import SeasonForm from "@/components/season-form";
-import SeasonsList from "@/components/seasons-list";
+import SeasonForm from "@/components/season/season-form";
+import SeasonsList from "@/components/seasons/seasons-list";
 import PageTitle from "@/components/ui/page-title";
 
 export default async function Seasons() {

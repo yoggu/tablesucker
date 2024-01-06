@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import SeasonTitle from "./season-title";
+import SeasonTitle from "./season/season-title";
 import { AvatarCheckbox } from "./ui/avatar-checkbox";
 import { useState } from "react";
 

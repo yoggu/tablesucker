@@ -1,8 +1,8 @@
 import { getPlayerById } from "@/utils/players";
-import GamesList from "@/components/games/games-list";
 import PageHeader from "@/components/layout/page-header";
 import PageTitle from "@/components/ui/page-title";
 import PlayerAvatar from "@/components/ui/player-avatar";
+import Games from "@/components/games/games";
 
 type PlayerProps = {
   params: {
@@ -22,7 +22,7 @@ export default async function Player({ params }: PlayerProps) {
           <PageTitle>{player?.name}</PageTitle>
         </div>
       </PageHeader>
-      <GamesList player={player!} />
+      <Games player={player!} />
     </>
   );
 }

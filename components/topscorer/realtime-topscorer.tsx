@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { fetchGames } from "@/actions/game";
 
 import { createClient } from "@/utils/supabase/client";
-import GamesList from "./games-list";
+import TopscorerList from "./topscorer-list";
 
-type RealtimeGamesProps = {
+type RealtimeTopscorerProps = {
   initialGames: GameStats[];
   season?: Season;
   player?: Player;
@@ -14,12 +14,12 @@ type RealtimeGamesProps = {
   limit?: number;
 };
 
-export default function RealtimeGames({
+export default function RealtimeTopscorer({
   initialGames,
   season,
   player,
   limit,
-}: RealtimeGamesProps) {
+}: RealtimeTopscorerProps) {
   const [games, setGames] = useState<GameStats[]>(initialGames);
 
   async function loadGames() {
@@ -38,7 +38,7 @@ export default function RealtimeGames({
   useEffect(() => {
     const supabase = createClient();
     const channel = supabase
-      .channel("realtime_games")
+      .channel("realtime_topscorer")
       .on(
         "postgres_changes",
         {
@@ -47,7 +47,7 @@ export default function RealtimeGames({
           table: "games",
         },
         (payload) => {
-          console.log("realtime_games", payload);
+          console.log("realtime_topscorer", payload);
           if (!payload.errors) {
             loadGames();
           }
@@ -60,5 +60,5 @@ export default function RealtimeGames({
     };
   }, []);
 
-  return <GamesList games={games} />;
+  return <TopscorerList games={games} />;
 }

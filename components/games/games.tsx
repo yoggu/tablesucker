@@ -1,6 +1,6 @@
 import { Player, Season, TEAM } from "@/types/types";
 import { fetchGames } from "@/actions/game";
-import GamesRealtime from "./realtime-games"; // Add missing import
+import RealtimeGames from "./realtime-games"; // Add missing import
 import GamesLoadMore from "./games-load-more"; // Add missing import
 
 type GamesProps = {
@@ -29,7 +29,7 @@ export default async function Games({
   return (
     <>
       {realtime ? (
-        <GamesRealtime
+        <RealtimeGames
           initialGames={games ?? []}
           season={season!}
           player={player!}

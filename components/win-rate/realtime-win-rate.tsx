@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { fetchGames } from "@/actions/game";
 
 import { createClient } from "@/utils/supabase/client";
-import GamesList from "./games-list";
+import WinRateList from "./win-rate-list";
 
-type RealtimeGamesProps = {
+type RealtimeWinRateProps = {
   initialGames: GameStats[];
   season?: Season;
   player?: Player;
@@ -14,12 +14,12 @@ type RealtimeGamesProps = {
   limit?: number;
 };
 
-export default function RealtimeGames({
+export default function RealtimeWinRate({
   initialGames,
   season,
   player,
   limit,
-}: RealtimeGamesProps) {
+}: RealtimeWinRateProps) {
   const [games, setGames] = useState<GameStats[]>(initialGames);
 
   async function loadGames() {
@@ -38,7 +38,7 @@ export default function RealtimeGames({
   useEffect(() => {
     const supabase = createClient();
     const channel = supabase
-      .channel("realtime_games")
+      .channel("realtime_win_rate")
       .on(
         "postgres_changes",
         {
@@ -47,7 +47,7 @@ export default function RealtimeGames({
           table: "games",
         },
         (payload) => {
-          console.log("realtime_games", payload);
+          console.log("realtime_win_rate", payload);
           if (!payload.errors) {
             loadGames();
           }
@@ -60,5 +60,5 @@ export default function RealtimeGames({
     };
   }, []);
 
-  return <GamesList games={games} />;
+  return <WinRateList games={games} />;
 }

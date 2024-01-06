@@ -16,14 +16,14 @@ export default function GamesList({ games }: GameListProps) {
         {games?.map((game) => (
           <li
             key={game.id}
-            className="flex justify-center gap-12 border-b px-4 py-4 last-of-type:border-none dark:border-gray-700"
+            className="flex justify-center gap-12 border-b px-4 py-4 last:border-0 dark:border-gray-700"
           >
-            <div className="flex flex-col items-end">
+            <div className="flex flex-col gap-3 items-end">
               <div className="flex gap-2">
                 {game.winner === TEAM.Red && <Award />}
                 <span>Team Red</span>
               </div>
-              <ul className="mt-3 flex gap-2">
+              <ul className="flex gap-2">
                 {game.teamRed.players.map((player) => (
                   <li key={player.id}>
                     <Link href={`/players/${player.id}`}>
@@ -39,12 +39,12 @@ export default function GamesList({ games }: GameListProps) {
               </span>
               <span className="mt-3 text-xs">{formatDate(game.createdAt)}</span>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-3">
               <div className="flex gap-2">
                 <span>Team Blue</span>
                 {game.winner === TEAM.Blue && <Award />}
               </div>
-              <ul className="mt-3 flex gap-2">
+              <ul className="flex gap-2">
                 {game.teamBlue.players.map((player) => (
                   <li key={player.id}>
                     <Link href={`/players/${player.id}`}>

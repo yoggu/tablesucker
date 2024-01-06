@@ -1,12 +1,10 @@
 import GameForm from "@/components/game-form";
 import Games from "@/components/games/games";
-import GamesList from "@/components/games/games-list";
-import RealtimeGames from "@/components/games/realtime-games";
 import PageHeader from "@/components/layout/page-header";
-import SeasonName from "@/components/season-title";
-import TopscorerList from "@/components/topscorer-list";
+import SeasonName from "@/components/season/season-title";
+import Topscorer from "@/components/topscorer/topscorer";
 import PageTitle from "@/components/ui/page-title";
-import WinRateList from "@/components/win-rate-list";
+import WinRate from "@/components/win-rate/win-rate";
 import { getPlayers } from "@/utils/players";
 import { getSeasons } from "@/utils/seasons";
 
@@ -20,14 +18,20 @@ export default async function Live() {
   return (
     <>
       <PageHeader>
-        <PageTitle><SeasonName date={LatestActiveSeason.start_date} /></PageTitle>
+        <PageTitle>
+          <SeasonName date={LatestActiveSeason.start_date} />
+        </PageTitle>
       </PageHeader>
-      <Games season={LatestActiveSeason} limit={5} realtime={true}  />
-      <div className="mt-6 flex justify-center gap-10">
-        <TopscorerList season={LatestActiveSeason} />
-        <WinRateList season={LatestActiveSeason} />
+      <div className="grid grid-cols-6 gap-6">
+        <div className="col-span-full lg:col-span-4">
+          <Games season={LatestActiveSeason} limit={5} realtime={true} />
+        </div>
+        <div className="col-span-full flex flex-col gap-6 lg:col-span-2">
+          <WinRate season={LatestActiveSeason} realtime={true} />
+          <Topscorer season={LatestActiveSeason} realtime={true} />
+        </div>
+        <GameForm seasons={seasons!} players={players!} />
       </div>
-      <GameForm seasons={seasons!} players={players!} />
     </>
   );
 }

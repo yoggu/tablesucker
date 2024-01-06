@@ -1,8 +1,8 @@
 import { getSeasons } from "@/utils/seasons";
 import Link from "next/link";
-import SeasonName from "./season-title";
-import SeasonBadge from "./season-badge";
-import SeasonDateRange from "./season-date-range";
+import SeasonName from "../season/season-title";
+import SeasonBadge from "../season/season-badge";
+import SeasonDateRange from "../season/season-date-range";
 
 export default async function SeasonsList() {
   const { data, error } = await getSeasons();

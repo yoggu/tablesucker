@@ -1,5 +1,5 @@
 import { isCompletedSeason } from "@/utils/seasons";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 
 type SeasonBadgeProps = {
   date: string | null;
