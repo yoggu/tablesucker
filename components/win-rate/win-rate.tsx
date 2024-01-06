@@ -2,6 +2,7 @@ import { Season } from "@/types/types";
 import { fetchGames } from "@/actions/game";
 import WinRateList from "./win-rate-list";
 import RealtimeWinRate from "./realtime-win-rate";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 type WinRateProps = {
   season: Season;
@@ -13,12 +14,17 @@ export default async function WinRate({ season, realtime }: WinRateProps) {
   if (gamesError) throw gamesError;
 
   return (
-    <>
-      {realtime ? (
-        <RealtimeWinRate initialGames={games} season={season} />
-      ) : (
-        <WinRateList games={games} />
-      )}
-    </>
+    <Card>
+      <CardHeader>
+        <CardTitle>Win Rate</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {realtime ? (
+          <RealtimeWinRate initialGames={games} season={season} />
+        ) : (
+          <WinRateList games={games} />
+        )}
+      </CardContent>
+    </Card>
   );
 }

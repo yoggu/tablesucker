@@ -2,6 +2,7 @@ import { Season } from "@/types/types";
 import { fetchGames } from "@/actions/game";
 import TopscorerList from "./topscorer-list";
 import RealtimeTopscorer from "./realtime-topscorer";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 type TopscorerProps = {
   season: Season;
@@ -13,12 +14,17 @@ export default async function Topscorer({ season, realtime }: TopscorerProps) {
   if (gamesError) throw gamesError;
 
   return (
-    <>
-      {realtime ? (
-        <RealtimeTopscorer initialGames={games} season={season} />
-      ) : (
-        <TopscorerList games={games} />
-      )}
-    </>
+    <Card>
+      <CardHeader>
+        <CardTitle>Topscorer</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {realtime ? (
+          <RealtimeTopscorer initialGames={games} season={season} />
+        ) : (
+          <TopscorerList games={games} />
+        )}
+      </CardContent>
+    </Card>
   );
 }

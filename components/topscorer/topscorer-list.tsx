@@ -16,13 +16,10 @@ export default function TopscorerList({ games }: TopscorerListProps) {
 
   return (
     <RankingList>
-      {topScorers.map(({ goalsFor, player }) => (
+      {topScorers.map(({ goalsFor, player }, index) => (
         <RankingListItem key={player.id}>
           <Link className="col-span-4" href={`/players/${player.id}`}>
-            <div className="flex items-center gap-2">
-              <PlayerAvatar player={player} />
-              <span>{player.name}</span>
-            </div>
+            <PlayerAvatar player={player} showName showCrown={index === 0} />
           </Link>
           <span className="col-span-2 text-center">{goalsFor}</span>
         </RankingListItem>

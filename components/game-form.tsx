@@ -73,177 +73,193 @@ export default function GameForm({ players, seasons }: GameFormProps) {
   }
 
   return (
-    <>
-      <h2>Add Game</h2>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">
-          <FormField
-            control={form.control}
-            name="season_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Season</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field?.value?.toString()}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an active season" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {seasons.map((season) => (
-                      <SelectItem
-                        key={season.id}
-                        value={season?.id?.toString()}
-                      >
-                        <SeasonTitle date={season.start_date} />
-                      </SelectItem>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="py-4">
+        <FormField
+          control={form.control}
+          name="season_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Season</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field?.value?.toString()}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an active season" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {seasons.map((season) => (
+                    <SelectItem key={season.id} value={season?.id?.toString()}>
+                      <SeasonTitle date={season.start_date} />
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex gap-5">
+          <div>
+            <span>Team Red</span>
+            <div>
+              <FormField
+                control={form.control}
+                name="team_red.players"
+                render={() => (
+                  <FormItem>
+                    {players.map((player) => (
+                      <FormField
+                        key={player.id}
+                        control={form.control}
+                        name="team_red.players"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={player.id}
+                              className="flex flex-row items-start space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <AvatarCheckbox
+                                  checked={field.value?.includes(player.id)}
+                                  disabled={
+                                    !teamRedPlayers.some(
+                                      (p) => p.id === player.id,
+                                    )
+                                  }
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([
+                                        ...field?.value,
+                                        player.id,
+                                      ]);
+                                      setTeamBluePlayers(
+                                        teamBluePlayers.filter(
+                                          (p) => p.id !== player.id,
+                                        ),
+                                      );
+                                    } else {
+                                      field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== player.id,
+                                        ),
+                                      );
+                                      setTeamBluePlayers([
+                                        ...teamBluePlayers,
+                                        player,
+                                      ]);
+                                    }
+                                  }}
+                                  player={player}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          );
+                        }}
+                      />
                     ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex gap-5">
-            <div>
-              <span>Team Red</span>
-              <div>
-                <FormField
-                  control={form.control}
-                  name="team_red.players"
-                  render={() => (
-                    <FormItem>
-                      {players.map((player) => (
-                        <FormField
-                          key={player.id}
-                          control={form.control}
-                          name="team_red.players"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={player.id}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                              >
-                                <FormControl>
-                                  <AvatarCheckbox
-                                    checked={field.value?.includes(player.id)}
-                                    disabled={!teamRedPlayers.some((p) => p.id === player.id)}
-                                    onCheckedChange={(checked) => {
-                                      if (checked) {
-                                        field.onChange([
-                                          ...field?.value,
-                                          player.id,
-                                        ]);
-                                        setTeamBluePlayers(teamBluePlayers.filter((p) => p.id !== player.id));
-                                      } else {
-                                        field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== player.id,
-                                          ),
-                                        );
-                                        setTeamBluePlayers([...teamBluePlayers, player]);
-                                      }
-                                    }}
-                                    player={player}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            );
-                          }}
-                        />
-                      ))}
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="team_red.score"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input type="number" placeholder="score" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-            <div>
-              <span>Team Blue</span>
-              <div>
-                <FormField
-                  control={form.control}
-                  name="team_blue.players"
-                  render={() => (
-                    <FormItem>
-                      {players.map((player) => (
-                        <FormField
-                          key={player.id}
-                          control={form.control}
-                          name="team_blue.players"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={player.id}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                              >
-                                <FormControl>
-                                  <AvatarCheckbox
-                                    checked={field.value?.includes(player.id)}
-                                    disabled={!teamBluePlayers.some((p) => p.id === player.id)}
-                                    onCheckedChange={(checked) => {
-                                      if (checked) {
-                                        field.onChange([
-                                          ...field?.value,
-                                          player.id,
-                                        ]);
-                                        setTeamRedPlayers(teamRedPlayers.filter((p) => p.id !== player.id));
-                                      } else {
-                                        field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== player.id,
-                                          ),
-                                        );
-                                        setTeamRedPlayers([...teamRedPlayers, player]);
-                                      }
-                                    }}
-                                    player={player}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            );
-                          }}
-                        />
-                      ))}
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="team_blue.score"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input type="number" placeholder="score" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="team_red.score"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input type="number" placeholder="score" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
-          <Button className="mt-4" type="submit">
-            Submit
-          </Button>
-        </form>
-      </Form>
-    </>
+          <div>
+            <span>Team Blue</span>
+            <div>
+              <FormField
+                control={form.control}
+                name="team_blue.players"
+                render={() => (
+                  <FormItem>
+                    {players.map((player) => (
+                      <FormField
+                        key={player.id}
+                        control={form.control}
+                        name="team_blue.players"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={player.id}
+                              className="flex flex-row items-start space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <AvatarCheckbox
+                                  checked={field.value?.includes(player.id)}
+                                  disabled={
+                                    !teamBluePlayers.some(
+                                      (p) => p.id === player.id,
+                                    )
+                                  }
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([
+                                        ...field?.value,
+                                        player.id,
+                                      ]);
+                                      setTeamRedPlayers(
+                                        teamRedPlayers.filter(
+                                          (p) => p.id !== player.id,
+                                        ),
+                                      );
+                                    } else {
+                                      field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== player.id,
+                                        ),
+                                      );
+                                      setTeamRedPlayers([
+                                        ...teamRedPlayers,
+                                        player,
+                                      ]);
+                                    }
+                                  }}
+                                  player={player}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="team_blue.score"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input type="number" placeholder="score" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+        </div>
+        <Button className="mt-4" type="submit">
+          Submit
+        </Button>
+      </form>
+    </Form>
   );
 }
