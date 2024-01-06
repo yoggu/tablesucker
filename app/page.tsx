@@ -8,7 +8,7 @@ import WinRateList from "@/components/win-rate-list";
 import { getPlayers } from "@/utils/players";
 import { getSeasons } from "@/utils/seasons";
 
-export default async function CurrentSeason() {
+export default async function Live() {
   const { data: seasons, error: seasonsError } = await getSeasons(true);
   if (seasonsError) throw seasonsError;
   const LatestActiveSeason = seasons![0];
@@ -20,7 +20,7 @@ export default async function CurrentSeason() {
       <PageHeader>
         <PageTitle><SeasonName date={LatestActiveSeason.start_date} /></PageTitle>
       </PageHeader>
-      <GamesList season={LatestActiveSeason} limit={5} />
+      <GamesList season={LatestActiveSeason} limit={5} isRealtime={true} />
       <div className="mt-6 flex justify-center gap-10">
         <TopscorerList season={LatestActiveSeason} />
         <WinRateList season={LatestActiveSeason} />

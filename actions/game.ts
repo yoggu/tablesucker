@@ -54,8 +54,6 @@ export async function createGame(inputData: GameFormInputs) {
 
       return { data: null, error: gamePlayerError };
     }
-
-    revalidatePath("/");
     return { data: gameData, error: null };
   } catch (error) {
     return { data: null, error };
@@ -75,7 +73,7 @@ export async function fetchGames(
       *,
       players (*)
     )
-  `);
+  `).order('created_at', { ascending: false });
 
   // If a playerId is provided, get game IDs for games the player participated in
   if (playerId !== undefined) {

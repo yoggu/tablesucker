@@ -1,16 +1,14 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Player, Season, TEAM } from "@/types/types";
-import Link from "next/link";
-import { Badge } from "../ui/badge";
-import { formatDate } from "@/utils/utils";
 import { fetchGames } from "@/actions/game";
-import GamesListLoadMore from "./games-list-load-more";
+import GamesRealtime from "./games-realtime"; // Add missing import
+import GamesListLoadMore from "./games-list-load-more"; // Add missing import
 
 type GameListProps = {
   season?: Season;
   player?: Player;
   offset?: number;
   limit?: number;
+  isRealtime?: boolean;
 };
 
 export default async function GamesList({
@@ -18,6 +16,7 @@ export default async function GamesList({
   player,
   offset,
   limit,
+  isRealtime = false,
 }: GameListProps) {
   const { data: games, error: gamesError } = await fetchGames(
     season?.id,
@@ -27,11 +26,18 @@ export default async function GamesList({
   );
   if (gamesError) throw gamesError;
 
-  return (
+  return isRealtime ? (
+    <GamesRealtime
+      initialGames={games ?? []}
+      season={season!}
+      player={player!}
+      limit={limit ?? 5}
+    />
+  ) : (
     <GamesListLoadMore
-      initialGames={games!}
-      season={season}
-      player={player}
+      initialGames={games ?? []}
+      season={season!}
+      player={player!}
       limit={limit ?? 10}
     />
   );

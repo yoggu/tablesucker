@@ -5,9 +5,9 @@ type PlayerAvatarProps = {
   player: Player;
 }
 
-export default function PlayerAvatar({ player }: PlayerAvatarProps) {
+export default function PlayerAvatar({ player, className }: PlayerAvatarProps & React.HTMLAttributes<HTMLSpanElement> ) {
   return (
-    <Avatar>
+    <Avatar className={className}>
       <AvatarImage src={player.image_url ?? ""} />
       <AvatarFallback>{player.name.slice(0, 2).toUpperCase()}</AvatarFallback>
     </Avatar>
