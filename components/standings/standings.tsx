@@ -4,6 +4,7 @@ import { calculatePlayerStats } from "@/utils/games";
 import { fetchGames } from "@/actions/game";
 import { StandingsTable } from "./standings-table";
 import { columns } from "./standings-columns";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 type StandingsProps = {
   season: Season;
@@ -15,9 +16,13 @@ export default async function Standings({ season }: StandingsProps) {
   const playerStats: PlayerStats[] = calculatePlayerStats(games!);
 
   return (
-    <div className="w-full">
-      <h2>Standings</h2>
-      <StandingsTable columns={columns} data={playerStats} />
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Standings</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <StandingsTable columns={columns} data={playerStats} />
+      </CardContent>
+    </Card>
   );
 }

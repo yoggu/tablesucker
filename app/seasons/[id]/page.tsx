@@ -1,5 +1,4 @@
 import Games from "@/components/games/games";
-import GamesList from "@/components/games/games-list";
 import PageHeader from "@/components/layout/page-header";
 import SeasonBadge from "@/components/season/season-badge";
 import SeasonDateRange from "@/components/season/season-date-range";
@@ -33,8 +32,14 @@ export default async function Season({ params }: SeasonProps) {
           endDate={season!.end_date}
         />
       </PageHeader>
-      <Standings season={season!} />
-      <Games limit={5} season={season!} />
+      <div className="grid grid-cols-6 gap-6">
+        <div className="col-span-full">
+          <Standings season={season!} />
+        </div>
+        <div className="col-span-full">
+          <Games limit={5} season={season!} />
+        </div>
+      </div>
     </>
   );
 }

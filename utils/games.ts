@@ -4,11 +4,8 @@ import {
   TEAM,
   PlayerStats,
 } from "@/types/types";
-import { createClient } from "./supabase/server";
-import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 
-export function gameStats (gamesData: GameWithGamePlayer[]): GameStats[] {
+export function gameStats(gamesData: GameWithGamePlayer[]): GameStats[] {
   const gameStatsArray = gamesData.map((game) => {
     const teamRedPlayers = game.game_players
       .filter((gamePlayer) => gamePlayer.team === TEAM.Red)
@@ -37,9 +34,9 @@ export function gameStats (gamesData: GameWithGamePlayer[]): GameStats[] {
   return gameStatsArray.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
-};
+}
 
-export function calculatePlayerStats (games: GameStats[]) {
+export function calculatePlayerStats(games: GameStats[]) {
   const playerStats: Record<number, PlayerStats> = {};
 
   games.forEach((game) => {
@@ -104,4 +101,4 @@ export function calculatePlayerStats (games: GameStats[]) {
   });
 
   return Object.values(playerStats);
-};
+}
