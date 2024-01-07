@@ -32,7 +32,7 @@ import { createSeason } from "@/actions/season";
 
 type Inputs = z.infer<typeof SeasonFormSchema>;
 
-export default function SeasonForm() {
+export default function SeasonForm({ onClose }: { onClose?: () => void }) {
   const { toast } = useToast();
   const form = useForm<Inputs>({
     resolver: zodResolver(SeasonFormSchema),
@@ -88,6 +88,9 @@ export default function SeasonForm() {
       ),
     });
     form.reset();
+    if (onClose) {
+      onClose();
+    }
   }
 
   return (
