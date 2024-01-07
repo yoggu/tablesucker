@@ -80,7 +80,16 @@ export async function fetchGames(
     .order("created_at", { ascending: false });
 
   if (playerId) {
-    query = query.eq("game_players.player_id", playerId);
+    const { data: gameIdsData, error: gameIdsError } = await supabase
+      .from("game_players")
+      .select("game_id")
+      .eq("player_id", playerId);
+    if (gameIdsError || !gameIdsData) {
+      console.error("Error fetching game IDs:", gameIdsError);
+      return { data: null, error: gameIdsError };
+    }
+    const gameIds = gameIdsData.map(({ game_id }) => game_id);
+    query = query.in("id", gameIds);
   }
 
   if (seasonId) {

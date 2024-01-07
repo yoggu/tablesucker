@@ -10,7 +10,7 @@ import {
 export default function Menu() {
   return (
     <nav
-      className="h-full min-h-screen border-r px-2 pt-8 dark:bg-slate-950 dark:border-slate-700 @container"
+      className="h-full min-h-screen border-r px-2 pt-8 dark:bg-slate-950 dark:border-slate-700 @container relative z-10"
     >
       <menu className="flex flex-col gap-2">
         <li>
