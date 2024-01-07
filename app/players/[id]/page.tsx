@@ -65,11 +65,11 @@ export default async function PlayerPage({
             </CardContent>
           </Card>
         </div>
-        <div className="col-span-full grid gap-6 lg:col-span-5">
+        <div className="col-span-full grid gap-6 md:col-span-5">
           <Games season={season} player={player!} limit={5} />
           <Standings season={season} />
         </div>
-        <div className="col-span-full lg:col-span-1 flex flex-col gap-6">
+        <div className="col-span-full md:col-span-1 flex flex-col gap-6">
           <PlayerWinRate player={player!} season={season} />
           <PlayerGoalsScored player={player!} season={season} />
         </div>

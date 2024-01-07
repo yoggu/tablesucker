@@ -15,19 +15,20 @@ export default function MobileMenu() {
   };
 
   return (
-    <nav className={cn("relative z-[50] pt-2 sm:hidden")}>
-      <div className="flex gap-4 justify-between px-2">
+    <nav
+      className={cn("relative z-[50] pt-2 sm:hidden", { "bg-slate-950": open })}
+    >
+      <div className="flex justify-between gap-4 px-2">
         <Button className="px-2" variant="ghost" onClick={toggleMenu}>
           {open ? <X /> : <Menu />}
         </Button>
-        <ModeToggle />
       </div>
       <div
         className={cn("absolute hidden w-full bg-white px-2 dark:bg-gray-950", {
           "block h-[calc(100dvh-48px)]": open,
         })}
       >
-        <menu className="flex flex-col gap-2 pt-4 @container">
+        <menu className="flex flex-col h-full gap-2 py-4 @container">
           <li>
             <MenuLink href="/" onClick={toggleMenu}>
               <Radio size={20} />
@@ -45,6 +46,9 @@ export default function MobileMenu() {
               <CalendarDays size={20} />
               <span className="hidden @[180px]:inline">Seasons</span>
             </MenuLink>
+          </li>
+          <li className="mt-auto">
+            <ModeToggle />
           </li>
         </menu>
       </div>

@@ -6,13 +6,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ModeToggle } from "./mode-toggle";
 
 export default function Menu() {
   return (
-    <nav
-      className="h-full min-h-screen border-r px-2 pt-8 dark:bg-slate-950 dark:border-slate-700 @container relative z-10"
-    >
-      <menu className="flex flex-col gap-2">
+    <nav className="relative z-10 h-full min-h-screen border-r px-2 py-8 @container dark:border-slate-700 dark:bg-slate-950">
+      <menu className="flex flex-col gap-2 h-full">
         <li>
           <MenuLink href="/">
             <TooltipProvider>
@@ -72,6 +71,9 @@ export default function Menu() {
             <span className="hidden @[180px]:inline">Seasons</span>
           </MenuLink>
         </li>
+      <div className="mt-auto">
+        <ModeToggle />
+      </div>
       </menu>
     </nav>
   );
