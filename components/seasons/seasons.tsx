@@ -1,0 +1,45 @@
+import { getSeasons } from "@/utils/seasons";
+import Link from "next/link";
+import SeasonName from "../season/season-title";
+import SeasonBadge from "../season/season-badge";
+import SeasonDateRange from "../season/season-date-range";
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+
+export default async function Seasons() {
+  const { data, error } = await getSeasons();
+
+  if (error) throw error;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Seasons</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul className="flex flex-col gap-4">
+          {data?.map((season) => (
+            <li
+              key={season.id}
+              className="border-b pb-3 last-of-type:border-0 last-of-type:pb-0 dark:border-gray-700"
+            >
+              <Link
+                className="block w-fit dark:hover:text-blue-400"
+                href={`/seasons/${season.id}`}
+              >
+                <span className="text-xl">
+                  <SeasonName date={season.start_date} />
+                </span>
+                <div className="flex items-center gap-3 pt-1">
+                  <SeasonDateRange
+                    startDate={season.start_date}
+                    endDate={season.end_date}
+                  />
+                  <SeasonBadge date={season.end_date} />
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+    </Card>
+  );
+}

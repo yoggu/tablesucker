@@ -1,4 +1,4 @@
-import PlayerForm from "@/components/player-form";
+import PlayerForm from "@/components/player/player-form";
 import { getPlayers } from "@/utils/players";
 import PageHeader from "@/components/layout/page-header";
 import PageTitle from "@/components/ui/page-title";

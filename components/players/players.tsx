@@ -1,4 +1,4 @@
-import PlayerForm from "@/components/player-form";
+import PlayerForm from "@/components/player/player-form";
 import { getPlayers } from "@/utils/players";
 import PlayerAvatar from "@/components/ui/player-avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";

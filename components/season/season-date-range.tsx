@@ -14,7 +14,7 @@ export default function SeasonDateRange({
   className
 }: SeasonDateRangeProps) {
   return (
-    <div className={cn("mt-1 text-xs", className)}>
+    <div className={cn("text-xs", className)}>
       {formatDate(startDate)}
       {endDate && ` - ${formatDate(endDate)}`}
     </div>

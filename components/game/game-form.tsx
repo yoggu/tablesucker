@@ -23,9 +23,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
-import SeasonTitle from "./season/season-title";
-import { AvatarCheckbox } from "./ui/avatar-checkbox";
+} from "../ui/select";
+import SeasonTitle from "../season/season-title";
+import { AvatarCheckbox } from "../ui/avatar-checkbox";
 import { useState } from "react";
 
 type Inputs = z.infer<typeof GameFormSchema>;

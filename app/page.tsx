@@ -1,4 +1,4 @@
-import GameForm from "@/components/game-form";
+import GameForm from "@/components/game/game-form";
 import Games from "@/components/games/games";
 import RealtimeGames from "@/components/games/realtime-games";
 import PageHeader from "@/components/layout/page-header";

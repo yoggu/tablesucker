@@ -87,20 +87,19 @@ export default function SeasonForm() {
         </>
       ),
     });
+    form.reset();
   }
 
   return (
-    <>
-      <h2>Add Season</h2>
-
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="start_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Start Date</FormLabel>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="start_date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Start Date</FormLabel>
+              <div>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -134,16 +133,18 @@ export default function SeasonForm() {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="end_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>End Date</FormLabel>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="end_date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>End Date</FormLabel>
+              <div>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -177,13 +178,17 @@ export default function SeasonForm() {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Submit</Button>
-        </form>
-      </Form>
-    </>
+              </div>
+              <FormDescription>
+                Optional. If left blank, the season will be ongoing until
+                cancled.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
   );
 }

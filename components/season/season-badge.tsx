@@ -11,7 +11,7 @@ export default function SeasonBadge({ date }: SeasonBadgeProps) {
       {isCompletedSeason(date) ? (
         <Badge variant="destructive">completed</Badge>
       ) : (
-        <Badge>active</Badge>
+        <Badge variant="secondary">active</Badge>
       )}
     </>
   );
