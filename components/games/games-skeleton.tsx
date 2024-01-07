@@ -1,5 +1,3 @@
-import { Loader2 } from "lucide-react";
-import { Suspense } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import PlayerAvatarSkeleton from "../ui/player-avatar-skeleton";
 import { Skeleton } from "../ui/skeleton";
@@ -12,8 +10,6 @@ export default function GamesSkeleton() {
       </CardHeader>
       <CardContent>
         <ul className="flex flex-col gap-6">
-          <GameListItemSkeleton />
-          <GameListItemSkeleton />
           <GameListItemSkeleton />
           <GameListItemSkeleton />
           <GameListItemSkeleton />

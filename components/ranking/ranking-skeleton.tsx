@@ -15,8 +15,6 @@ export default async function RankingSkeleton({ title }: { title: string }) {
           <RankingListItemSkeleton />
           <RankingListItemSkeleton />
           <RankingListItemSkeleton />
-          <RankingListItemSkeleton />
-          <RankingListItemSkeleton />
         </RankingList>
       </CardContent>
     </Card>
