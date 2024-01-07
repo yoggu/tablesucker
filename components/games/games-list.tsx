@@ -1,7 +1,6 @@
 import { GameStats, TEAM } from "@/types/types";
 import { formatDate } from "@/utils/utils";
 import PlayerAvatar from "@/components/ui/player-avatar";
-import Link from "next/link";
 import { Award } from "lucide-react";
 
 type GameListProps = {
