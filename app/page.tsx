@@ -1,3 +1,4 @@
+import { getSeasons } from "@/actions/season";
 import GameForm from "@/components/game/game-form";
 import Games from "@/components/games/games";
 import RealtimeGames from "@/components/games/realtime-games";
@@ -8,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import PageTitle from "@/components/ui/page-title";
 import WinRate from "@/components/win-rate/win-rate";
 import { getPlayers } from "@/utils/players";
-import { getSeasons } from "@/utils/seasons";
 import Link from "next/link";
 
 export default async function Live() {

@@ -1,3 +1,4 @@
+import { getSeasonById } from "@/actions/season";
 import Games from "@/components/games/games";
 import PageHeader from "@/components/layout/page-header";
 import SeasonBadge from "@/components/season/season-badge";
@@ -5,7 +6,6 @@ import SeasonDateRange from "@/components/season/season-date-range";
 import SeasonName from "@/components/season/season-title";
 import Standings from "@/components/standings/standings";
 import PageTitle from "@/components/ui/page-title";
-import { getSeasonById } from "@/utils/seasons";
 
 type SeasonProps = {
   params: {
