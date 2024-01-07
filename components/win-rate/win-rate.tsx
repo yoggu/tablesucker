@@ -14,7 +14,7 @@ export default async function WinRate({ season }: WinRateProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Win Rate</CardTitle>
+        <CardTitle>Win Rates</CardTitle>
       </CardHeader>
       <CardContent>
         <WinRateList games={games} />

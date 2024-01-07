@@ -11,7 +11,7 @@ import { ModeToggle } from "./mode-toggle";
 export default function Menu() {
   return (
     <nav className="relative z-10 h-full min-h-screen border-r px-2 py-8 @container dark:border-slate-700 dark:bg-slate-950">
-      <menu className="flex flex-col gap-2 h-full">
+      <menu className="flex h-full flex-col gap-2">
         <li>
           <MenuLink href="/">
             <TooltipProvider>
@@ -71,9 +71,9 @@ export default function Menu() {
             <span className="hidden @[180px]:inline">Seasons</span>
           </MenuLink>
         </li>
-      <div className="mt-auto">
-        <ModeToggle />
-      </div>
+        <li className="mt-auto">
+          <ModeToggle />
+        </li>
       </menu>
     </nav>
   );

@@ -27,6 +27,7 @@ import {
 import SeasonTitle from "../season/season-title";
 import { AvatarCheckbox } from "../ui/avatar-checkbox";
 import { useState } from "react";
+import { DialogClose } from "../ui/dialog";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
@@ -260,9 +261,11 @@ export default function GameForm({ players, seasons }: GameFormProps) {
             />
           </div>
         </div>
+        <DialogClose asChild>
         <Button className="mt-8" type="submit">
           Submit
-        </Button>
+          </Button>
+        </DialogClose>
       </form>
     </Form>
   );

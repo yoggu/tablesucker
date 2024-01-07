@@ -6,10 +6,8 @@ export default async function PageHeader({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex justify-between gap-4 pb-4 xl:pb-6">
-      <div>{children}</div>
-      <div className="">
-      </div>
+    <div className="flex justify-between gap-4 pb-4 sm:pb-6 xl:pb-8">
+      {children}
     </div>
   );
 }
