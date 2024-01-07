@@ -24,10 +24,11 @@ import { useState } from "react";
 import Uppy from "@uppy/core";
 import ImageEditor from "@uppy/image-editor";
 import Link from "next/link";
+import { DialogClose } from "../ui/dialog";
 
 type Inputs = z.infer<typeof PlayerFormSchema>;
 
-export default function PlayerForm() {
+export default function PlayerForm({ onClose }: { onClose?: () => void }) {
   // IMPORTANT: passing an initializer function to prevent Uppy from being reinstantiated on every render.
   const [uppy] = useState(() =>
     new Uppy({
@@ -52,7 +53,6 @@ export default function PlayerForm() {
         aspectRatio: 1,
         croppedCanvasOptions: {},
       },
-
     }),
   );
   const { toast } = useToast();
@@ -103,15 +103,16 @@ export default function PlayerForm() {
         </>
       ),
     });
+    form.reset();
+    uppy.close();
+    if (onClose) {
+      onClose();
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormItem>
-          <FormLabel>Image</FormLabel>
-          <FileUpload uppy={uppy} />
-        </FormItem>
         <FormField
           control={form.control}
           name="name"
@@ -125,6 +126,10 @@ export default function PlayerForm() {
             </FormItem>
           )}
         />
+        <FormItem>
+          <FormLabel>Image</FormLabel>
+          <FileUpload uppy={uppy} />
+        </FormItem>
         <Button type="submit">Submit</Button>
       </form>
     </Form>

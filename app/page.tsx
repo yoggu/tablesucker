@@ -1,4 +1,5 @@
 import { getSeasons } from "@/actions/season";
+import DialogGameForm from "@/components/game/dialog-game-form";
 import GameForm from "@/components/game/game-form";
 import Games from "@/components/games/games";
 import RealtimeGames from "@/components/games/realtime-games";
@@ -31,17 +32,7 @@ export default async function Live() {
             <SeasonName date={latestActiveSeason.start_date} />
           </Link>
         </PageTitle>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="rounded-full px-2 sm:rounded-md flex gap-1"><Plus /><span className="hidden sm:inline">Add Game</span></Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Add Game</DialogTitle>
-            </DialogHeader>
-              <GameForm seasons={seasons!} players={players!} />
-          </DialogContent>
-        </Dialog>
+        <DialogGameForm seasons={seasons!} players={players!} />
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-full flex flex-col gap-6 lg:col-span-4">

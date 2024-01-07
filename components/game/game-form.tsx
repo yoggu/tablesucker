@@ -27,15 +27,15 @@ import {
 import SeasonTitle from "../season/season-title";
 import { AvatarCheckbox } from "../ui/avatar-checkbox";
 import { useState } from "react";
-import { DialogClose } from "../ui/dialog";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
   players: Player[];
   seasons: Season[];
+  onClose?: () => void;
 };
 
-export default function GameForm({ players, seasons }: GameFormProps) {
+export default function GameForm({ players, seasons, onClose }: GameFormProps) {
   const { toast } = useToast();
   const [teamRedPlayers, setTeamRedPlayers] = useState<Player[]>(players);
   const [teamBluePlayers, setTeamBluePlayers] = useState<Player[]>(players);
@@ -72,6 +72,9 @@ export default function GameForm({ players, seasons }: GameFormProps) {
       description: `Game with ID ${game!.id} was created.`,
     });
     form.reset();
+    if (onClose) {
+      onClose();
+    }
   }
 
   return (
@@ -261,11 +264,9 @@ export default function GameForm({ players, seasons }: GameFormProps) {
             />
           </div>
         </div>
-        <DialogClose asChild>
         <Button className="mt-8" type="submit">
           Submit
-          </Button>
-        </DialogClose>
+        </Button>
       </form>
     </Form>
   );
