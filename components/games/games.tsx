@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import NumberOfGamesPlayed from "./number-of-games-played";
+import { Suspense } from "react";
 
 type GamesProps = {
   season?: Season;
@@ -36,7 +37,9 @@ export default async function Games({
       <CardHeader>
         <CardTitle>Games</CardTitle>
         <CardDescription>
-          <NumberOfGamesPlayed season={season} player={player} />
+          <Suspense fallback={<span>Loading...</span>}>
+            <NumberOfGamesPlayed season={season} player={player} />
+          </Suspense>
         </CardDescription>
       </CardHeader>
       <CardContent>

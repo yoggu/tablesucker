@@ -1,7 +1,6 @@
 import { Player, Season } from "@/types/types";
 import { getNumberOfGames } from "@/actions/game";
 
-
 type NumberOfGamesPlayedProps = {
   season?: Season;
   player?: Player;
@@ -9,15 +8,13 @@ type NumberOfGamesPlayedProps = {
 
 export default async function NumberOfGamesPlayed({
   season,
-  player
+  player,
 }: NumberOfGamesPlayedProps) {
   const { data: count, error: countError } = await getNumberOfGames(
     season?.id,
-    player?.id
+    player?.id,
   );
   if (countError) throw countError;
 
-  return (
-    <span>{ count } Games Played</span>
-  );
+  return <span>{count} Games Played</span>;
 }
