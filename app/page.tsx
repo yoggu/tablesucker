@@ -1,8 +1,10 @@
 import { getSeasons } from "@/actions/season";
 import DialogGameForm from "@/components/game/dialog-game-form";
 import Games from "@/components/games/games";
+import GamesSkeleton from "@/components/games/games-skeleton";
 import RealtimeGames from "@/components/games/realtime-games";
 import PageHeader from "@/components/layout/page-header";
+import RankingSkeleton from "@/components/ranking/ranking-skeleton";
 import SeasonName from "@/components/season/season-title";
 import Topscorer from "@/components/topscorer/topscorer";
 import PageTitle from "@/components/ui/page-title";
@@ -34,15 +36,15 @@ export default async function Live() {
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-full flex flex-col gap-6 lg:col-span-4">
           <RealtimeGames />
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<GamesSkeleton />}>
             <Games season={latestActiveSeason} limit={5} />
           </Suspense>
         </div>
         <div className="col-span-full flex flex-col gap-6 lg:col-span-2">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<RankingSkeleton title="Win Rate" />}>
             <WinRate season={latestActiveSeason} />
           </Suspense>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<RankingSkeleton title="Topscorer" />}>
             <Topscorer season={latestActiveSeason} />
           </Suspense>
         </div>

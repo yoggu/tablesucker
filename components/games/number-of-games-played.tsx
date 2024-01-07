@@ -16,5 +16,5 @@ export default async function NumberOfGamesPlayed({
   );
   if (countError) throw countError;
 
-  return <span>{count} Games Played</span>;
+  return <div>{count} Games Played</div>;
 }

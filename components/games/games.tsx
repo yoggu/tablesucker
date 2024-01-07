@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/card";
 import NumberOfGamesPlayed from "./number-of-games-played";
 import { Suspense } from "react";
+import { Skeleton } from "../ui/skeleton";
+import { Loader2 } from "lucide-react";
 
 type GamesProps = {
   season?: Season;
@@ -37,7 +39,13 @@ export default async function Games({
       <CardHeader>
         <CardTitle>Games</CardTitle>
         <CardDescription>
-          <Suspense fallback={<span>Loading...</span>}>
+          <Suspense
+            fallback={
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" /> Loading
+              </span>
+            }
+          >
             <NumberOfGamesPlayed season={season} player={player} />
           </Suspense>
         </CardDescription>
