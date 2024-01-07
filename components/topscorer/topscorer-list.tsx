@@ -18,9 +18,9 @@ export default function TopscorerList({ games }: TopscorerListProps) {
     <RankingList>
       {topScorers.map(({ goalsFor, player }, index) => (
         <RankingListItem key={player.id}>
-          <Link className="col-span-4 dark:hover:text-blue-400" href={`/players/${player.id}`}>
-            <PlayerAvatar player={player} showName showCrown={index === 0} />
-          </Link>
+          <div className="col-span-4">
+            <PlayerAvatar player={player} showName showCrown={index === 0} link />
+          </div>
           <span className="col-span-2 text-center">{goalsFor}</span>
         </RankingListItem>
       ))}

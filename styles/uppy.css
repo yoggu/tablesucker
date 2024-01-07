@@ -1,0 +1,31 @@
+
+.uppy-wrapper .cropper-view-box,
+.uppy-wrapper .cropper-face {
+  border-radius: 50%;
+}
+
+/* The css styles for `outline` do not follow `border-radius` on iOS/Safari (#979). */
+.uppy-wrapper .cropper-view-box {
+  outline: 0;
+  box-shadow: 0 0 0 1px #39f;
+}
+
+.uppy-wrapper .uppy-Dashboard-Item-previewImg {
+  border-radius: 50% !important;
+}
+
+.uppy-wrapper .uppy-Dashboard-AddFiles {
+  @apply rounded-md dark:border-slate-800;
+}
+
+.uppy-wrapper .uppy-Dashboard-inner {
+  @apply rounded-md dark:border-slate-800 dark:bg-slate-950;
+}
+
+.uppy-wrapper .uppy-DashboardContent-bar {
+  @apply  dark:border-slate-800 dark:bg-slate-950;
+}
+
+.uppy-wrapper .uppy-Dashboard-AddFiles-info {
+  display: none;
+}

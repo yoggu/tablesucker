@@ -28,9 +28,7 @@ export default function GamesList({ games }: GameListProps) {
             <ul className="flex flex-wrap justify-end gap-3">
               {game.teamRed.players.map((player) => (
                 <li key={player.id}>
-                  <Link href={`/players/${player.id}`}>
-                    <PlayerAvatar player={player} />
-                  </Link>
+                  <PlayerAvatar player={player} link />
                 </li>
               ))}
             </ul>
@@ -53,9 +51,7 @@ export default function GamesList({ games }: GameListProps) {
             <ul className="flex flex-wrap gap-3">
               {game.teamBlue.players.map((player) => (
                 <li key={player.id}>
-                  <Link href={`/players/${player.id}`}>
-                    <PlayerAvatar player={player} />
-                  </Link>
+                  <PlayerAvatar player={player} link />
                 </li>
               ))}
             </ul>

@@ -3,7 +3,7 @@ import SeasonForm from "@/components/season/season-form";
 import SeasonsList from "@/components/seasons/seasons-list";
 import PageTitle from "@/components/ui/page-title";
 
-export default async function Seasons() {
+export default async function SeasonsPage() {
   return (
     <>
       <PageHeader>

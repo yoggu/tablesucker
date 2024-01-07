@@ -13,7 +13,7 @@ type SeasonProps = {
   };
 };
 
-export default async function Season({ params }: SeasonProps) {
+export default async function SeasonPage({ params }: SeasonProps) {
   const { data: season, error: seasonError } = await getSeasonById(params.id);
   if (seasonError) throw seasonError;
 

@@ -10,7 +10,7 @@ type PlayerProps = {
   };
 };
 
-export default async function Player({ params }: PlayerProps) {
+export default async function PlayerPage({ params }: PlayerProps) {
   const { data: player, error: playerError } = await getPlayerById(params.id);
   if (playerError) throw playerError;
 

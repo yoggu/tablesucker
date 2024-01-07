@@ -1,11 +1,13 @@
 import { Player } from "@/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Award, Crown } from "lucide-react";
+import Link from "next/link";
 
 type PlayerAvatarProps = {
   player: Player;
   showName?: boolean;
   showCrown?: boolean;
+  link?: boolean;
 };
 
 export default function PlayerAvatar({
@@ -13,8 +15,9 @@ export default function PlayerAvatar({
   showName = false,
   showCrown = false,
   className,
+  link,
 }: PlayerAvatarProps & React.HTMLAttributes<HTMLSpanElement>) {
-  return (
+  const AvatarContent = () => (
     <div className="relative flex w-fit items-center gap-3">
       <Avatar className={className}>
         <AvatarImage src={player.image_url ?? ""} />
@@ -25,5 +28,13 @@ export default function PlayerAvatar({
       )}
       {showName && <span>{player.name}</span>}
     </div>
+  );
+
+  return link ? (
+    <Link className="dark:hover:text-blue-400" href={`/players/${player.id}`}>
+      <AvatarContent />
+    </Link>
+  ) : (
+    <AvatarContent />
   );
 }

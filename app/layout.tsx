@@ -35,7 +35,7 @@ export default function RootLayout({
             <Menu />
           </aside>
           <MobileMenu />
-          <main className="flex flex-col px-4 pt-6 sm:pt-8 sm:px-6">{children}</main>
+          <main className="flex flex-col px-4 py-6 sm:py-8 sm:px-6">{children}</main>
           <Toaster />
         </ThemeProvider>
       </body>

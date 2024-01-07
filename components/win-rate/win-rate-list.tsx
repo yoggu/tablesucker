@@ -17,9 +17,9 @@ export default function WinRateList({ games }: WinRateListProps) {
     <RankingList>
       {winRates.map(({ winRate, player }, index) => (
         <RankingListItem key={player.id}>
-          <Link className="col-span-4 dark:hover:text-blue-400" href={`/players/${player.id}`}>
-            <PlayerAvatar player={player} showName showCrown={index === 0} />
-          </Link>
+          <div className="col-span-4">
+            <PlayerAvatar player={player} showName showCrown={index === 0} link />
+          </div>
           <span className="col-span-2 text-center">{winRate}%</span>
         </RankingListItem>
       ))}
