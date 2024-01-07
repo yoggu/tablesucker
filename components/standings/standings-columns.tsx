@@ -17,7 +17,7 @@ export const columns: ColumnDef<PlayerStats>[] = [
       return (
         <div className="w-fit">
           <Link
-            className="flex w-fit items-center gap-3 dark:hover:text-blue-400"
+            className="flex w-fit items-center gap-3 hover:text-blue-600 dark:hover:text-blue-400"
             href={`/players/${player.id}`}
           >
             <PlayerAvatar player={player} />

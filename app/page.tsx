@@ -27,7 +27,7 @@ export default async function Live() {
         <PageTitle>
           <Link
             href={`/seasons/${latestActiveSeason.id}`}
-            className="dark:hover:text-blue-500"
+            className="hover:text-blue-600 dark:hover:text-blue-400"
           >
             <SeasonName date={latestActiveSeason.start_date} />
           </Link>

@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className=" min-h-screen dark:bg-gray-900 sm:grid sm:grid-cols-[56px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)]">
+      <body className=" min-h-screen bg-gray-100 dark:bg-gray-900 sm:grid sm:grid-cols-[56px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)]">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
