@@ -14,6 +14,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import SeasonName from "@/components/season/season-title";
+import PlayerWinRate from "@/components/player/player-win-rate";
+import PlayerGoalsScored from "@/components/player/player-goals-scored";
 
 type PlayerProps = {
   params: {
@@ -63,11 +65,13 @@ export default async function PlayerPage({
             </CardContent>
           </Card>
         </div>
-        <div className="col-span-full">
-          <Games season={season} player={player!} limit={10} />
-        </div>
-        <div className="col-span-full">
+        <div className="col-span-full grid gap-6 lg:col-span-5">
+          <Games season={season} player={player!} limit={5} />
           <Standings season={season} />
+        </div>
+        <div className="col-span-full lg:col-span-1 flex flex-col gap-6">
+          <PlayerWinRate player={player!} season={season} />
+          <PlayerGoalsScored player={player!} season={season} />
         </div>
       </div>
     </>
