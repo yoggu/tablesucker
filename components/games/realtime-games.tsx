@@ -4,36 +4,10 @@ import { useEffect, useState } from "react";
 import { fetchGames } from "@/actions/game";
 
 import { createClient } from "@/utils/supabase/client";
-import GamesList from "./games-list";
+import { useRouter } from "next/navigation";
 
-type RealtimeGamesProps = {
-  initialGames: GameStats[];
-  season?: Season;
-  player?: Player;
-  initialOffset?: number;
-  limit?: number;
-};
-
-export default function RealtimeGames({
-  initialGames,
-  season,
-  player,
-  limit,
-}: RealtimeGamesProps) {
-  const [games, setGames] = useState<GameStats[]>(initialGames);
-
-  async function loadGames() {
-    const { data: gamesData, error: gamesError } = await fetchGames(
-      season?.id,
-      player?.id,
-      0,
-      limit,
-    );
-    if (gamesError) throw gamesError;
-    if (gamesData?.length) {
-      setGames(gamesData);
-    }
-  }
+export default function RealtimeGames() {
+  const router = useRouter();
 
   useEffect(() => {
     const supabase = createClient();
@@ -49,7 +23,7 @@ export default function RealtimeGames({
         (payload) => {
           console.log("realtime_games", payload);
           if (!payload.errors) {
-            loadGames();
+            router.refresh();
           }
         },
       )
@@ -60,5 +34,5 @@ export default function RealtimeGames({
     };
   }, []);
 
-  return <GamesList games={games} />;
+  return <></>;
 }

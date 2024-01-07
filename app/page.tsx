@@ -1,5 +1,6 @@
 import GameForm from "@/components/game-form";
 import Games from "@/components/games/games";
+import RealtimeGames from "@/components/games/realtime-games";
 import PageHeader from "@/components/layout/page-header";
 import SeasonName from "@/components/season/season-title";
 import Topscorer from "@/components/topscorer/topscorer";
@@ -21,14 +22,15 @@ export default async function Live() {
     <>
       <PageHeader>
         <PageTitle>
-          <Link href={`/seasons/${latestActiveSeason.id}`}>
+          <Link href={`/seasons/${latestActiveSeason.id}`} className="dark:hover:text-blue-500">
             <SeasonName date={latestActiveSeason.start_date} />
           </Link>
         </PageTitle>
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-full lg:col-span-4 flex flex-col gap-6">
-          <Games season={latestActiveSeason} limit={5} realtime={true} />
+          <RealtimeGames />
+          <Games season={latestActiveSeason} limit={5} />
           <Card>
             <CardHeader>
               <CardTitle>Add Game</CardTitle>
@@ -39,8 +41,8 @@ export default async function Live() {
           </Card>
         </div>
         <div className="col-span-full flex flex-col gap-6 lg:col-span-2">
-          <WinRate season={latestActiveSeason} realtime={true} />
-          <Topscorer season={latestActiveSeason} realtime={true} />
+          <WinRate season={latestActiveSeason} />
+          <Topscorer season={latestActiveSeason} />
         </div>
       </div>
     </>

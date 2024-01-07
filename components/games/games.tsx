@@ -1,15 +1,20 @@
 import { Player, Season, TEAM } from "@/types/types";
 import { fetchGames } from "@/actions/game";
-import RealtimeGames from "./realtime-games";
 import GamesLoadMore from "./games-load-more";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import NumberOfGamesPlayed from "./number-of-games-played";
 
 type GamesProps = {
   season?: Season;
   player?: Player;
   offset?: number;
   limit?: number;
-  realtime?: boolean;
 };
 
 export default async function Games({
@@ -17,7 +22,6 @@ export default async function Games({
   player,
   offset,
   limit,
-  realtime,
 }: GamesProps) {
   const { data: games, error: gamesError } = await fetchGames(
     season?.id,
@@ -30,24 +34,19 @@ export default async function Games({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Latest Games</CardTitle>
+        <CardTitle>Games</CardTitle>
+        <CardDescription>
+          <NumberOfGamesPlayed season={season} player={player} />
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        {realtime ? (
-          <RealtimeGames
-            initialGames={games ?? []}
-            season={season!}
-            player={player!}
-            limit={limit ?? 5}
-          />
-        ) : (
-          <GamesLoadMore
-            initialGames={games ?? []}
-            season={season!}
-            player={player!}
-            limit={limit ?? 10}
-          />
-        )}
+        <GamesLoadMore
+          key={games[0]?.id}
+          initialGames={games ?? []}
+          season={season!}
+          player={player!}
+          limit={limit ?? 10}
+        />
       </CardContent>
     </Card>
   );

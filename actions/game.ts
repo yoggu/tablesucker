@@ -4,7 +4,6 @@ import { GameFormSchema } from "@/utils/schema";
 import { createClient } from "../utils/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
 import { Game, GamePlayer, GameWithGamePlayer, TEAM } from "@/types/types";
 import { gameStats } from "@/utils/games";
 
@@ -67,35 +66,28 @@ export async function fetchGames(
   limit?: number,
 ) {
   const supabase = createClient(cookies());
-  let query = supabase.from("games").select(`
+  let query = supabase
+    .from("games")
+    .select(
+      `
     *,
     game_players!inner (
       *,
       players (*)
     )
-  `).order('created_at', { ascending: false });
+  `,
+    )
+    .order("created_at", { ascending: false });
 
-  // If a playerId is provided, get game IDs for games the player participated in
-  if (playerId !== undefined) {
-    const { data: gameIdsData, error: gameIdsError } = await supabase
-      .from("game_players")
-      .select("game_id")
-      .eq("player_id", playerId);
-    if (gameIdsError || !gameIdsData) {
-      console.error("Error fetching game IDs:", gameIdsError);
-      return { data: null, error: gameIdsError };
-    }
-    const gameIds = gameIdsData.map(({ game_id }) => game_id);
-    query = query.in("id", gameIds);
+  if (playerId) {
+    query = query.eq("game_players.player_id", playerId);
   }
 
-  // If a seasonId is provided, filter games by seasonId
-  if (seasonId !== undefined) {
+  if (seasonId) {
     query = query.eq("season_id", seasonId);
   }
 
-  // Apply range for pagination after all filters
-  if (limit !== undefined) {
+  if (limit) {
     query = query.range(offset, offset + limit - 1);
   }
 
@@ -106,4 +98,41 @@ export async function fetchGames(
   const transformedData = gameStats(data);
 
   return { data: transformedData, error: null };
+}
+
+export async function getNumberOfGames(seasonId?: number, playerId?: number) {
+  const supabase = createClient(cookies());
+
+  let query = supabase
+    .from("games")
+    .select(
+      `
+    id,
+    game_players!inner (
+      *,
+      players (*)
+    )
+  `,
+      { count: "exact" },
+    )
+    .order("created_at", { ascending: false });
+
+  if (seasonId) {
+    query = query.eq("season_id", seasonId);
+  }
+
+  if (playerId) {
+    query = query.eq("game_players.player_id", playerId);
+  }
+
+  try {
+    const { data, error, count } = await query;
+
+    if (error) throw error;
+
+    return { data: count, error: null };
+  } catch (error) {
+    console.error("Error fetching game count:", error);
+    return { data: null, error };
+  }
 }
