@@ -70,6 +70,7 @@ export default function GameForm({ players, seasons }: GameFormProps) {
       title: "Game created successfully",
       description: `Game with ID ${game!.id} was created.`,
     });
+    form.reset();
   }
 
   return (

@@ -21,7 +21,6 @@ export default function RealtimeGames() {
           table: "games",
         },
         (payload) => {
-          console.log("realtime_games", payload);
           if (!payload.errors) {
             router.refresh();
           }
