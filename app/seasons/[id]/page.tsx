@@ -20,16 +20,18 @@ export default async function SeasonPage({ params }: SeasonProps) {
   return (
     <>
       <PageHeader>
-        <PageTitle>
-          <SeasonName date={season!.start_date} />
-        </PageTitle>
-        <div className="mt-2 flex items-center gap-4">
-          <SeasonDateRange
-            className="text-lg"
-            startDate={season!.start_date}
-            endDate={season!.end_date}
-          />
-          <SeasonBadge date={season!.end_date} />
+        <div>
+          <PageTitle>
+            <SeasonName date={season!.start_date} />
+          </PageTitle>
+          <div className="mt-2 flex items-center gap-4">
+            <SeasonDateRange
+              className="text-lg"
+              startDate={season!.start_date}
+              endDate={season!.end_date}
+            />
+            <SeasonBadge date={season!.end_date} />
+          </div>
         </div>
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">

@@ -15,11 +15,11 @@ export default async function Seasons() {
         <CardTitle>Seasons</CardTitle>
       </CardHeader>
       <CardContent>
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-6">
           {data?.map((season) => (
             <li
               key={season.id}
-              className="border-b pb-3 last-of-type:border-0 last-of-type:pb-0 dark:border-gray-700"
+              className="border-b pb-4 last-of-type:border-0 last-of-type:pb-0 dark:border-gray-700"
             >
               <Link
                 className="block w-fit dark:hover:text-blue-400"

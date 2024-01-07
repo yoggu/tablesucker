@@ -14,7 +14,7 @@ export default function GamesList({ games }: GameListProps) {
       {games?.map((game) => (
         <li
           key={game.id}
-          className="grid grid-cols-[minmax(80px,1fr)_minmax(0,100px)_minmax(80px,1fr)] gap-4 border-b pb-4 last:border-0 last:pb-0 md:gap-8 xl:gap-12 dark:border-slate-700"
+          className="grid grid-cols-[minmax(80px,1fr)_minmax(0,100px)_minmax(80px,1fr)] gap-2 sm:gap-4 border-b pb-4 last:border-0 last:pb-0 md:gap-8 xl:gap-12 dark:border-slate-700"
         >
           <div className="flex flex-col gap-3">
             <div className="flex justify-end ">

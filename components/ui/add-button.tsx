@@ -11,7 +11,7 @@ export interface AddButtonProps
 const AddButton = React.forwardRef<HTMLButtonElement, AddButtonProps>(
   ({ title, ...props }, ref) => {
     return (
-      <Button ref={ref} className="flex gap-1 rounded-full px-2 sm:rounded-md" {...props}>
+      <Button ref={ref} className="flex gap-1 rounded-full px-2 sm:px-4 sm:rounded-md" {...props}>
         <Plus />
         <span className="hidden sm:inline">{title}</span>
       </Button>

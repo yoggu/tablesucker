@@ -11,7 +11,7 @@ import { ModeToggle } from "./mode-toggle";
 export default function Menu() {
   return (
     <nav className="relative z-10 h-full min-h-screen border-r px-2 py-8 @container dark:border-slate-700 dark:bg-slate-950">
-      <menu className="flex h-full flex-col gap-2">
+      <menu className="flex h-full max-h-[calc(100vh-64px)] flex-col gap-2">
         <li>
           <MenuLink href="/">
             <TooltipProvider>
