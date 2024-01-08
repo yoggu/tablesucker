@@ -37,7 +37,7 @@ function GameListItemSkeleton() {
       </div>
       <div className="flex flex-col items-center justify-end">
         <span className="text-4xl lg:text-5xl flex gap-1">
-          <Skeleton className="h-16 w-10" />:<Skeleton className="h-16 w-10" />
+          <Skeleton className="h-14 w-8" />:<Skeleton className="h-14 w-18" />
         </span>
       </div>
       <div className="flex flex-col gap-3">

@@ -24,9 +24,9 @@ export default async function SeasonPage({ params }: SeasonProps) {
           <PageTitle>
             <SeasonName date={season!.start_date} />
           </PageTitle>
-          <div className="mt-2 flex items-center gap-4">
+          <div className="mt-1 flex items-center gap-3">
             <SeasonDateRange
-              className="text-lg"
+              className="dark:text-slate-400 text-base"
               startDate={season!.start_date}
               endDate={season!.end_date}
             />

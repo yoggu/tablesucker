@@ -23,14 +23,19 @@ export default async function Live() {
   return (
     <>
       <PageHeader>
-        <PageTitle>
-          <Link
-            href={`/seasons/${latestActiveSeason.id}`}
-            className="hover:text-blue-600 dark:hover:text-blue-400"
-          >
-            <SeasonName date={latestActiveSeason.start_date} />
-          </Link>
-        </PageTitle>
+        <div>
+          <PageTitle>
+            Current Season
+          </PageTitle>
+          <div className="mt-1">
+            <Link
+              href={`/seasons/${latestActiveSeason.id}`}
+              className="hover:text-blue-600 dark:hover:text-blue-400 dark:text-slate-400"
+            >
+              <SeasonName date={latestActiveSeason.start_date} />
+            </Link>
+            </div>
+        </div>
         <DialogGameForm seasons={seasons!} players={players!} />
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
