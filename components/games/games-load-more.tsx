@@ -1,5 +1,5 @@
 "use client";
-import { GameStats, Player, Season, TEAM } from "@/types/types";
+import { GameDetails, Player, Season } from "@/types/types";
 import { useState, useTransition } from "react";
 import { fetchGames } from "@/actions/game";
 import { Button } from "../ui/button";
@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import GamesList from "./games-list";
 
 type GamesLoadMoreProps = {
-  initialGames: GameStats[];
+  initialGames: GameDetails[];
   season?: Season;
   player?: Player;
   initialOffset?: number;
@@ -22,9 +22,11 @@ export default function GamesLoadMore({
   limit,
 }: GamesLoadMoreProps) {
   const [isPending, startTransition] = useTransition();
-  const [games, setGames] = useState<GameStats[]>(initialGames);
+  const [games, setGames] = useState<GameDetails[]>(initialGames);
   const [offset, setOffset] = useState<number>(initialOffset);
-  const [showLoadMore, setShowLoadMore] = useState<boolean>(initialGames.length === limit);
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(
+    initialGames.length === limit,
+  );
 
   async function loadMoreGames() {
     const newOffset = offset + limit;
@@ -37,7 +39,7 @@ export default function GamesLoadMore({
     if (gamesError) throw gamesError;
     if (games?.length) {
       setOffset(newOffset);
-      setGames((prevGames: GameStats[]) => [...prevGames, ...games]);
+      setGames((prevGames: GameDetails[]) => [...prevGames, ...games]);
       if (games.length < limit) {
         setShowLoadMore(false);
       }

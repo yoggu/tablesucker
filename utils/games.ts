@@ -1,50 +1,14 @@
-import {
-  GameWithGamePlayer,
-  GameStats,
-  TEAM,
-  PlayerStats,
-} from "@/types/types";
+import { TEAM, PlayerStats, GameDetails } from "@/types/types";
 
-export function gameStats(gamesData: GameWithGamePlayer[]): GameStats[] {
-  const gameStatsArray = gamesData.map((game) => {
-    const teamRedPlayers = game.game_players
-      .filter((gamePlayer) => gamePlayer.team === TEAM.Red)
-      .map((gamePlayer) => gamePlayer.players);
-
-    const teamBluePlayers = game.game_players
-      .filter((gamePlayer) => gamePlayer.team === TEAM.Blue)
-      .map((gamePlayer) => gamePlayer.players);
-
-    return {
-      id: game.id,
-      createdAt: game.created_at,
-      seasonId: game.season_id,
-      winner: game.team_red_score > game.team_blue_score ? TEAM.Red : TEAM.Blue,
-      teamRed: {
-        score: game.team_red_score,
-        players: teamRedPlayers,
-      },
-      teamBlue: {
-        score: game.team_blue_score,
-        players: teamBluePlayers,
-      },
-    };
-  });
-
-  return gameStatsArray.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  );
-}
-
-export function calculatePlayerStats(games: GameStats[]) {
+export function calculatePlayerStats(games: GameDetails[]) {
   const playerStats: Record<number, PlayerStats> = {};
 
   games.forEach((game) => {
     const winner = game.winner;
-    const teamRedScore = game.teamRed.score;
-    const teamBlueScore = game.teamBlue.score;
+    const teamRedScore = game.team_red.score;
+    const teamBlueScore = game.team_blue.score;
 
-    game.teamRed.players.forEach((player) => {
+    game.team_red.players.forEach((player) => {
       if (!playerStats[player.id]) {
         playerStats[player.id] = {
           player,
@@ -65,7 +29,7 @@ export function calculatePlayerStats(games: GameStats[]) {
       playerStats[player.id].goalsAgainst += teamBlueScore;
     });
 
-    game.teamBlue.players.forEach((player) => {
+    game.team_blue.players.forEach((player) => {
       if (!playerStats[player.id]) {
         playerStats[player.id] = {
           player,

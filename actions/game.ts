@@ -4,8 +4,7 @@ import { GameFormSchema } from "@/utils/schema";
 import { createClient } from "../utils/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { Game, GamePlayer, GameWithGamePlayer, TEAM } from "@/types/types";
-import { gameStats } from "@/utils/games";
+import { Game, GameDetails, GamePlayer, TEAM } from "@/types/types";
 
 type GameFormInputs = z.infer<typeof GameFormSchema>;
 type InsertGame = Omit<Game, "id" | "created_at">;
@@ -66,82 +65,57 @@ export async function fetchGames(
   limit?: number,
 ) {
   const supabase = createClient(cookies());
-  let query = supabase
-    .from("games")
-    .select(
-      `
-    *,
-    game_players!inner (
-      *,
-      players (*)
-    )
-  `,
-    )
-    .order("created_at", { ascending: false });
 
-  if (playerId) {
-    const { data: gameIdsData, error: gameIdsError } = await supabase
-      .from("game_players")
-      .select("game_id")
-      .eq("player_id", playerId);
-    if (gameIdsError || !gameIdsData) {
-      console.error("Error fetching game IDs:", gameIdsError);
-      return { data: null, error: gameIdsError };
-    }
-    const gameIds = gameIdsData.map(({ game_id }) => game_id);
-    query = query.in("id", gameIds);
-  }
+  let query = supabase
+    .from("game_details")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (seasonId) {
     query = query.eq("season_id", seasonId);
+  }
+
+  if (playerId) {
+    query = query.contains("player_ids", [playerId]);
   }
 
   if (limit) {
     query = query.range(offset, offset + limit - 1);
   }
 
-  const { data, error } = await query.returns<GameWithGamePlayer[]>();
+  try {
+    const { data, error } = await query.returns<GameDetails[]>();
 
-  if (error) return { data: null, error };
+    if (error) return { data: null, error };
 
-  const transformedData = gameStats(data);
-
-  return { data: transformedData, error: null };
+    return { data, error: null };
+  } catch (error) {
+    console.error("Error fetching games:", error);
+    return { data: null, error: error as Error };
+  }
 }
 
-export async function getNumberOfGames(seasonId?: number, playerId?: number) {
+export async function getGamesCount(seasonId?: number, playerId?: number) {
   const supabase = createClient(cookies());
 
-  let query = supabase
-    .from("games")
-    .select(
-      `
-    id,
-    game_players!inner (
-      *,
-      players (*)
-    )
-  `,
-      { count: "exact" },
-    )
-    .order("created_at", { ascending: false });
+  let query = supabase.from("game_details").select("*", { count: "exact" });
 
   if (seasonId) {
     query = query.eq("season_id", seasonId);
   }
 
   if (playerId) {
-    query = query.eq("game_players.player_id", playerId);
+    query = query.contains("player_ids", [playerId]);
   }
 
   try {
-    const { data, error, count } = await query;
+    const { count, error } = await query;
 
     if (error) throw error;
 
     return { data: count, error: null };
   } catch (error) {
     console.error("Error fetching game count:", error);
-    return { data: null, error };
+    return { data: null, error: error as Error };
   }
 }

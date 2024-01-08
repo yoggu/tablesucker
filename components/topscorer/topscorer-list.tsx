@@ -1,13 +1,11 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GameStats, Season } from "@/types/types";
-import Link from "next/link";
+import { GameDetails } from "@/types/types";
 import { calculatePlayerStats } from "@/utils/games";
 import RankingList from "@/components/ranking/ranking-list";
 import RankingListItem from "@/components/ranking/ranking-list-item";
 import PlayerAvatar from "@/components/ui/player-avatar";
 
 type TopscorerListProps = {
-  games: GameStats[];
+  games: GameDetails[];
 };
 
 export default function TopscorerList({ games }: TopscorerListProps) {
@@ -19,7 +17,12 @@ export default function TopscorerList({ games }: TopscorerListProps) {
       {topScorers.map(({ goalsFor, player }, index) => (
         <RankingListItem key={player.id}>
           <div className="col-span-4">
-            <PlayerAvatar player={player} showName showCrown={index === 0} link />
+            <PlayerAvatar
+              player={player}
+              showName
+              showCrown={index === 0}
+              link
+            />
           </div>
           <span className="col-span-2 text-center">{goalsFor}</span>
         </RankingListItem>

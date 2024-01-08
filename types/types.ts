@@ -8,17 +8,25 @@ export type Player = Tables<"players">;
 
 export type Season = Tables<"seasons">;
 
-export interface GamePlayersWithPlayer extends GamePlayer {
-  players: Player;
-}
-
-export interface GameWithGamePlayer extends Game {
-  game_players: GamePlayersWithPlayer[];
+export interface GameDetails extends Tables<"game_details"> {
+  id: number;
+  created_at: string;
+  player_ids: number[];
+  season_id: number;
+  winner: TEAM;
+  team_red: {
+    score: number;
+    players: Player[];
+  };
+  team_blue: {
+    score: number;
+    players: Player[];
+  };
 }
 
 export enum TEAM {
-  Red = 'team_red',
-  Blue = 'team_blue'
+  Red = "team_red",
+  Blue = "team_blue",
 }
 
 export interface GameStats {

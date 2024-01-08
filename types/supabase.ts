@@ -33,6 +33,13 @@ export interface Database {
             foreignKeyName: "game_players_game_id_fkey"
             columns: ["game_id"]
             isOneToOne: false
+            referencedRelation: "game_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_players_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
             referencedRelation: "games"
             referencedColumns: ["id"]
           },
@@ -121,7 +128,44 @@ export interface Database {
       }
     }
     Views: {
-      [_ in never]: never
+      game_details: {
+        Row: {
+          created_at: string | null
+          id: number | null
+          player_ids: number[] | null
+          season_id: number | null
+          team_blue: Json | null
+          team_red: Json | null
+          winner: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number | null
+          player_ids?: never
+          season_id?: number | null
+          team_blue?: never
+          team_red?: never
+          winner?: never
+        }
+        Update: {
+          created_at?: string | null
+          id?: number | null
+          player_ids?: never
+          season_id?: number | null
+          team_blue?: never
+          team_red?: never
+          winner?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "games_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "seasons"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Functions: {
       [_ in never]: never

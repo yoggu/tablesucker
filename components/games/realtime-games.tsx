@@ -1,7 +1,5 @@
 "use client";
-import { GameStats, Player, Season, TEAM } from "@/types/types";
-import { useEffect, useState } from "react";
-import { fetchGames } from "@/actions/game";
+import { useEffect } from "react";
 
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";

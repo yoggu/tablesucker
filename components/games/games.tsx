@@ -8,9 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import NumberOfGamesPlayed from "./number-of-games-played";
+import GamesCount from "./games-count";
 import { Suspense } from "react";
-import { Skeleton } from "../ui/skeleton";
 import { Loader2 } from "lucide-react";
 
 type GamesProps = {
@@ -46,7 +45,7 @@ export default async function Games({
               </span>
             }
           >
-            <NumberOfGamesPlayed season={season} player={player} />
+            <GamesCount season={season} player={player} />
           </Suspense>
         </CardDescription>
       </CardHeader>

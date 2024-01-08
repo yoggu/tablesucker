@@ -15,9 +15,9 @@ export default async function PlayerGoalsScored({
 }: PlayerGoalsScoredProps) {
   const { data: games, error: gamesError } = await fetchGames(season.id);
   if (gamesError) throw gamesError;
-  const gameStats = calculatePlayerStats(games!);
+  const playerStats = calculatePlayerStats(games!);
   const playerWinRate =
-    gameStats?.find((stat) => stat.player.id === player.id)?.goalsFor ?? 0;
+    playerStats?.find((stat) => stat.player.id === player.id)?.goalsFor ?? 0;
 
   return (
     <Card>
