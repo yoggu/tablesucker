@@ -32,7 +32,7 @@ export default function DialogGameForm({ seasons, players }: DialogGameFormProps
       <DialogTrigger asChild>
         <AddButton title="Add Game" />
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl max-h-full overflow-auto">
         <DialogHeader>
           <DialogTitle>Add Game</DialogTitle>
         </DialogHeader>
