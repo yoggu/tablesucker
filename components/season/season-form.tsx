@@ -103,7 +103,7 @@ export default function SeasonForm({ onClose }: { onClose?: () => void }) {
             <FormItem>
               <FormLabel>Start Date</FormLabel>
               <div>
-                <Popover>
+                <Popover modal={true}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
@@ -148,7 +148,7 @@ export default function SeasonForm({ onClose }: { onClose?: () => void }) {
             <FormItem>
               <FormLabel>End Date</FormLabel>
               <div>
-                <Popover>
+                <Popover modal={true}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button

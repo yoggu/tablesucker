@@ -14,7 +14,7 @@ const PopoverContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
 >(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
   // This is causing a bug where the popover is not working inside dialog https://github.com/shadcn-ui/ui/issues/332
-  //<PopoverPrimitive.Portal>
+  <PopoverPrimitive.Portal>
     <PopoverPrimitive.Content
       ref={ref}
       align={align}
@@ -25,7 +25,7 @@ const PopoverContent = React.forwardRef<
       )}
       {...props}
     />
-  //</PopoverPrimitive.Portal>
+  </PopoverPrimitive.Portal>
 ))
 PopoverContent.displayName = PopoverPrimitive.Content.displayName
 

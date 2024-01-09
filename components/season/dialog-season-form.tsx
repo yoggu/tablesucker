@@ -10,7 +10,6 @@ import {
 import AddButton from "../ui/add-button";
 import SeasonForm from "./season-form";
 
-
 export default function DialogSeasonFrom() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -23,7 +22,7 @@ export default function DialogSeasonFrom() {
       <DialogTrigger asChild>
         <AddButton title="Add Season" />
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-h-screen max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add Season</DialogTitle>
         </DialogHeader>

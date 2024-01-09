@@ -35,7 +35,7 @@ export default function PlayerFormSmall({
     setName("");
   };
   return (
-    <Popover>
+    <Popover modal={true}>
       <PopoverTrigger asChild>
         <Button
           type="button"

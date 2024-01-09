@@ -7,11 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Plus } from "lucide-react";
-import players from "../players/players";
-import seasons from "../seasons/seasons";
 import GameForm from "./game-form";
-import { Button } from "../ui/button";
 import { Player, Season } from "@/types/types";
 import AddButton from "../ui/add-button";
 
@@ -20,7 +16,10 @@ type DialogGameFormProps = {
   players: Player[];
 };
 
-export default function DialogGameForm({ seasons, players }: DialogGameFormProps) {
+export default function DialogGameForm({
+  seasons,
+  players,
+}: DialogGameFormProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const closeDialog = () => {
@@ -32,7 +31,7 @@ export default function DialogGameForm({ seasons, players }: DialogGameFormProps
       <DialogTrigger asChild>
         <AddButton title="Add Game" />
       </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-full overflow-auto">
+      <DialogContent className="max-h-screen max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add Game</DialogTitle>
         </DialogHeader>
