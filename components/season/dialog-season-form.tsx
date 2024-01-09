@@ -22,7 +22,7 @@ export default function DialogSeasonFrom() {
       <DialogTrigger asChild>
         <AddButton title="Add Season" />
       </DialogTrigger>
-      <DialogContent className="max-h-screen max-w-2xl overflow-y-auto">
+      <DialogContent className="max-h-dvh max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add Season</DialogTitle>
         </DialogHeader>

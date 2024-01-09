@@ -22,7 +22,7 @@ export default function DialogGameForm() {
       <DialogTrigger asChild>
         <AddButton title="Add Player" />
       </DialogTrigger>
-      <DialogContent className="max-h-full max-w-2xl overflow-y-auto">
+      <DialogContent className="max-h-dvh max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add Player</DialogTitle>
         </DialogHeader>
