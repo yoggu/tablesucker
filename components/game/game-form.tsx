@@ -28,6 +28,7 @@ import SeasonTitle from "../season/season-title";
 import { AvatarCheckbox } from "../ui/avatar-checkbox";
 import { useState } from "react";
 import PlayerFormSmall from "../player/player-form-small";
+import { NumberInput } from "../ui/number-input";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
@@ -80,13 +81,19 @@ export default function GameForm({ players, seasons, onClose }: GameFormProps) {
 
   const updateTeamRedPlayers = (player: Player) => {
     setTeamRedPlayers([...teamRedPlayers, player]);
-    form.setValue("team_red.players", [...form.getValues("team_red.players"), player.id]);
-  }
+    form.setValue("team_red.players", [
+      ...form.getValues("team_red.players"),
+      player.id,
+    ]);
+  };
 
   const updateTeamBluePlayers = (player: Player) => {
     setTeamBluePlayers([...teamBluePlayers, player]);
-    form.setValue("team_blue.players", [...form.getValues("team_blue.players"), player.id]);
-  }
+    form.setValue("team_blue.players", [
+      ...form.getValues("team_blue.players"),
+      player.id,
+    ]);
+  };
 
   return (
     <Form {...form}>
@@ -189,7 +196,7 @@ export default function GameForm({ players, seasons, onClose }: GameFormProps) {
               render={({ field }) => (
                 <FormItem className="mt-2">
                   <FormControl>
-                    <Input type="number" placeholder="score" {...field} />
+                    <NumberInput placeholder="score" field={field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -269,7 +276,7 @@ export default function GameForm({ players, seasons, onClose }: GameFormProps) {
               render={({ field }) => (
                 <FormItem className="mt-2">
                   <FormControl>
-                    <Input type="number" placeholder="score" {...field} />
+                    <NumberInput placeholder="score" field={field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
