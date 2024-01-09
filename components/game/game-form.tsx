@@ -27,7 +27,7 @@ import {
 import SeasonTitle from "../season/season-title";
 import { AvatarCheckbox } from "../ui/avatar-checkbox";
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import PlayerFormSmall from "../player/player-form-small";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
@@ -76,6 +76,16 @@ export default function GameForm({ players, seasons, onClose }: GameFormProps) {
     if (onClose) {
       onClose();
     }
+  }
+
+  const updateTeamRedPlayers = (player: Player) => {
+    setTeamRedPlayers([...teamRedPlayers, player]);
+    form.setValue("team_red.players", [...form.getValues("team_red.players"), player.id]);
+  }
+
+  const updateTeamBluePlayers = (player: Player) => {
+    setTeamBluePlayers([...teamBluePlayers, player]);
+    form.setValue("team_blue.players", [...form.getValues("team_blue.players"), player.id]);
   }
 
   return (
@@ -167,9 +177,7 @@ export default function GameForm({ players, seasons, onClose }: GameFormProps) {
                         }}
                       />
                     ))}
-                    <Button type="button" variant={"outline"} className="px-2 rounded-full dark:border-white">
-                      <Plus />
-                    </Button>
+                    <PlayerFormSmall updatePlayers={updateTeamRedPlayers} />
                   </div>
                   <FormMessage />
                 </FormItem>
@@ -249,6 +257,7 @@ export default function GameForm({ players, seasons, onClose }: GameFormProps) {
                         }}
                       />
                     ))}
+                    <PlayerFormSmall updatePlayers={updateTeamBluePlayers} />
                   </div>
                   <FormMessage />
                 </FormItem>

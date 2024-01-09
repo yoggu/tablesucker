@@ -10,14 +10,20 @@ import Topscorer from "@/components/topscorer/topscorer";
 import PageTitle from "@/components/ui/page-title";
 import WinRate from "@/components/win-rate/win-rate";
 import { getPlayers } from "@/utils/players";
+import { unstable_cache } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
+
+const getCachedPlayes = unstable_cache(() => getPlayers(), ["players"], {
+  revalidate: 60,
+  tags: ["players"],
+});
 
 export default async function Live() {
   const { data: seasons, error: seasonsError } = await getSeasons(true);
   if (seasonsError) throw seasonsError;
   const latestActiveSeason = seasons![0];
-  const { data: players, error: playersError } = await getPlayers();
+  const { data: players, error: playersError } = await getCachedPlayes();
   if (playersError) throw playersError;
 
   return (

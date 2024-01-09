@@ -4,7 +4,7 @@ import { PlayerFormSchema } from "@/utils/schema";
 import { createClient } from "../utils/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { UppyFile } from "@uppy/core";
 
 type PlayerFormInputs = z.infer<typeof PlayerFormSchema>;
@@ -21,7 +21,7 @@ export async function createPlayer(inputData: PlayerFormInputs) {
       .select()
       .single();
     if (error) return { data: null, error };
-    revalidatePath("/players");
+    revalidateTag("players");
     return { data, error };
   } catch (error) {
     return { data: null, error };
