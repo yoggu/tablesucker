@@ -1,5 +1,5 @@
 import { Player, Season, TEAM } from "@/types/types";
-import { fetchGames } from "@/actions/game";
+import { fetchGames, getGamesCount } from "@/actions/game";
 import GamesLoadMore from "./games-load-more";
 import {
   Card,
@@ -33,26 +33,25 @@ export default async function Games({
   );
   if (gamesError) throw gamesError;
 
+  const { data: count, error: countError } = await getGamesCount(
+    season?.id,
+    player?.id,
+  );
+  if (countError) throw countError;
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Games</CardTitle>
         <CardDescription>
-          <Suspense
-            fallback={
-              <span className="flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin" /> Loading
-              </span>
-            }
-          >
-            <GamesCount season={season} player={player} />
-          </Suspense>
+          <GamesCount count={count!} />
         </CardDescription>
       </CardHeader>
       <CardContent>
         <GamesLoadMore
           key={games[0]?.id}
           initialGames={games ?? []}
+          gamesCount={count!}
           season={season!}
           player={player!}
           limit={limit ?? 10}

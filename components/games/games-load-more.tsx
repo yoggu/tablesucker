@@ -1,6 +1,6 @@
 "use client";
 import { GameDetails, Player, Season } from "@/types/types";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { fetchGames } from "@/actions/game";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
@@ -8,6 +8,7 @@ import GamesList from "./games-list";
 
 type GamesLoadMoreProps = {
   initialGames: GameDetails[];
+  gamesCount: number;
   season?: Season;
   player?: Player;
   initialOffset?: number;
@@ -16,6 +17,7 @@ type GamesLoadMoreProps = {
 
 export default function GamesLoadMore({
   initialGames,
+  gamesCount,
   season,
   player,
   initialOffset = 0,
@@ -24,28 +26,23 @@ export default function GamesLoadMore({
   const [isPending, startTransition] = useTransition();
   const [games, setGames] = useState<GameDetails[]>(initialGames);
   const [offset, setOffset] = useState<number>(initialOffset);
-  const [showLoadMore, setShowLoadMore] = useState<boolean>(
-    initialGames.length === limit,
-  );
+  const [showLoadMore, setShowLoadMore] = useState<boolean>(false);
+
+  useEffect(() => {
+    setShowLoadMore(games.length < gamesCount);
+  }, [games]);
 
   async function loadMoreGames() {
     const newOffset = offset + limit;
-    const { data: games, error: gamesError } = await fetchGames(
+    const { data: moreGames, error: gamesError } = await fetchGames(
       season?.id,
       player?.id,
       newOffset,
       limit,
     );
     if (gamesError) throw gamesError;
-    if (games?.length) {
-      setOffset(newOffset);
-      setGames((prevGames: GameDetails[]) => [...prevGames, ...games]);
-      if (games.length < limit) {
-        setShowLoadMore(false);
-      }
-    } else {
-      setShowLoadMore(false);
-    }
+    setOffset(newOffset);
+    setGames((prevGames: GameDetails[]) => [...prevGames, ...moreGames]);
   }
 
   return (
