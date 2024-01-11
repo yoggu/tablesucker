@@ -40,7 +40,7 @@ export default async function Games({
     <Card>
       <CardHeader>
         <CardTitle>Games</CardTitle>
-        <CardDescription>{count} Games Played</CardDescription>
+        <CardDescription>{count} {count === 1 ? "Game" : "Games"} Played</CardDescription>
       </CardHeader>
       <CardContent>
         <GamesLoadMore
