@@ -1,6 +1,12 @@
 import { getPlayers } from "@/utils/players";
 import PlayerAvatar from "@/components/ui/player-avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 import { unstable_cache } from "next/cache";
 
 const getCachedPlayes = unstable_cache(() => getPlayers(), ["players"], {
@@ -9,13 +15,14 @@ const getCachedPlayes = unstable_cache(() => getPlayers(), ["players"], {
 });
 
 export default async function Players() {
-  const { data, error } = await getCachedPlayes();
+  const { data, error, count } = await getCachedPlayes();
   if (error) throw error;
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Players</CardTitle>
+        {count && <CardDescription>{count} Players</CardDescription>}
       </CardHeader>
       <CardContent>
         <ul className="grid w-fit grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 xl:grid-cols-4">

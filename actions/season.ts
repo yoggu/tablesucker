@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { Season } from "@/types/types";
+import { count } from "console";
 
 type SeasonFormInputs = z.infer<typeof SeasonFormSchema>;
 type InsertSeason = Omit<Season, "id" | "created_at">;
@@ -40,7 +41,7 @@ export async function createSeason(inputData: SeasonFormInputs) {
 
 export async function getSeasons( activeOnly: boolean = false) {
   const supabase = createClient(cookies());
-  const query = supabase.from("seasons").select("*");
+  const query = supabase.from("seasons").select("*", { count: "exact" });
 
   if (activeOnly) {
     const today = new Date().toISOString();
@@ -48,8 +49,8 @@ export async function getSeasons( activeOnly: boolean = false) {
   }
 
   query.order("start_date", { ascending: false });
-  const { data, error } = await query;
-  return { data, error };
+  const { data, error, count } = await query;
+  return { data, error, count };
 }
 
 export async function getSeasonById(id: number) {

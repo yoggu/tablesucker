@@ -3,11 +3,11 @@ import { createClient } from "./supabase/server";
 
 export async function getPlayers() {
   const supabase = createClient(cookies());
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from("players")
-    .select("*")
+    .select("*", { count: "exact" })
     .order("name", { ascending: true });
-  return { data, error };
+  return { data, error, count };
 }
 
 export async function getPlayerById(id: number) {

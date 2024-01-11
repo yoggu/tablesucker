@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import GamesCount from "./games-count";
 
 type GamesProps = {
   season?: Season;
@@ -41,9 +40,7 @@ export default async function Games({
     <Card>
       <CardHeader>
         <CardTitle>Games</CardTitle>
-        <CardDescription>
-          <GamesCount count={count!} />
-        </CardDescription>
+        {count && <CardDescription>{count} Games Played</CardDescription>}
       </CardHeader>
       <CardContent>
         <GamesLoadMore

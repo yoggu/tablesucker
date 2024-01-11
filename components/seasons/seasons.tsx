@@ -2,17 +2,18 @@ import Link from "next/link";
 import SeasonName from "../season/season-title";
 import SeasonBadge from "../season/season-badge";
 import SeasonDateRange from "../season/season-date-range";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "../ui/card";
 import { getSeasons } from "@/actions/season";
 
 export default async function Seasons() {
-  const { data, error } = await getSeasons();
+  const { data, error, count } = await getSeasons();
 
   if (error) throw error;
   return (
     <Card>
       <CardHeader>
         <CardTitle>Seasons</CardTitle>
+        {count && <CardDescription>{count} Seasons</CardDescription>}
       </CardHeader>
       <CardContent>
         <ul className="flex flex-col gap-6">
