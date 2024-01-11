@@ -60,7 +60,7 @@ export default async function PlayerPage({
                 <SeasonName date={season.created_at} />
               </CardTitle>
               <CardDescription>
-                Select a season to view games and standings.
+                {`Select a season to view games and standings for ${player?.name}`}
               </CardDescription>
             </CardHeader>
             <CardContent>
