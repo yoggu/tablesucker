@@ -168,7 +168,18 @@ export interface Database {
       }
     }
     Functions: {
-      [_ in never]: never
+      create_game: {
+        Args: {
+          season_id: number
+          team_red_score: number
+          team_blue_score: number
+          team_red_players: number[]
+          team_blue_players: number[]
+        }
+        Returns: {
+          game_id: number
+        }[]
+      }
     }
     Enums: {
       team: "team_red" | "team_blue"

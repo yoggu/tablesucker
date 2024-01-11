@@ -58,7 +58,7 @@ export default function GameForm({ players, seasons, onClose }: GameFormProps) {
   });
 
   async function onSubmit(data: Inputs) {
-    const { data: game, error } = await createGame(data);
+    const { data: createdGame, error } = await createGame(data);
     if (error) {
       toast({
         variant: "destructive",
@@ -71,7 +71,7 @@ export default function GameForm({ players, seasons, onClose }: GameFormProps) {
 
     toast({
       title: "Game created successfully",
-      description: `Game with ID ${game!.id} was created.`,
+      description: `Game with ID ${createdGame?.game_id} was created.`,
     });
     form.reset();
     if (onClose) {
