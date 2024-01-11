@@ -20,7 +20,7 @@ export async function createSeason(inputData: SeasonFormInputs) {
 
   const seasonsRows: InsertSeason[] = [
     {
-      start_date: parsed.data.start_date.toISOString(), // Convert Date to string
+      start_date: parsed.data.start_date.toISOString(),
       end_date: parsed.data.end_date?.toISOString() ?? null,
     },
   ];

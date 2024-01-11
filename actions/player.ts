@@ -5,7 +5,6 @@ import { createClient } from "../utils/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { UppyFile } from "@uppy/core";
 
 type PlayerFormInputs = z.infer<typeof PlayerFormSchema>;
 
