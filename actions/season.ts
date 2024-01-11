@@ -16,8 +16,6 @@ export async function createSeason(inputData: SeasonFormInputs) {
   const parsed = SeasonFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
 
-  console.log(inputData);
-
   const seasonsRows: InsertSeason[] = [
     {
       start_date: parsed.data.start_date.toISOString(),
@@ -39,7 +37,7 @@ export async function createSeason(inputData: SeasonFormInputs) {
   }
 }
 
-export async function getSeasons( activeOnly: boolean = false) {
+export async function getSeasons(activeOnly: boolean = false) {
   const supabase = createClient(cookies());
   const query = supabase.from("seasons").select("*", { count: "exact" });
 

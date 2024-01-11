@@ -4,7 +4,7 @@ import { PlayerFormSchema } from "@/utils/schema";
 import { createClient } from "../utils/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 type PlayerFormInputs = z.infer<typeof PlayerFormSchema>;
 
@@ -36,9 +36,8 @@ export async function uploadPlayerImage(formData: FormData) {
   }
   const uniqueFilename = generateUniqueFilename(file.name);
 
-  const { data: uploadedFile , error: uploadedFileError } = await supabase.storage
-    .from("players")
-    .upload(uniqueFilename, file);
+  const { data: uploadedFile, error: uploadedFileError } =
+    await supabase.storage.from("players").upload(uniqueFilename, file);
 
   if (uploadedFileError) return { data: null, uploadedFileError };
 
