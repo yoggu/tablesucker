@@ -22,7 +22,7 @@ export default async function Players() {
     <Card>
       <CardHeader>
         <CardTitle>Players</CardTitle>
-        {count && <CardDescription>{count} Players</CardDescription>}
+        <CardDescription>{count} Players</CardDescription>
       </CardHeader>
       <CardContent>
         <ul className="grid w-fit grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 xl:grid-cols-4">

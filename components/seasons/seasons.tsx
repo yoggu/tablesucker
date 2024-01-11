@@ -13,7 +13,7 @@ export default async function Seasons() {
     <Card>
       <CardHeader>
         <CardTitle>Seasons</CardTitle>
-        {count && <CardDescription>{count} Seasons</CardDescription>}
+        <CardDescription>{count} Seasons</CardDescription>
       </CardHeader>
       <CardContent>
         <ul className="flex flex-col gap-6">
