@@ -1,8 +1,14 @@
 import { Skeleton } from "./skeleton";
 
-
-export default function PlayerAvatarSkeleton() {
+export default function PlayerAvatarSkeleton({
+  showName = false,
+}: {
+  showName?: boolean;
+}) {
   return (
-    <Skeleton className="rounded-full w-10 h-10" />
-  )
+    <div className="flex gap-3 items-center">
+      <Skeleton className="h-10 w-10 rounded-full" />
+      {showName && <Skeleton className="h-4 w-12" />}
+    </div>
+  );
 }

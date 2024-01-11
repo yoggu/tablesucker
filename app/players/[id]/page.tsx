@@ -16,6 +16,9 @@ import {
 import SeasonName from "@/components/season/season-title";
 import PlayerWinRate from "@/components/player/player-win-rate";
 import PlayerGoalsScored from "@/components/player/player-goals-scored";
+import GamesSkeleton from "@/components/games/games-skeleton";
+import { Suspense } from "react";
+import CardSpinnerSkeleton from "@/components/ui/card-spinner-skeleton";
 
 type PlayerProps = {
   params: {
@@ -33,10 +36,10 @@ export default async function PlayerPage({
   const seasonId = searchParams?.season;
   const { data: seasons, error: seasonsError } = await getSeasons();
   if (seasonsError) throw seasonsError;
-  const season =
-    seasons!.find((s) => s.id === parseInt(seasonId)) ?? seasons![0];
   const { data: player, error: playerError } = await getPlayerById(params.id);
   if (playerError) throw playerError;
+  const season =
+    seasons!.find((s) => s.id === parseInt(seasonId)) ?? seasons![0];
 
   return (
     <>
@@ -66,12 +69,20 @@ export default async function PlayerPage({
           </Card>
         </div>
         <div className="order-2 col-span-full grid gap-6 md:order-none md:col-span-5">
-          <Games season={season} player={player!} limit={5} />
-          <Standings season={season} />
+          <Suspense fallback={<GamesSkeleton />}>
+            <Games season={season} player={player!} limit={5} />
+          </Suspense>
+          <Suspense fallback={<CardSpinnerSkeleton title="Standings" />}>
+            <Standings season={season} />
+          </Suspense>
         </div>
         <div className="order-1 col-span-full flex flex-col gap-6 md:order-none md:col-span-1">
-          <PlayerWinRate player={player!} season={season} />
-          <PlayerGoalsScored player={player!} season={season} />
+          <Suspense fallback={<CardSpinnerSkeleton title="Win Rate" />}>
+            <PlayerWinRate player={player!} season={season} />
+          </Suspense>
+          <Suspense fallback={<CardSpinnerSkeleton title="Goals Scored" />}>
+            <PlayerGoalsScored player={player!} season={season} />
+          </Suspense>
         </div>
       </div>
     </>

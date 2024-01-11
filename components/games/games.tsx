@@ -1,4 +1,4 @@
-import { Player, Season, TEAM } from "@/types/types";
+import { Player, Season } from "@/types/types";
 import { fetchGames, getGamesCount } from "@/actions/game";
 import GamesLoadMore from "./games-load-more";
 import {
@@ -9,8 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import GamesCount from "./games-count";
-import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
 
 type GamesProps = {
   season?: Season;
