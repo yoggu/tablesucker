@@ -11,7 +11,6 @@ export const signOut = async () => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   await supabase.auth.signOut();
-  return redirect("/login");
 };
 
 export const signIn = async (data: LoginFormInputs) => {
@@ -26,9 +25,7 @@ export const signIn = async (data: LoginFormInputs) => {
     password,
   });
 
-  if (error) return { error };
-
-  return redirect("/");
+  return { error };
 };
 
 export const signUp = async (formData: FormData) => {

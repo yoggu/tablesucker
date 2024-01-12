@@ -31,7 +31,6 @@ export default function LoginForm({ onClose }: { onClose?: () => void }) {
 
   const onSubmit = async (data: Inputs) => {
     const { error } = await signIn(data);
-
     if (error) {
       toast({
         variant: "destructive",

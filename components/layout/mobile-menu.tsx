@@ -51,7 +51,9 @@ export default function MobileMenu({
               <span className="hidden @[180px]:inline">Seasons</span>
             </MenuLink>
           </li>
-          <li className="mt-auto">{children}</li>
+          <li className="mt-auto">
+              {children}
+          </li>
           <li>
             <ModeToggle />
           </li>
