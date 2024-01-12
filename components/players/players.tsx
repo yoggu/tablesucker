@@ -27,7 +27,7 @@ export default async function Players() {
       <CardContent>
         <ul className="grid w-fit grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 xl:grid-cols-4">
           {data?.map((player) => (
-            <li key={player.id}>
+            <li className="animate-fade-in" key={player.id}>
               <PlayerAvatar player={player} link showName />
             </li>
           ))}
