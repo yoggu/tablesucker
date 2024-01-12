@@ -29,38 +29,34 @@ export default async function AuthButton() {
               </p>
             </Button>
           </TooltipTrigger>
-          <TooltipContent
-            side="right"
-            sideOffset={12}
-            className="@[180px]:hidden"
-          >
-            <p>Logout</p>
+          <TooltipContent side="right" sideOffset={12} className="">
+            <p>Logout {user.email}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
     </form>
   ) : (
-      <TooltipProvider>
-        <Tooltip delayDuration={0}>
-          <DialogLoginForm
-            trigger={
-              <a className="flex h-10 w-10 cursor-pointer items-center justify-center gap-3 rounded-md hover:bg-slate-100 hover:text-slate-900 @[180px]:w-full @[180px]:justify-start @[180px]:px-3 dark:hover:bg-slate-800 dark:hover:text-slate-50">
-                <TooltipTrigger>
-                  <LogInIcon size={20} />
-                </TooltipTrigger>
+    <TooltipProvider>
+      <Tooltip delayDuration={0}>
+        <DialogLoginForm
+          trigger={
+            <a className="flex h-10 w-10 cursor-pointer items-center justify-center gap-3 rounded-md hover:bg-slate-100 hover:text-slate-900 @[180px]:w-full @[180px]:justify-start @[180px]:px-3 dark:hover:bg-slate-800 dark:hover:text-slate-50">
+              <TooltipTrigger>
+                <LogInIcon size={20} />
+              </TooltipTrigger>
 
-                <span className="hidden @[180px]:inline">Login</span>
-              </a>
-            }
-          />
-          <TooltipContent
-            side="right"
-            sideOffset={12}
-            className="@[180px]:hidden"
-          >
-            <p>Login</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+              <span className="hidden @[180px]:inline">Login</span>
+            </a>
+          }
+        />
+        <TooltipContent
+          side="right"
+          sideOffset={12}
+          className="@[180px]:hidden"
+        >
+          <p>Login</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
