@@ -9,21 +9,23 @@ export default function PlayersSkeleton() {
         <CardTitle>Players</CardTitle>
       </CardHeader>
       <CardContent>
-        <ul className="grid w-fit grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 xl:grid-cols-4">
-          <li>
-            <PlayerAvatarSkeleton showName />
-          </li>
-          <li>
-            <PlayerAvatarSkeleton showName />
-          </li>
-          <li>
-            <PlayerAvatarSkeleton showName />
-          </li>
-          <li>
-            <PlayerAvatarSkeleton showName />
-          </li>
+        <ul className="grid grid-cols-1 gap-y-6 gap-x-8 lg:grid-cols-2">
+          <PlayersSkeletonItem />
+          <PlayersSkeletonItem />
+          <PlayersSkeletonItem />
+          <PlayersSkeletonItem />
+          <PlayersSkeletonItem />
+          <PlayersSkeletonItem />
         </ul>
       </CardContent>
     </Card>
+  );
+}
+
+function PlayersSkeletonItem() {
+  return (
+    <li className="flex animate-fade-in justify-between border-b pb-4 lg:col-span-1 dark:border-gray-700 last:border-b-0 last:pb-0 lg:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+2)]:pb-0">
+      <PlayerAvatarSkeleton showName />
+    </li>
   );
 }

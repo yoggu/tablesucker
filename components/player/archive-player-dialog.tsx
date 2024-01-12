@@ -1,5 +1,5 @@
 "use client";
-import { Season } from "@/types/types";
+import { Player, Season } from "@/types/types";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -10,24 +10,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import SeasonTitle from "./season-title";
 import { useState } from "react";
-import { TrashIcon } from "lucide-react";
+import { ArchiveIcon } from "lucide-react";
 import { deleteSeason } from "@/actions/season";
 import { useToast } from "@/utils/hooks/use-toast";
+import { archivePlayer } from "@/actions/player";
 
-type DeleteSeasonDialogProps = {
-  season: Season;
+type ArchivePlayerDialogProps = {
+  player: Player;
 };
 
-export default function DeleteSeasonDialog({
-  season,
-}: DeleteSeasonDialogProps) {
+export default function ArchivePlayerDialog({
+  player,
+}: ArchivePlayerDialogProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
 
-  const onDelete = async () => {
-    const { error } = await deleteSeason(season.id);
+  const onArchive = async () => {
+    const { error } = await archivePlayer(player.id);
 
     if (error) {
       toast({
@@ -40,12 +40,8 @@ export default function DeleteSeasonDialog({
     }
 
     toast({
-      title: "Season deleted",
-      description: (
-        <>
-          <SeasonTitle date={season!.start_date} /> was deleted successfully.
-        </>
-      ),
+      title: "Player archived",
+      description: <>{player.name} was archived successfully.</>,
     });
     setDialogOpen(false);
   };
@@ -57,23 +53,21 @@ export default function DeleteSeasonDialog({
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger>
-        <TrashIcon className="size-5 text-red-600/80" />
+        <ArchiveIcon className="size-5 text-red-600/80" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Delete <SeasonTitle date={season.start_date} />
-          </DialogTitle>
+          <DialogTitle>Archive {player.name}</DialogTitle>
           <DialogDescription>
-            This action will delete all data associated with this season.
+            This action will archive the player.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="mt-4 gap-2">
           <Button variant="secondary" onClick={closeDialog}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={onDelete}>
-            Delete
+          <Button variant="destructive" onClick={onArchive}>
+            Archive
           </Button>
         </DialogFooter>
       </DialogContent>

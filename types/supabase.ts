@@ -89,18 +89,21 @@ export interface Database {
           created_at: string
           id: number
           image_url: string | null
+          is_archived: boolean
           name: string
         }
         Insert: {
           created_at?: string
           id?: never
           image_url?: string | null
+          is_archived?: boolean
           name: string
         }
         Update: {
           created_at?: string
           id?: never
           image_url?: string | null
+          is_archived?: boolean
           name?: string
         }
         Relationships: []

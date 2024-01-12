@@ -55,7 +55,7 @@ export default async function Seasons() {
                 </div>
               </Link>
               {user && (
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-3">
                   <EditSeasonDialog season={season} />
                   <DeleteSeasonDialog season={season} />
                 </div>

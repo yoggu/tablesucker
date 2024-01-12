@@ -36,10 +36,7 @@ export async function createSeason(inputData: SeasonFormInputs) {
   }
 }
 
-export async function updateSeason(
-  seasonId: number,
-  inputData: SeasonFormInputs,
-) {
+export async function updateSeason(id: number, inputData: SeasonFormInputs) {
   const supabase = createClient(cookies());
   const parsed = SeasonFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
@@ -53,7 +50,7 @@ export async function updateSeason(
     const { data: seasonData, error: seasonError } = await supabase
       .from("seasons")
       .update(seasonsRow)
-      .eq("id", seasonId)
+      .eq("id", id)
       .select()
       .single();
 
@@ -66,13 +63,13 @@ export async function updateSeason(
   }
 }
 
-export async function deleteSeason(seasonId: number) {
+export async function deleteSeason(id: number) {
   const supabase = createClient(cookies());
   try {
     const { error: seasonError } = await supabase
       .from("seasons")
       .delete()
-      .eq("id", seasonId);
+      .eq("id", id);
 
     revalidateTag("seasons");
     return { error: seasonError };
@@ -83,14 +80,16 @@ export async function deleteSeason(seasonId: number) {
 
 export async function getSeasons(activeOnly: boolean = false) {
   const supabase = createClient(cookies());
-  const query = supabase.from("seasons").select("*", { count: "exact" });
+  const query = supabase
+    .from("seasons")
+    .select("*", { count: "exact" })
+    .order("start_date", { ascending: false });
 
   if (activeOnly) {
     const today = new Date().toISOString();
     query.or(`end_date.is.null,end_date.gte.${today}`);
   }
 
-  query.order("start_date", { ascending: false });
   try {
     const { data, error, count } = await query;
     return { data, error, count };

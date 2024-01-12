@@ -19,11 +19,55 @@ export async function createPlayer(inputData: PlayerFormInputs) {
       .insert([parsed.data])
       .select()
       .single();
+
     if (error) return { data: null, error };
+
     revalidateTag("players");
     return { data, error };
   } catch (error) {
-    return { data: null, error };
+    return { data: null, error: error as Error };
+  }
+}
+
+export async function updatePlayer(id: number, inputData: PlayerFormInputs) {
+  const supabase = createClient(cookies());
+  const parsed = PlayerFormSchema.safeParse(inputData);
+  if (!parsed.success) return { data: null, error: parsed.error.flatten() };
+
+  try {
+    const { data, error } = await supabase
+      .from("players")
+      .update(parsed.data)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) return { data: null, error };
+    revalidateTag("players");
+
+    return { data, error };
+  } catch (error) {
+    return { data: null, error: error as Error };
+  }
+}
+
+export async function archivePlayer(id: number) {
+  const supabase = createClient(cookies());
+
+  try {
+    const { data, error } = await supabase
+      .from("players")
+      .update({ is_archived: true })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) return { data: null, error };
+    revalidateTag("players");
+
+    return { data, error };
+  } catch (error) {
+    return { data: null, error: error as Error };
   }
 }
 

@@ -25,10 +25,16 @@ import Uppy from "@uppy/core";
 import ImageEditor from "@uppy/image-editor";
 import Link from "next/link";
 import { DialogClose } from "../ui/dialog";
+import { Player } from "@/types/types";
 
 type Inputs = z.infer<typeof PlayerFormSchema>;
 
-export default function PlayerForm({ onClose }: { onClose?: () => void }) {
+type PlayerFormProps = {
+  player?: Player;
+  onClose?: () => void;
+};
+
+export default function PlayerForm({ player, onClose }: PlayerFormProps) {
   // IMPORTANT: passing an initializer function to prevent Uppy from being reinstantiated on every render.
   const [uppy] = useState(() =>
     new Uppy({
@@ -80,7 +86,6 @@ export default function PlayerForm({ onClose }: { onClose?: () => void }) {
         });
         return;
       }
-      console.log(image);
       data.image_url = image?.publicUrl || "";
     }
     const { data: player, error } = await createPlayer(data);
