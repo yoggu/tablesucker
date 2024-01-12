@@ -62,8 +62,7 @@ export default function DeleteSeasonDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Are you sure you want to delete{" "}
-            <SeasonTitle date={season.start_date} />?
+            Delete <SeasonTitle date={season.start_date} />
           </DialogTitle>
           <DialogDescription>
             This action will delete all data associated with this season.

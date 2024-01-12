@@ -40,7 +40,7 @@ export default async function Seasons() {
               className="flex animate-fade-in justify-between border-b pb-4 last-of-type:border-0 last-of-type:pb-0 dark:border-gray-700"
             >
               <Link
-                className="block w-fit hover:text-blue-600 dark:hover:text-blue-400"
+                className="w-full hover:text-blue-600 dark:hover:text-blue-400"
                 href={`/seasons/${season.id}`}
               >
                 <span className="text-xl">
