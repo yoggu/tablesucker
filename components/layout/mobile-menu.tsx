@@ -6,7 +6,11 @@ import { cn } from "@/utils/utils";
 import { useState } from "react";
 import { ModeToggle } from "./mode-toggle";
 
-export default function MobileMenu() {
+export default function MobileMenu({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [open, setOpen] = useState<Boolean>(false);
 
   const toggleMenu = () => {
@@ -28,7 +32,7 @@ export default function MobileMenu() {
           "block h-[calc(100dvh-48px)]": open,
         })}
       >
-        <menu className="flex flex-col h-full gap-2 py-4 @container">
+        <menu className="flex h-full flex-col gap-2 py-4 @container">
           <li>
             <MenuLink href="/" onClick={toggleMenu}>
               <Radio size={20} />
@@ -47,7 +51,8 @@ export default function MobileMenu() {
               <span className="hidden @[180px]:inline">Seasons</span>
             </MenuLink>
           </li>
-          <li className="mt-auto">
+          <li className="mt-auto">{children}</li>
+          <li>
             <ModeToggle />
           </li>
         </menu>

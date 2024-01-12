@@ -6,6 +6,7 @@ import Header from "@/components/layout/page-header";
 import { Toaster } from "@/components/ui/toaster";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import MobileMenu from "@/components/layout/mobile-menu";
+import AuthButton from "@/components/auth/auth-button";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -24,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className=" min-h-screen bg-gray-100 dark:bg-gray-900 sm:grid sm:grid-cols-[56px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)]">
+      <body className=" min-h-screen bg-gray-100 sm:grid sm:grid-cols-[56px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)] dark:bg-gray-900">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -34,8 +35,12 @@ export default function RootLayout({
           <aside className="hidden sm:block">
             <Menu />
           </aside>
-          <MobileMenu />
-          <main className="flex flex-col px-4 py-6 sm:py-8 sm:px-6">{children}</main>
+          <MobileMenu>
+            <AuthButton />
+          </MobileMenu>
+          <main className="flex flex-col px-4 py-6 sm:px-6 sm:py-8">
+            {children}
+          </main>
           <Toaster />
         </ThemeProvider>
       </body>
