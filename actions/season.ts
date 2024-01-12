@@ -4,12 +4,11 @@ import { SeasonFormSchema } from "@/utils/schema";
 import { createClient } from "../utils/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { Season } from "@/types/types";
 
 type SeasonFormInputs = z.infer<typeof SeasonFormSchema>;
 type InsertSeason = Omit<Season, "id" | "created_at">;
-type UpdateSeason = Omit<Season, "created_at">;
 
 export async function createSeason(inputData: SeasonFormInputs) {
   const supabase = createClient(cookies());
@@ -30,10 +29,10 @@ export async function createSeason(inputData: SeasonFormInputs) {
       .single();
     if (seasonError) return { data: null, error: seasonError };
 
-    revalidatePath("/seasons");
+    revalidateTag("seasons");
     return { data: seasonData, error: null };
   } catch (error) {
-    return { data: null, error };
+    return { data: null, error: error as Error };
   }
 }
 
@@ -49,6 +48,7 @@ export async function updateSeason(
     start_date: parsed.data.start_date.toISOString(),
     end_date: parsed.data.end_date?.toISOString() ?? null,
   };
+
   try {
     const { data: seasonData, error: seasonError } = await supabase
       .from("seasons")
@@ -56,12 +56,13 @@ export async function updateSeason(
       .eq("id", seasonId)
       .select()
       .single();
+
     if (seasonError) return { data: null, error: seasonError };
 
-    revalidatePath("/seasons");
+    revalidateTag("seasons");
     return { data: seasonData, error: null };
   } catch (error) {
-    return { data: null, error };
+    return { data: null, error: error as Error };
   }
 }
 
@@ -73,10 +74,10 @@ export async function deleteSeason(seasonId: number) {
       .delete()
       .eq("id", seasonId);
 
-    revalidatePath("/seasons");
+    revalidateTag("seasons");
     return { error: seasonError };
   } catch (error) {
-    return { error };
+    return { error: error as Error };
   }
 }
 
@@ -90,16 +91,24 @@ export async function getSeasons(activeOnly: boolean = false) {
   }
 
   query.order("start_date", { ascending: false });
-  const { data, error, count } = await query;
-  return { data, error, count };
+  try {
+    const { data, error, count } = await query;
+    return { data, error, count };
+  } catch (error) {
+    return { error: error as Error };
+  }
 }
 
 export async function getSeasonById(id: number) {
   const supabase = createClient(cookies());
-  const { data, error } = await supabase
-    .from("seasons")
-    .select("*")
-    .eq("id", id)
-    .single();
-  return { data, error };
+  try {
+    const { data, error } = await supabase
+      .from("seasons")
+      .select("*")
+      .eq("id", id)
+      .single();
+    return { data, error };
+  } catch (error) {
+    return { error: error as Error };
+  }
 }

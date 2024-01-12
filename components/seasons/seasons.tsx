@@ -13,9 +13,16 @@ import { getSeasons } from "@/actions/season";
 import { EditIcon, TrashIcon } from "lucide-react";
 import { getCurrentUser } from "@/utils/user";
 import DeleteSeasonDialog from "../season/delete-season-dialog";
+import EditSeasonDialog from "../season/edit-season-dialog";
+import { unstable_cache } from "next/cache";
+import { Toast } from "../ui/toast";
 
+const getCachedSeasons = unstable_cache(() => getSeasons(), ["seasons"], {
+  revalidate: 60,
+  tags: ["seasons"],
+});
 export default async function Seasons() {
-  const { data, error, count } = await getSeasons();
+  const { data, error, count } = await getCachedSeasons();
   const user = await getCurrentUser();
 
   if (error) throw error;
@@ -49,7 +56,7 @@ export default async function Seasons() {
               </Link>
               {user && (
                 <div className="flex items-start gap-4">
-                  <EditIcon className="size-5" />
+                  <EditSeasonDialog season={season} />
                   <DeleteSeasonDialog season={season} />
                 </div>
               )}
