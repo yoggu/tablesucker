@@ -18,9 +18,13 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { PlayerFormSchema } from "@/utils/schema";
-import { createPlayer, uploadPlayerImage } from "@/actions/player";
+import {
+  createPlayer,
+  updatePlayer,
+  uploadPlayerImage,
+} from "@/actions/player";
 import FileUpload from "@/components/ui/file-upload";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Uppy from "@uppy/core";
 import ImageEditor from "@uppy/image-editor";
 import Link from "next/link";
@@ -65,12 +69,101 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
   const form = useForm<Inputs>({
     resolver: zodResolver(PlayerFormSchema),
     defaultValues: {
-      name: "",
+      name: player?.name || "",
       image_url: "",
     },
   });
 
-  async function onSubmit(data: Inputs) {
+  useEffect(() => {
+    const fetchImage = async (image_url: string) => {
+      try {
+        const response = await fetch(image_url);
+        const blob = await response.blob();
+        const mimeType = blob.type;
+        const extension = mimeType.split("/")[1];
+        const filename = `file.${extension}`;
+        const file = new File([blob], filename, { type: blob.type });
+
+        return file;
+      } catch (error) {
+        console.error("Error fetching image:", error);
+        return null;
+      }
+    };
+
+    if (player?.image_url) {
+      fetchImage(player.image_url).then((file) => {
+        if (file) {
+          console.log("file", file);
+          uppy.addFile({
+            name: file.name,
+            type: file.type,
+            data: file,
+            source: "local",
+            isRemote: false,
+          });
+        }
+      });
+    }
+  }, [player, uppy]);
+
+  const handleUpdatePlayer = async (id: number, data: Inputs) => {
+    const { data: player, error } = await updatePlayer(id, data);
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "There was a problem with your request.",
+        description:
+          (error as Error).message || "An unexpected error occurred.",
+      });
+      return;
+    }
+
+    toast({
+      title: "Player updated",
+      description: (
+        <>
+          <Link href={`/players/${player!.id}`}>{player!.name}</Link> was
+          updated successfully.
+        </>
+      ),
+    });
+    form.reset();
+    uppy.close();
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const handleCreatePlayer = async (data: Inputs) => {
+    const { data: player, error } = await createPlayer(data);
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "There was a problem with your request.",
+        description:
+          (error as Error).message || "An unexpected error occurred.",
+      });
+      return;
+    }
+
+    toast({
+      title: "Player created",
+      description: (
+        <>
+          <Link href={`/players/${player!.id}`}>{player!.name}</Link> was
+          created successfully.
+        </>
+      ),
+    });
+    form.reset();
+    uppy.close();
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const onSubmit = async (data: Inputs) => {
     const file = uppy.getFiles()[0];
     if (file) {
       const formData = new FormData();
@@ -88,32 +181,13 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
       }
       data.image_url = image?.publicUrl || "";
     }
-    const { data: player, error } = await createPlayer(data);
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "There was a problem with your request.",
-        description:
-          (error as Error).message || "An unexpected error occurred.",
-      });
-      return;
-    }
 
-    toast({
-      title: "Player created successfully",
-      description: (
-        <>
-          <Link href={`/players/${player!.id}`}>{player!.name}</Link> was
-          created successfully.
-        </>
-      ),
-    });
-    form.reset();
-    uppy.close();
-    if (onClose) {
-      onClose();
+    if (player) {
+      await handleUpdatePlayer(player.id, data);
+    } else {
+      await handleCreatePlayer(data);
     }
-  }
+  };
 
   return (
     <Form {...form}>

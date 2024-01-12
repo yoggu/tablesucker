@@ -12,6 +12,7 @@ import { getCurrentUser } from "@/utils/user";
 import EditPlayerDialog from "../player/edit-player-dialog";
 import ArchivePlayerDialog from "../player/archive-player-dialog";
 import Link from "next/link";
+import { cn } from "@/utils/utils";
 
 const getCachedPlayes = unstable_cache(() => getPlayers(), ["players"], {
   revalidate: 60,
@@ -33,7 +34,13 @@ export default async function Players() {
         <ul className="grid grid-cols-1 gap-x-8 gap-y-6 lg:grid-cols-2">
           {data?.map((player) => (
             <li
-              className="flex animate-fade-in justify-between border-b pb-4 last:border-b-0 last:pb-0 lg:col-span-1 dark:border-gray-700 lg:even:[&:nth-last-child(-n+2)]:border-b-0 lg:even:[&:nth-last-child(-n+2)]:pb-0"
+              className={cn(
+                "flex animate-fade-in justify-between border-b pb-4 last:border-b-0 last:pb-0 lg:col-span-1 dark:border-gray-700 ",
+                {
+                  "lg:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+2)]:pb-0":
+                    data.length % 2 === 0,
+                },
+              )}
               key={player.id}
             >
               <Link
@@ -43,7 +50,7 @@ export default async function Players() {
                 <PlayerAvatar player={player} showName />
               </Link>
               {user && (
-                <div className="flex  gap-3">
+                <div className="flex gap-3">
                   <EditPlayerDialog player={player} />
                   <ArchivePlayerDialog player={player} />
                 </div>

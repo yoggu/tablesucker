@@ -80,18 +80,22 @@ export async function uploadPlayerImage(formData: FormData) {
   }
   const uniqueFilename = generateUniqueFilename(file.name);
 
-  const { data: uploadedFile, error: uploadedFileError } =
-    await supabase.storage.from("players").upload(uniqueFilename, file);
+  try {
+    const { data: uploadedFile, error: uploadedFileError } =
+      await supabase.storage.from("players").upload(uniqueFilename, file);
 
-  if (uploadedFileError) return { data: null, uploadedFileError };
+    if (uploadedFileError) return { data: null, uploadedFileError };
 
-  const publicUrl = supabase.storage
-    .from("players")
-    .getPublicUrl(uploadedFile.path);
+    const publicUrl = supabase.storage
+      .from("players")
+      .getPublicUrl(uploadedFile.path);
 
-  const data = { ...uploadedFile, publicUrl: publicUrl?.data?.publicUrl };
+    const data = { ...uploadedFile, publicUrl: publicUrl?.data?.publicUrl };
 
-  return { data, error: uploadedFileError };
+    return { data, error: uploadedFileError };
+  } catch (error) {
+    return { data: null, error: error as Error };
+  }
 }
 
 function generateUniqueFilename(originalFilename: string) {

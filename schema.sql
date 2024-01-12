@@ -99,6 +99,7 @@ from
     created_at timestamp with time zone not null default current_timestamp,
     name extensions.citext not null,
     image_url text null,
+    is_archived boolean not null default false,
     constraint players_pkey primary key (id)
   ) tablespace pg_default;
 
