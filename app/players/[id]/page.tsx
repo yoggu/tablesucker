@@ -73,7 +73,7 @@ export default async function PlayerPage({
             <Games season={season} player={player!} limit={5} />
           </Suspense>
           <Suspense fallback={<CardSpinnerSkeleton title="Standings" />}>
-            <Standings season={season} />
+            <Standings player={player!} season={season} />
           </Suspense>
         </div>
         <div className="order-1 col-span-full flex flex-col gap-6 md:order-none md:col-span-1">

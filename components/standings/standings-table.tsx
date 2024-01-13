@@ -18,17 +18,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Player } from "@/types/types";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  highlightPlayerId?: number;
 }
 
 export function StandingsTable<TData, TValue>({
   columns,
   data,
+  highlightPlayerId,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([{id: "winRate", desc: true}]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "winRate", desc: true },
+  ]);
   const table = useReactTable({
     data,
     columns,
@@ -42,7 +48,7 @@ export function StandingsTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border dark:border-gray-700 @container">
+    <div className="rounded-md border @container dark:border-gray-700">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -64,19 +70,29 @@ export function StandingsTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                className="dark:border-gray-700"
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell className="px-6" key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
+            table.getRowModel().rows.map((row) => {
+              const player: Player = row.getValue("player");
+              const isHighlighted =
+                highlightPlayerId && player.id === highlightPlayerId;
+              return (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className={cn("dark:border-gray-700", {
+                    "bg-slate-100/50 dark:bg-slate-800/50": isHighlighted,
+                  })}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell className="px-6" key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
