@@ -1,5 +1,5 @@
 import { GameDetails, Player, Season, TEAM } from "@/types/types";
-import { cn, formatDate } from "@/utils/utils";
+import { cn, formatDate } from "@/lib/utils";
 import PlayerAvatar from "@/components/ui/player-avatar";
 import { Award } from "lucide-react";
 import DeleteGameDialog from "../game/delete-game-dialog";

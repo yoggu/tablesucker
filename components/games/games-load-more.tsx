@@ -1,7 +1,7 @@
 "use client";
 import { GameDetails, Player, Season } from "@/types/types";
 import { useEffect, useState, useTransition } from "react";
-import { fetchGames } from "@/actions/game";
+import { getCachedGames } from "@/actions/game";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 import GamesList from "./games-list";
@@ -41,7 +41,7 @@ export default function GamesLoadMore({
 
   async function loadMoreGames() {
     const newOffset = offset + limit;
-    const { data: moreGames, error: gamesError } = await fetchGames(
+    const { data: moreGames, error: gamesError } = await getCachedGames(
       season?.id,
       player?.id,
       newOffset,

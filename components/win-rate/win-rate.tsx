@@ -1,5 +1,5 @@
 import { Season } from "@/types/types";
-import { fetchGames } from "@/actions/game";
+import { getCachedGames } from "@/actions/game";
 import WinRateList from "./win-rate-list";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
@@ -8,7 +8,7 @@ type WinRateProps = {
 };
 
 export default async function WinRate({ season }: WinRateProps) {
-  const { data: games, error: gamesError } = await fetchGames(season.id);
+  const { data: games, error: gamesError } = await getCachedGames(season.id);
   if (gamesError) throw gamesError;
 
   return (

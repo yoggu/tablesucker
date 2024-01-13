@@ -1,4 +1,4 @@
-import { getPlayerById } from "@/utils/players";
+import { getPlayerById } from "@/actions/player";
 import PageHeader from "@/components/layout/page-header";
 import PageTitle from "@/components/ui/page-title";
 import PlayerAvatar from "@/components/ui/player-avatar";

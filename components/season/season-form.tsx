@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { format } from "date-fns";
 
-import { useToast } from "@/utils/hooks/use-toast";
+import { useToast } from "@/lib/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { SeasonFormSchema } from "@/utils/schema";
+import { SeasonFormSchema } from "@/lib/schema";
 import Link from "next/link";
 import { CalendarIcon } from "lucide-react";
 import {
@@ -25,7 +25,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/utils/utils";
+import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import SeasonTitle from "./season-title";
 import { createSeason, updateSeason } from "@/actions/season";

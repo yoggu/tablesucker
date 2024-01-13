@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import { ArchiveIcon } from "lucide-react";
 import { deleteSeason } from "@/actions/season";
-import { useToast } from "@/utils/hooks/use-toast";
+import { useToast } from "@/lib/hooks/use-toast";
 import { archivePlayer } from "@/actions/player";
 
 type ArchivePlayerDialogProps = {

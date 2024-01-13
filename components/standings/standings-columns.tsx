@@ -6,7 +6,7 @@ import PlayerAvatar from "@/components/ui/player-avatar";
 import Link from "next/link";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/utils/utils";
+import { cn } from "@/lib/utils";
 
 export const columns: ColumnDef<PlayerStats>[] = [
   {

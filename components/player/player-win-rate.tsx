@@ -1,8 +1,8 @@
-import { fetchGames } from "@/actions/game";
+import { getCachedGames } from "@/actions/game";
 import { Player, Season } from "@/types/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Counter from "../ui/counter";
-import { calculatePlayerStats } from "@/utils/games";
+import { calculatePlayerStats } from "@/lib/utils";
 
 type PlayerWinRateProps = {
   player: Player;
@@ -13,7 +13,7 @@ export default async function PlayerWinRate({
   player,
   season,
 }: PlayerWinRateProps) {
-  const { data: games, error: gamesError } = await fetchGames(season.id);
+  const { data: games, error: gamesError } = await getCachedGames(season.id);
   if (gamesError) throw gamesError;
   const playerStats = calculatePlayerStats(games!);
   const playerWinRate =

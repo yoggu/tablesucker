@@ -7,7 +7,7 @@ import { PopoverArrow, PopoverClose } from "@radix-ui/react-popover";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { createPlayer } from "@/actions/player";
-import { useToast } from "@/utils/hooks/use-toast";
+import { useToast } from "@/lib/hooks/use-toast";
 import { Player } from "@/types/types";
 
 type PlayerFormSmallProps = {

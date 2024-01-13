@@ -1,3 +1,21 @@
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const locale =
+    typeof navigator !== "undefined" ? navigator.language : "de-CH";
+  return date.toLocaleDateString(locale, {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+  });
+};
+
 import { TEAM, PlayerStats, GameDetails } from "@/types/types";
 
 export function calculatePlayerStats(games: GameDetails[]) {
@@ -65,4 +83,14 @@ export function calculatePlayerStats(games: GameDetails[]) {
   });
 
   return Object.values(playerStats);
+}
+
+export function isCompletedSeason(dateString: string | null) {
+  if (!dateString) return false;
+
+  const endDate = new Date(dateString);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return endDate < today;
 }

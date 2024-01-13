@@ -1,5 +1,5 @@
 import { signOut } from "@/actions/auth";
-import { getCurrentUser } from "@/utils/user";
+import { getCurrentUser } from "@/actions/user";
 import { LogInIcon, LogOutIcon, Users } from "lucide-react";
 import {
   Tooltip,

@@ -1,26 +1,19 @@
+import { getCachedSeasons } from "@/actions/season";
+import { getCurrentUser } from "@/actions/user";
 import Link from "next/link";
-import SeasonName from "../season/season-title";
-import SeasonBadge from "../season/season-badge";
-import SeasonDateRange from "../season/season-date-range";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardDescription,
-} from "../ui/card";
-import { getSeasons } from "@/actions/season";
-import { EditIcon, TrashIcon } from "lucide-react";
-import { getCurrentUser } from "@/utils/user";
 import DeleteSeasonDialog from "../season/delete-season-dialog";
 import EditSeasonDialog from "../season/edit-season-dialog";
-import { unstable_cache } from "next/cache";
-import { Toast } from "../ui/toast";
+import SeasonBadge from "../season/season-badge";
+import SeasonDateRange from "../season/season-date-range";
+import SeasonName from "../season/season-title";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 
-const getCachedSeasons = unstable_cache(() => getSeasons(), ["seasons"], {
-  revalidate: 60,
-  tags: ["seasons"],
-});
 export default async function Seasons() {
   const { data, error, count } = await getCachedSeasons();
   const user = await getCurrentUser();

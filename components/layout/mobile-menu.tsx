@@ -2,7 +2,7 @@
 import { CalendarDays, Menu, Radio, Users, X } from "lucide-react";
 import { MenuLink } from "./menu-link";
 import { Button } from "../ui/button";
-import { cn } from "@/utils/utils";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { ModeToggle } from "./mode-toggle";
 

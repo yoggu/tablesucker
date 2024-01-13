@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, formatDate } from "@/utils/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 type SeasonDateRangeProps = {
   startDate: string;

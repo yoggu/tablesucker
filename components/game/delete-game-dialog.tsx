@@ -12,7 +12,7 @@ import {
 } from "../ui/dialog";
 import { useState } from "react";
 import { TrashIcon } from "lucide-react";
-import { useToast } from "@/utils/hooks/use-toast";
+import { useToast } from "@/lib/hooks/use-toast";
 import { deleteGame } from "@/actions/game";
 
 type DeleteGameDialogProps = {

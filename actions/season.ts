@@ -1,14 +1,23 @@
 "use server";
 
-import { SeasonFormSchema } from "@/utils/schema";
-import { createClient } from "../utils/supabase/server";
+import { SeasonFormSchema } from "@/lib/schema";
+import { createClient } from "../lib/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { Season } from "@/types/types";
 
 type SeasonFormInputs = z.infer<typeof SeasonFormSchema>;
 type InsertSeason = Omit<Season, "id" | "created_at">;
+
+export const getCachedSeasons = unstable_cache(
+  async (activeOnly: boolean = false) => getSeasons(activeOnly),
+  ["seasons"],
+  {
+    revalidate: 60,
+    tags: ["seasons"],
+  },
+);
 
 export async function createSeason(inputData: SeasonFormInputs) {
   const supabase = createClient(cookies());
@@ -66,10 +75,7 @@ export async function updateSeason(id: number, inputData: SeasonFormInputs) {
 export async function deleteSeason(id: number) {
   const supabase = createClient(cookies());
   try {
-    const { error } = await supabase
-      .from("seasons")
-      .delete()
-      .eq("id", id);
+    const { error } = await supabase.from("seasons").delete().eq("id", id);
 
     revalidateTag("seasons");
     return { error };

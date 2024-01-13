@@ -1,13 +1,37 @@
 "use server";
 
-import { GameFormSchema } from "@/utils/schema";
-import { createClient } from "../utils/supabase/server";
+import { GameDetails } from "@/types/types";
+import { GameFormSchema } from "@/lib/schema";
+import { revalidateTag, unstable_cache } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { GameDetails } from "@/types/types";
-import { revalidateTag } from "next/cache";
+import { createClient } from "../lib/supabase/server";
 
 type GameFormInputs = z.infer<typeof GameFormSchema>;
+
+export const getCachedGames = unstable_cache(
+  async (
+    seasonId?: number,
+    playerId?: number,
+    offset: number = 0,
+    limit?: number,
+  ) => getGames(seasonId, playerId, offset, limit),
+  ["games"],
+  {
+    revalidate: 60,
+    tags: ["games"],
+  },
+);
+
+export const getCachedGamesCount = unstable_cache(
+  async (seasonId?: number, playerId?: number) =>
+    getGamesCount(seasonId, playerId),
+  ["games"],
+  {
+    revalidate: 60,
+    tags: ["games"],
+  },
+);
 
 export async function createGame(inputData: GameFormInputs) {
   const supabase = createClient(cookies());
@@ -27,13 +51,14 @@ export async function createGame(inputData: GameFormInputs) {
 
     if (error) return { data: null, error };
 
+    revalidateTag("games");
     return { data, error: null };
   } catch (error) {
     return { data: null, error };
   }
 }
 
-export async function fetchGames(
+export async function getGames(
   seasonId?: number,
   playerId?: number,
   offset: number = 0,
@@ -75,8 +100,8 @@ export async function deleteGame(gameId: number) {
 
   try {
     const { error } = await supabase.from("games").delete().eq("id", gameId);
-    revalidateTag("games");
 
+    revalidateTag("games");
     return { error };
   } catch (error) {
     console.error("Error deleting game:", error);

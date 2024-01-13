@@ -1,6 +1,6 @@
-import { Player, Season } from "@/types/types";
-import { fetchGames, getGamesCount } from "@/actions/game";
-import GamesLoadMore from "./games-load-more";
+import { getCachedGames, getCachedGamesCount } from "@/actions/game";
+import { getCachedPlayes } from "@/actions/player";
+import { getCachedSeasons } from "@/actions/season";
 import {
   Card,
   CardContent,
@@ -8,9 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCurrentUser } from "@/utils/user";
-import { getSeasons } from "@/actions/season";
-import { getPlayers } from "@/utils/players";
+import { Player, Season } from "@/types/types";
+import { getCurrentUser } from "@/actions/user";
+import GamesLoadMore from "./games-load-more";
 
 type GamesProps = {
   season?: Season;
@@ -25,7 +25,7 @@ export default async function Games({
   offset,
   limit,
 }: GamesProps) {
-  const { data: games, error: gamesError } = await fetchGames(
+  const { data: games, error: gamesError } = await getCachedGames(
     season?.id,
     player?.id,
     offset,
@@ -33,7 +33,7 @@ export default async function Games({
   );
   if (gamesError) throw gamesError;
 
-  const { data: count, error: countError } = await getGamesCount(
+  const { data: count, error: countError } = await getCachedGamesCount(
     season?.id,
     player?.id,
   );
@@ -44,10 +44,10 @@ export default async function Games({
   let seasons: Season[] | null = null;
   let players: Player[] | null = null;
   if (user) {
-    const { data: seasonsData, error: seasonsError } = await getSeasons();
+    const { data: seasonsData, error: seasonsError } = await getCachedSeasons();
     if (seasonsError) throw seasonsError;
     seasons = seasonsData!;
-    const { data: playersData, error: playersError } = await getPlayers();
+    const { data: playersData, error: playersError } = await getCachedPlayes();
     if (playersError) throw playersError;
     players = playersData!;
   }

@@ -14,7 +14,7 @@ import SeasonTitle from "./season-title";
 import { useState } from "react";
 import { TrashIcon } from "lucide-react";
 import { deleteSeason } from "@/actions/season";
-import { useToast } from "@/utils/hooks/use-toast";
+import { useToast } from "@/lib/hooks/use-toast";
 
 type DeleteSeasonDialogProps = {
   season: Season;

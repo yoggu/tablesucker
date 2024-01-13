@@ -1,4 +1,4 @@
-import { getPlayers } from "@/utils/players";
+import { getPlayers } from "@/actions/player";
 import PlayerAvatar from "@/components/ui/player-avatar";
 import {
   Card,
@@ -8,11 +8,11 @@ import {
   CardTitle,
 } from "../ui/card";
 import { unstable_cache } from "next/cache";
-import { getCurrentUser } from "@/utils/user";
+import { getCurrentUser } from "@/actions/user";
 import EditPlayerDialog from "../player/edit-player-dialog";
 import ArchivePlayerDialog from "../player/archive-player-dialog";
 import Link from "next/link";
-import { cn } from "@/utils/utils";
+import { cn } from "@/lib/utils";
 
 const getCachedPlayes = unstable_cache(() => getPlayers(), ["players"], {
   revalidate: 60,

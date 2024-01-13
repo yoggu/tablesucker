@@ -1,12 +1,21 @@
 "use server";
 
-import { PlayerFormSchema } from "@/utils/schema";
-import { createClient } from "../utils/supabase/server";
+import { PlayerFormSchema } from "@/lib/schema";
+import { createClient } from "../lib/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 type PlayerFormInputs = z.infer<typeof PlayerFormSchema>;
+
+export const getCachedPlayes = unstable_cache(
+  async (includeArchived: boolean = false) => getPlayers(includeArchived),
+  ["players"],
+  {
+    revalidate: 60,
+    tags: ["players"],
+  },
+);
 
 export async function createPlayer(inputData: PlayerFormInputs) {
   const supabase = createClient(cookies());
@@ -96,6 +105,31 @@ export async function uploadPlayerImage(formData: FormData) {
   } catch (error) {
     return { data: null, error: error as Error };
   }
+}
+
+export async function getPlayers(includeArchived: boolean = false) {
+  const supabase = createClient(cookies());
+  const query = supabase
+    .from("players")
+    .select("*", { count: "exact" })
+    .order("name", { ascending: true });
+
+  if (!includeArchived) {
+    query.eq("is_archived", false);
+  }
+  const { data, error, count } = await query;
+
+  return { data, error, count };
+}
+
+export async function getPlayerById(id: number) {
+  const supabase = createClient(cookies());
+  const { data, error } = await supabase
+    .from("players")
+    .select("*")
+    .eq("id", id)
+    .single();
+  return { data, error };
 }
 
 function generateUniqueFilename(originalFilename: string) {

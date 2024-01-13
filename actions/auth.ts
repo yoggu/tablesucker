@@ -1,7 +1,7 @@
 "use server";
-import { LoginFormSchema } from "./../utils/schema";
+import { LoginFormSchema } from "../lib/schema";
 import { headers, cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 

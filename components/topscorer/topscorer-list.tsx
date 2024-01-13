@@ -1,5 +1,5 @@
 import { GameDetails } from "@/types/types";
-import { calculatePlayerStats } from "@/utils/games";
+import { calculatePlayerStats } from "@/lib/utils";
 import RankingList from "@/components/ranking/ranking-list";
 import RankingListItem from "@/components/ranking/ranking-list-item";
 import PlayerAvatar from "@/components/ui/player-avatar";
