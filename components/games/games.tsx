@@ -52,6 +52,9 @@ export default async function Games({
     players = playersData!;
   }
 
+  // Force re-rendering of GamesLoadMore component when games are updated
+  const key = Math.floor(Math.random() * 1000);
+
   return (
     <Card>
       <CardHeader>
@@ -62,7 +65,7 @@ export default async function Games({
       </CardHeader>
       <CardContent>
         <GamesLoadMore
-          key={count!}
+          key={key}
           initialGames={games ?? []}
           gamesCount={count!}
           season={season!}

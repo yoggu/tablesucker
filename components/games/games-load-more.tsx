@@ -54,7 +54,12 @@ export default function GamesLoadMore({
 
   return (
     <>
-      <GamesList seasons={seasons} players={players} games={games} user={user} />
+      <GamesList
+        seasons={seasons}
+        players={players}
+        games={games}
+        user={user}
+      />
       {showLoadMore && (
         <div className="mt-6 flex justify-center">
           {isPending ? (

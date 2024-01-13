@@ -73,7 +73,6 @@ export default function GameForm({
   });
 
   const handleUpdateGame = async (id: number, data: Inputs) => {
-    console.log("data", data);
     const { error } = await updateGame(id, data);
     if (error) {
       toast({
