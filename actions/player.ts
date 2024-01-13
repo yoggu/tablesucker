@@ -43,8 +43,8 @@ export async function updatePlayer(id: number, inputData: PlayerFormInputs) {
       .single();
 
     if (error) return { data: null, error };
-    revalidateTag("players");
 
+    revalidateTag("players");
     return { data, error };
   } catch (error) {
     return { data: null, error: error as Error };

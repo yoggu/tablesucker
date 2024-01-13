@@ -30,7 +30,7 @@ export default async function AuthButton() {
             </Button>
           </TooltipTrigger>
           <TooltipContent side="right" sideOffset={12} className="">
-            <p>Logout {user.email}</p>
+            <p>Logout</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

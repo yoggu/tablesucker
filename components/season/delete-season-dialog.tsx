@@ -56,7 +56,7 @@ export default function DeleteSeasonDialog({
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger>
+      <DialogTrigger title="delete season" aria-label="delete season">
         <TrashIcon className="size-5 text-red-600/80" />
       </DialogTrigger>
       <DialogContent>

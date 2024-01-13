@@ -20,7 +20,7 @@ export default function EditPlayerDialog({ player }: { player: Player }) {
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger>
+      <DialogTrigger title="edit player" aria-label="edit player">
         <EditIcon className="size-5" />
       </DialogTrigger>
       <DialogContent className="max-h-dvh max-w-2xl overflow-y-auto">

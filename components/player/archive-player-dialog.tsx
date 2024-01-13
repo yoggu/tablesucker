@@ -52,7 +52,7 @@ export default function ArchivePlayerDialog({
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger>
+      <DialogTrigger title="archive player" aria-label="archive player">
         <ArchiveIcon className="size-5 text-red-600/80" />
       </DialogTrigger>
       <DialogContent>

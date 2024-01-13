@@ -20,7 +20,7 @@ export default function EditSeasonDialog({ season }: { season: Season }) {
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger>
+      <DialogTrigger title="edit season" aria-label="edit season">
         <EditIcon className="size-5" />
       </DialogTrigger>
       <DialogContent className="max-h-dvh max-w-2xl overflow-y-auto">
