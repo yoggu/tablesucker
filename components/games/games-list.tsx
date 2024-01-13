@@ -1,9 +1,9 @@
-import { GameDetails, Player, Season, TEAM } from "@/types/types";
-import { cn, formatDate } from "@/lib/utils";
 import PlayerAvatar from "@/components/ui/player-avatar";
+import { cn, formatDate } from "@/lib/utils";
+import { GameDetails, Player, Season, TEAM } from "@/types/types";
+import { User } from "@supabase/supabase-js";
 import { Award } from "lucide-react";
 import DeleteGameDialog from "../game/delete-game-dialog";
-import { User } from "@supabase/supabase-js";
 import EditGameDialog from "../game/edit-game-dialog";
 
 type GameListProps = {

@@ -1,9 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { useToast } from "@/lib/hooks/use-toast";
+import { createGame, updateGame } from "@/actions/game";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,10 +10,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { useToast } from "@/lib/hooks/use-toast";
 import { GameFormSchema } from "@/lib/schema";
-import { createGame, updateGame } from "@/actions/game";
 import { GameDetails, Player, Season } from "@/types/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import PlayerFormSmall from "../player/player-form-small";
+import SeasonTitle from "../season/season-title";
+import { AvatarCheckbox } from "../ui/avatar-checkbox";
+import { NumberInput } from "../ui/number-input";
 import {
   Select,
   SelectContent,
@@ -24,11 +28,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import SeasonTitle from "../season/season-title";
-import { AvatarCheckbox } from "../ui/avatar-checkbox";
-import { useState } from "react";
-import PlayerFormSmall from "../player/player-form-small";
-import { NumberInput } from "../ui/number-input";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
