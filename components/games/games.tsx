@@ -46,10 +46,10 @@ export default async function Games({
   if (user) {
     const { data: seasonsData, error: seasonsError } = await getCachedSeasons();
     if (seasonsError) throw seasonsError;
-    seasons = seasonsData!;
+    seasons = seasonsData;
     const { data: playersData, error: playersError } = await getCachedPlayes();
     if (playersError) throw playersError;
-    players = playersData!;
+    players = playersData;
   }
 
   // Force re-rendering of GamesLoadMore component when games are updated
@@ -67,9 +67,9 @@ export default async function Games({
         <GamesLoadMore
           key={key}
           initialGames={games ?? []}
-          gamesCount={count!}
-          season={season!}
-          player={player!}
+          gamesCount={count ?? 0}
+          season={season}
+          player={player}
           limit={limit ?? 10}
           user={user}
           seasons={seasons}

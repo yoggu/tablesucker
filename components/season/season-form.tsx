@@ -71,8 +71,8 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
       title: "Season updated",
       description: (
         <>
-          <Link href={`/seasons/${season!.id}`}>
-            <SeasonTitle startDate={season!.start_date} />
+          <Link href={`/seasons/${season?.id}`}>
+            <SeasonTitle startDate={season?.start_date} />
           </Link>{" "}
           was updated successfully.
         </>
@@ -105,8 +105,8 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
       title: "Season created",
       description: (
         <>
-          <Link href={`/seasons/${season!.id}`}>
-            <SeasonTitle startDate={season!.start_date} />
+          <Link href={`/seasons/${season?.id}`}>
+            <SeasonTitle startDate={season?.start_date} />
           </Link>{" "}
           was created successfully.
         </>

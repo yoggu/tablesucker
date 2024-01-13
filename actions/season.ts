@@ -102,7 +102,7 @@ export async function getSeasons(seasonStates: SeasonState[] = []) {
     const { data, error, count } = await query.returns<SeasonWithState[]>();
     return { data, error, count };
   } catch (error) {
-    return { error: error as Error };
+    return { data: null, error: error as Error };
   }
 }
 
@@ -112,11 +112,8 @@ export async function getSeason(id: number) {
     .from("seasons_with_state")
     .select("*")
     .eq("id", id)
-    .single();
   try {
-    const response = await query;
-    const data = response.data as SeasonWithState;
-    const { error } = response;
+    const { data, error } = await query.returns<SeasonWithState[]>();
     return { data, error };
   } catch (error) {
     return { error: error as Error };

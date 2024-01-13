@@ -8,6 +8,7 @@ import SeasonTitle from "@/components/season/season-title";
 import Standings from "@/components/standings/standings";
 import CardSpinnerSkeleton from "@/components/ui/card-spinner-skeleton";
 import PageTitle from "@/components/ui/page-title";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 type SeasonProps = {
@@ -17,35 +18,37 @@ type SeasonProps = {
 };
 
 export default async function SeasonPage({ params }: SeasonProps) {
-  const { data: season, error: seasonError } = await getSeason(params.id);
+  const { data: seasons, error: seasonError } = await getSeason(params.id);
   if (seasonError) throw seasonError;
+  if (!seasons || seasons?.length === 0) return notFound();
+  const season = seasons[0];
 
   return (
     <>
       <PageHeader>
         <div>
           <PageTitle>
-            <SeasonTitle startDate={season!.start_date} />
+            <SeasonTitle startDate={season.start_date} />
           </PageTitle>
           <div className="mt-1 flex items-center gap-3">
             <SeasonDateRange
               className="text-base dark:text-slate-400"
-              startDate={season!.start_date}
-              endDate={season!.end_date}
+              startDate={season.start_date}
+              endDate={season.end_date}
             />
-            <SeasonBadge state={season!.state} />
+            <SeasonBadge state={season.state} />
           </div>
         </div>
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-full">
-        <Suspense fallback={<CardSpinnerSkeleton title="Standings" />}>
-            <Standings season={season!} />
+          <Suspense fallback={<CardSpinnerSkeleton title="Standings" />}>
+            <Standings season={season} />
           </Suspense>
         </div>
         <div className="col-span-full">
           <Suspense fallback={<GamesSkeleton />}>
-            <Games limit={5} season={season!} />
+            <Games limit={5} season={season} />
           </Suspense>
         </div>
       </div>

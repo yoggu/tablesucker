@@ -15,29 +15,32 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 export default async function Live() {
-  const { data: seasons, error: seasonsError } = await getCachedSeasons([SeasonStateEnum.Active]);
+  const { data: seasons, error: seasonsError } = await getCachedSeasons([
+    SeasonStateEnum.Active,
+  ]);
   if (seasonsError) throw seasonsError;
-  const latestActiveSeason = seasons![0];
+  if (!seasons || seasons?.length === 0) return <NoActiveSeason />;
+  const latestActiveSeason = seasons[0];
+
   const { data: players, error: playersError } = await getCachedPlayes();
   if (playersError) throw playersError;
+  if (!players || players?.length === 0) return <NoPlayers />;
 
   return (
     <>
       <PageHeader>
         <div>
-          <PageTitle>
-            Active Season
-          </PageTitle>
+          <PageTitle>Active Season</PageTitle>
           <div className="mt-1">
             <Link
               href={`/seasons/${latestActiveSeason.id}`}
-              className="hover:text-blue-600 dark:hover:text-blue-400 dark:text-slate-400"
+              className="hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400"
             >
               <SeasonTitle startDate={latestActiveSeason.start_date} />
             </Link>
-            </div>
+          </div>
         </div>
-        <DialogGameForm seasons={seasons!} players={players!} />
+        <DialogGameForm seasons={seasons} players={players} />
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-full flex flex-col gap-6 lg:col-span-4">
@@ -54,6 +57,37 @@ export default async function Live() {
             <Topscorer season={latestActiveSeason} />
           </Suspense>
         </div>
+      </div>
+    </>
+  );
+}
+
+
+function NoActiveSeason() {
+  return (
+    <>
+      <PageHeader>
+        <PageTitle>Active Season</PageTitle>
+      </PageHeader>
+      <div className="text-center">
+        <p className="text-lg">
+          No active season found. Please add at least one active season.
+        </p>
+      </div>
+    </>
+  );
+}
+
+function NoPlayers() {
+  return (
+    <>
+      <PageHeader>
+        <PageTitle>Active Season</PageTitle>
+      </PageHeader>
+      <div className="text-center">
+        <p className="text-lg">
+          No players found. Please add at least one player.
+        </p>
       </div>
     </>
   );

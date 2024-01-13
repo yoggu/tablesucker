@@ -74,6 +74,7 @@ export async function archivePlayer(id: number) {
 
     if (error) return { data: null, error };
     revalidateTag("players");
+
     return { data, error };
   } catch (error) {
     return { data: null, error: error as Error };
@@ -128,9 +129,9 @@ export async function getPlayers(includeArchived: boolean = false) {
 
 export async function getPlayer(id: number) {
   const supabase = createClient(cookies());
-  const query = supabase.from("players").select("*").eq("id", id).single();
+  const query = supabase.from("players").select("*").eq("id", id);
   try {
-    const { data, error } = await query;
+    const { data, error } = await query.returns<Player[]>();
     return { data, error };
   } catch (error) {
     return { data: null, error: error as Error };

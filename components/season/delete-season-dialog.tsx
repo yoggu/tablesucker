@@ -43,7 +43,7 @@ export default function DeleteSeasonDialog({
       title: "Season deleted",
       description: (
         <>
-          <SeasonTitle startDate={season!.start_date} /> was deleted successfully.
+          <SeasonTitle startDate={season?.start_date} /> was deleted successfully.
         </>
       ),
     });

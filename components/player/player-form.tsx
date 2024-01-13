@@ -123,7 +123,7 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
       title: "Player updated",
       description: (
         <>
-          <Link href={`/players/${player!.id}`}>{player!.name}</Link> was
+          <Link href={`/players/${player?.id}`}>{player?.name}</Link> was
           updated successfully.
         </>
       ),
@@ -151,7 +151,7 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
       title: "Player created",
       description: (
         <>
-          <Link href={`/players/${player!.id}`}>{player!.name}</Link> was
+          <Link href={`/players/${player?.id}`}>{player?.name}</Link> was
           created successfully.
         </>
       ),
