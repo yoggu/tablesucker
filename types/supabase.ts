@@ -173,15 +173,26 @@ export interface Database {
     Functions: {
       create_game: {
         Args: {
-          season_id: number
-          team_red_score: number
-          team_blue_score: number
-          team_red_players: number[]
-          team_blue_players: number[]
+          p_season_id: number
+          p_team_red_score: number
+          p_team_blue_score: number
+          p_team_red_players: number[]
+          p_team_blue_players: number[]
         }
         Returns: {
           game_id: number
         }[]
+      }
+      update_game: {
+        Args: {
+          p_game_id: number
+          p_season_id: number
+          p_team_red_players: number[]
+          p_team_red_score: number
+          p_team_blue_players: number[]
+          p_team_blue_score: number
+        }
+        Returns: undefined
       }
     }
     Enums: {

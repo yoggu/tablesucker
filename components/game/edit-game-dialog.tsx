@@ -35,7 +35,7 @@ export default function EditGameDialog({
       </DialogTrigger>
       <DialogContent className="max-h-dvh max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Game</DialogTitle>
+          <DialogTitle>Edit Game {game.id}</DialogTitle>
         </DialogHeader>
         <GameForm
           seasons={seasons}

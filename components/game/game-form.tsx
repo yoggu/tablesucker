@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { GameFormSchema } from "@/lib/schema";
-import { createGame } from "@/actions/game";
+import { createGame, updateGame } from "@/actions/game";
 import { GameDetails, Player, Season } from "@/types/types";
 import {
   Select,
@@ -38,27 +38,65 @@ type GameFormProps = {
   game?: GameDetails;
 };
 
-export default function GameForm({ players, seasons, onClose, game }: GameFormProps) {
+export default function GameForm({
+  players,
+  seasons,
+  onClose,
+  game,
+}: GameFormProps) {
   const { toast } = useToast();
-  const [teamRedPlayers, setTeamRedPlayers] = useState<Player[]>(players);
-  const [teamBluePlayers, setTeamBluePlayers] = useState<Player[]>(players);
+  const gameTeamRedPlayerIds = game?.team_red?.players.map(
+    (player) => player.id,
+  );
+  const gameTeamBluePlayerIds = game?.team_blue?.players.map(
+    (player) => player.id,
+  );
+  const [teamRedPlayers, setTeamRedPlayers] = useState<Player[]>(
+    players.filter((player) => !gameTeamBluePlayerIds?.includes(player.id)),
+  );
+  const [teamBluePlayers, setTeamBluePlayers] = useState<Player[]>(
+    players.filter((player) => !gameTeamRedPlayerIds?.includes(player.id)),
+  );
   const form = useForm<Inputs>({
     resolver: zodResolver(GameFormSchema),
     defaultValues: {
       team_red: {
-        players: [],
-        score: "",
+        players: gameTeamRedPlayerIds || [],
+        score: game?.team_red?.score?.toString() || "0",
       },
       team_blue: {
-        players: [],
-        score: "",
+        players: gameTeamBluePlayerIds || [],
+        score: game?.team_blue?.score?.toString() || "0",
       },
       season_id:
-        seasons && seasons.length > 0 ? seasons[0]?.id?.toString() : "",
+        game?.season_id?.toString() || seasons[0]?.id?.toString() || "",
     },
   });
 
-  async function onSubmit(data: Inputs) {
+  const handleUpdateGame = async (id: number, data: Inputs) => {
+    console.log("data", data);
+    const { error } = await updateGame(id, data);
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "There was a problem with your request.",
+        description:
+          (error as Error).message || "An unexpected error occurred.",
+      });
+      return;
+    }
+
+    toast({
+      title: "Game updated",
+      description: `Game ${id} was updated successfully.`,
+    });
+    form.reset();
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const handleCreateGame = async (data: Inputs) => {
     const { data: createdGame, error } = await createGame(data);
     if (error) {
       toast({
@@ -71,14 +109,22 @@ export default function GameForm({ players, seasons, onClose, game }: GameFormPr
     }
 
     toast({
-      title: "Game created successfully",
-      description: `Game with ID ${createdGame?.game_id} was created.`,
+      title: "Game created",
+      description: `Game ${createdGame?.game_id} was created successfully.`,
     });
     form.reset();
     if (onClose) {
       onClose();
     }
-  }
+  };
+
+  const onSubmit = async (data: Inputs) => {
+    if (game) {
+      await handleUpdateGame(game.id, data);
+    } else {
+      await handleCreateGame(data);
+    }
+  };
 
   const updateTeamRedPlayers = (player: Player) => {
     setTeamRedPlayers([...teamRedPlayers, player]);
@@ -148,6 +194,7 @@ export default function GameForm({ players, seasons, onClose, game }: GameFormPr
                             >
                               <FormControl>
                                 <AvatarCheckbox
+                                  title={player.name}
                                   checked={field.value?.includes(player.id)}
                                   disabled={
                                     !teamRedPlayers.some(
@@ -228,6 +275,7 @@ export default function GameForm({ players, seasons, onClose, game }: GameFormPr
                             >
                               <FormControl>
                                 <AvatarCheckbox
+                                  title={player.name}
                                   checked={field.value?.includes(player.id)}
                                   disabled={
                                     !teamBluePlayers.some(

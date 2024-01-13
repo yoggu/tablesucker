@@ -16,7 +16,7 @@ const AvatarCheckbox = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     {...props}
-    className={cn("relative", { "opacity-50": props.disabled })}
+    className={cn("relative", { "opacity-60 grayscale": props.disabled })}
   >
     <PlayerAvatar player={player} />
     <CheckboxPrimitive.Indicator

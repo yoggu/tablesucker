@@ -62,7 +62,7 @@ export default async function Games({
       </CardHeader>
       <CardContent>
         <GamesLoadMore
-          key={games[0]?.id}
+          key={count!}
           initialGames={games ?? []}
           gamesCount={count!}
           season={season!}
