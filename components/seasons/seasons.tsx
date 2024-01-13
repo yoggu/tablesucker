@@ -5,7 +5,7 @@ import DeleteSeasonDialog from "../season/delete-season-dialog";
 import EditSeasonDialog from "../season/edit-season-dialog";
 import SeasonBadge from "../season/season-badge";
 import SeasonDateRange from "../season/season-date-range";
-import SeasonName from "../season/season-title";
+import SeasonTitle from "../season/season-title";
 import {
   Card,
   CardContent,
@@ -37,14 +37,14 @@ export default async function Seasons() {
                 href={`/seasons/${season.id}`}
               >
                 <span className="text-xl">
-                  <SeasonName date={season.start_date} />
+                  <SeasonTitle startDate={season.start_date} />
                 </span>
                 <div className="flex items-center gap-3 pt-1">
                   <SeasonDateRange
                     startDate={season.start_date}
                     endDate={season.end_date}
                   />
-                  <SeasonBadge date={season.end_date} />
+                  <SeasonBadge state={season.state} />
                 </div>
               </Link>
               {user && (

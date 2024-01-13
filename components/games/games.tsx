@@ -1,6 +1,7 @@
 import { getCachedGames, getCachedGamesCount } from "@/actions/game";
 import { getCachedPlayes } from "@/actions/player";
 import { getCachedSeasons } from "@/actions/season";
+import { getCurrentUser } from "@/actions/user";
 import {
   Card,
   CardContent,
@@ -8,12 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Player, Season } from "@/types/types";
-import { getCurrentUser } from "@/actions/user";
+import { Player, SeasonWithState } from "@/types/types";
 import GamesLoadMore from "./games-load-more";
 
 type GamesProps = {
-  season?: Season;
+  season?: SeasonWithState;
   player?: Player;
   offset?: number;
   limit?: number;
@@ -41,7 +41,7 @@ export default async function Games({
 
   const user = await getCurrentUser();
 
-  let seasons: Season[] | null = null;
+  let seasons: SeasonWithState[] | null = null;
   let players: Player[] | null = null;
   if (user) {
     const { data: seasonsData, error: seasonsError } = await getCachedSeasons();

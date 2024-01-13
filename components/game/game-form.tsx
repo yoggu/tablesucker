@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/lib/hooks/use-toast";
 import { GameFormSchema } from "@/lib/schema";
-import { GameDetails, Player, Season } from "@/types/types";
+import { GameDetails, Player, SeasonWithState } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -32,7 +32,7 @@ import {
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
   players: Player[];
-  seasons: Season[];
+  seasons: SeasonWithState[];
   onClose?: () => void;
   game?: GameDetails;
 };
@@ -161,7 +161,7 @@ export default function GameForm({
                 <SelectContent>
                   {seasons.map((season) => (
                     <SelectItem key={season.id} value={season?.id?.toString()}>
-                      <SeasonTitle date={season.start_date} />
+                      <SeasonTitle startDate={season.start_date} />
                     </SelectItem>
                   ))}
                 </SelectContent>

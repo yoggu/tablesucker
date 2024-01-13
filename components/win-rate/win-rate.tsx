@@ -1,10 +1,10 @@
-import { Season } from "@/types/types";
 import { getCachedGames } from "@/actions/game";
-import WinRateList from "./win-rate-list";
+import { SeasonWithState } from "@/types/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import WinRateList from "./win-rate-list";
 
 type WinRateProps = {
-  season: Season;
+  season: SeasonWithState;
 };
 
 export default async function WinRate({ season }: WinRateProps) {

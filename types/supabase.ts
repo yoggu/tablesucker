@@ -81,6 +81,13 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "seasons"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "games_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "seasons_with_state"
+            referencedColumns: ["id"]
           }
         ]
       }
@@ -166,8 +173,39 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "seasons"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "games_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "seasons_with_state"
+            referencedColumns: ["id"]
           }
         ]
+      }
+      seasons_with_state: {
+        Row: {
+          created_at: string | null
+          end_date: string | null
+          id: number | null
+          start_date: string | null
+          state: Database["public"]["Enums"]["season_state"] | null
+        }
+        Insert: {
+          created_at?: string | null
+          end_date?: string | null
+          id?: number | null
+          start_date?: string | null
+          state?: never
+        }
+        Update: {
+          created_at?: string | null
+          end_date?: string | null
+          id?: number | null
+          start_date?: string | null
+          state?: never
+        }
+        Relationships: []
       }
     }
     Functions: {
@@ -196,6 +234,7 @@ export interface Database {
       }
     }
     Enums: {
+      season_state: "upcoming" | "active" | "completed"
       team: "team_red" | "team_blue"
     }
     CompositeTypes: {

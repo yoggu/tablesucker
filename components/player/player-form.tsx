@@ -94,7 +94,7 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
     if (player?.image_url) {
       fetchImage(player.image_url).then((file) => {
         if (file) {
-          console.log("file", file);
+
           uppy.addFile({
             name: file.name,
             type: file.type,

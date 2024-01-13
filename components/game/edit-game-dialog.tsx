@@ -1,4 +1,6 @@
 "use client";
+import { GameDetails, Player, SeasonWithState } from "@/types/types";
+import { EditIcon } from "lucide-react";
 import { useState } from "react";
 import {
   Dialog,
@@ -7,14 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { GameDetails, Player, Season } from "@/types/types";
-import { EditIcon } from "lucide-react";
 import GameForm from "./game-form";
 
 type EditGameDialogProps = {
   game: GameDetails;
   players: Player[];
-  seasons: Season[];
+  seasons: SeasonWithState[];
 };
 
 export default function EditGameDialog({

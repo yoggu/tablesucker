@@ -1,21 +1,21 @@
 "use client";
-import { GameDetails, Player, Season } from "@/types/types";
-import { useEffect, useState, useTransition } from "react";
 import { getCachedGames } from "@/actions/game";
-import { Button } from "../ui/button";
-import { Loader2 } from "lucide-react";
-import GamesList from "./games-list";
+import { GameDetails, Player, SeasonWithState } from "@/types/types";
 import { User } from "@supabase/supabase-js";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
+import { Button } from "../ui/button";
+import GamesList from "./games-list";
 
 type GamesLoadMoreProps = {
   initialGames: GameDetails[];
   gamesCount: number;
-  season?: Season;
+  season?: SeasonWithState;
   player?: Player;
   initialOffset?: number;
   limit: number;
   user?: User | null;
-  seasons?: Season[] | null;
+  seasons?: SeasonWithState[] | null;
   players?: Player[] | null;
 };
 

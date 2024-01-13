@@ -1,5 +1,9 @@
 "use client";
-import { Season } from "@/types/types";
+import { deleteSeason } from "@/actions/season";
+import { useToast } from "@/lib/hooks/use-toast";
+import { SeasonWithState } from "@/types/types";
+import { TrashIcon } from "lucide-react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -11,13 +15,9 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import SeasonTitle from "./season-title";
-import { useState } from "react";
-import { TrashIcon } from "lucide-react";
-import { deleteSeason } from "@/actions/season";
-import { useToast } from "@/lib/hooks/use-toast";
 
 type DeleteSeasonDialogProps = {
-  season: Season;
+  season: SeasonWithState;
 };
 
 export default function DeleteSeasonDialog({
@@ -43,7 +43,7 @@ export default function DeleteSeasonDialog({
       title: "Season deleted",
       description: (
         <>
-          <SeasonTitle date={season!.start_date} /> was deleted successfully.
+          <SeasonTitle startDate={season!.start_date} /> was deleted successfully.
         </>
       ),
     });
@@ -62,7 +62,7 @@ export default function DeleteSeasonDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Delete <SeasonTitle date={season.start_date} />
+            Delete <SeasonTitle startDate={season.start_date} />
           </DialogTitle>
           <DialogDescription>
             This action will delete all data associated with this season.

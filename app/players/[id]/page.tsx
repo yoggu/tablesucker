@@ -1,10 +1,10 @@
-import { getPlayerById } from "@/actions/player";
+import { getPlayer } from "@/actions/player";
 import PageHeader from "@/components/layout/page-header";
 import PageTitle from "@/components/ui/page-title";
 import PlayerAvatar from "@/components/ui/player-avatar";
 import Games from "@/components/games/games";
 import Standings from "@/components/standings/standings";
-import { getSeasons } from "@/actions/season";
+import { getCachedSeasons, getSeasons } from "@/actions/season";
 import SeasonSelector from "@/components/season/season-selector";
 import {
   Card,
@@ -13,12 +13,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import SeasonName from "@/components/season/season-title";
+import SeasonTitle from "@/components/season/season-title";
 import PlayerWinRate from "@/components/player/player-win-rate";
 import PlayerGoalsScored from "@/components/player/player-goals-scored";
 import GamesSkeleton from "@/components/games/games-skeleton";
 import { Suspense } from "react";
 import CardSpinnerSkeleton from "@/components/ui/card-spinner-skeleton";
+import { SeasonStateEnum } from "@/types/types";
 
 type PlayerProps = {
   params: {
@@ -34,9 +35,13 @@ export default async function PlayerPage({
   params,
 }: PlayerProps) {
   const seasonId = searchParams?.season;
-  const { data: seasons, error: seasonsError } = await getSeasons();
+  const { data: seasons, error: seasonsError } = await getCachedSeasons([
+    SeasonStateEnum.Active,
+    SeasonStateEnum.Completed,
+  ]);
+  console.log(seasons);
   if (seasonsError) throw seasonsError;
-  const { data: player, error: playerError } = await getPlayerById(params.id);
+  const { data: player, error: playerError } = await getPlayer(params.id);
   if (playerError) throw playerError;
   const season =
     seasons!.find((s) => s.id === parseInt(seasonId)) ?? seasons![0];
@@ -57,7 +62,7 @@ export default async function PlayerPage({
           <Card>
             <CardHeader>
               <CardTitle>
-                <SeasonName date={season.created_at} />
+                <SeasonTitle startDate={season.created_at} />
               </CardTitle>
               <CardDescription>
                 {`Select a season to view games and standings for ${player?.name}`}

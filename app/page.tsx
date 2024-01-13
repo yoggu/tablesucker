@@ -6,15 +6,17 @@ import GamesSkeleton from "@/components/games/games-skeleton";
 import RealtimeGames from "@/components/games/realtime-games";
 import PageHeader from "@/components/layout/page-header";
 import RankingSkeleton from "@/components/ranking/ranking-skeleton";
-import SeasonName from "@/components/season/season-title";
+import SeasonTitle from "@/components/season/season-title";
 import Topscorer from "@/components/topscorer/topscorer";
 import PageTitle from "@/components/ui/page-title";
 import WinRate from "@/components/win-rate/win-rate";
+import { SeasonStateEnum } from "@/types/types";
 import Link from "next/link";
 import { Suspense } from "react";
 
 export default async function Live() {
-  const { data: seasons, error: seasonsError } = await getCachedSeasons(true);
+  const { data: seasons, error: seasonsError } = await getCachedSeasons([SeasonStateEnum.Active]);
+  console.log(seasons);
   if (seasonsError) throw seasonsError;
   const latestActiveSeason = seasons![0];
   const { data: players, error: playersError } = await getCachedPlayes();
@@ -25,14 +27,14 @@ export default async function Live() {
       <PageHeader>
         <div>
           <PageTitle>
-            Current Season
+            Active Season
           </PageTitle>
           <div className="mt-1">
             <Link
               href={`/seasons/${latestActiveSeason.id}`}
               className="hover:text-blue-600 dark:hover:text-blue-400 dark:text-slate-400"
             >
-              <SeasonName date={latestActiveSeason.start_date} />
+              <SeasonTitle startDate={latestActiveSeason.start_date} />
             </Link>
             </div>
         </div>

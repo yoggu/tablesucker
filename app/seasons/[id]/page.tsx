@@ -1,10 +1,10 @@
-import { getSeasonById } from "@/actions/season";
+import { getSeason } from "@/actions/season";
 import Games from "@/components/games/games";
 import GamesSkeleton from "@/components/games/games-skeleton";
 import PageHeader from "@/components/layout/page-header";
 import SeasonBadge from "@/components/season/season-badge";
 import SeasonDateRange from "@/components/season/season-date-range";
-import SeasonName from "@/components/season/season-title";
+import SeasonTitle from "@/components/season/season-title";
 import Standings from "@/components/standings/standings";
 import CardSpinnerSkeleton from "@/components/ui/card-spinner-skeleton";
 import PageTitle from "@/components/ui/page-title";
@@ -17,7 +17,7 @@ type SeasonProps = {
 };
 
 export default async function SeasonPage({ params }: SeasonProps) {
-  const { data: season, error: seasonError } = await getSeasonById(params.id);
+  const { data: season, error: seasonError } = await getSeason(params.id);
   if (seasonError) throw seasonError;
 
   return (
@@ -25,7 +25,7 @@ export default async function SeasonPage({ params }: SeasonProps) {
       <PageHeader>
         <div>
           <PageTitle>
-            <SeasonName date={season!.start_date} />
+            <SeasonTitle startDate={season!.start_date} />
           </PageTitle>
           <div className="mt-1 flex items-center gap-3">
             <SeasonDateRange
@@ -33,7 +33,7 @@ export default async function SeasonPage({ params }: SeasonProps) {
               startDate={season!.start_date}
               endDate={season!.end_date}
             />
-            <SeasonBadge date={season!.end_date} />
+            <SeasonBadge state={season!.state} />
           </div>
         </div>
       </PageHeader>

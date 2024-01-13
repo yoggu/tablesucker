@@ -19,6 +19,7 @@ export const columns: ColumnDef<PlayerStats>[] = [
           <Link
             className="flex w-fit items-center gap-3 hover:text-blue-600 dark:hover:text-blue-400"
             href={`/players/${player.id}`}
+            title={player.name}
           >
             <PlayerAvatar player={player} />
             <span className="hidden @lg:inline">{player.name}</span>

@@ -1,11 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { format } from "date-fns";
 
-import { useToast } from "@/lib/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,25 +15,26 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/lib/hooks/use-toast";
 
-import { SeasonFormSchema } from "@/lib/schema";
-import Link from "next/link";
-import { CalendarIcon } from "lucide-react";
+import { createSeason, updateSeason } from "@/actions/season";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
+import { SeasonFormSchema } from "@/lib/schema";
+import { cn, transformDateToUTC } from "@/lib/utils";
+import { SeasonWithState } from "@/types/types";
+import { CalendarIcon } from "lucide-react";
+import Link from "next/link";
 import SeasonTitle from "./season-title";
-import { createSeason, updateSeason } from "@/actions/season";
-import { Season } from "@/types/types";
 
 type Inputs = z.infer<typeof SeasonFormSchema>;
 
 type SeasonFromProps = {
-  season?: Season;
+  season?: SeasonWithState;
   onClose?: () => void;
 };
 
@@ -49,8 +49,8 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
   });
 
   const handleUpdateSeason = async (id: number, data: Inputs) => {
-    const startDate = transformDate(data.start_date);
-    const endDate = data.end_date ? transformDate(data.end_date) : undefined;
+    const startDate = transformDateToUTC(data.start_date);
+    const endDate = data.end_date ? transformDateToUTC(data.end_date) : undefined;
 
     const { data: season, error: seasonError } = await updateSeason(id, {
       start_date: startDate,
@@ -72,7 +72,7 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
       description: (
         <>
           <Link href={`/seasons/${season!.id}`}>
-            <SeasonTitle date={season!.start_date} />
+            <SeasonTitle startDate={season!.start_date} />
           </Link>{" "}
           was updated successfully.
         </>
@@ -85,8 +85,8 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
   };
 
   const handleCreateSeason = async (data: Inputs) => {
-    const startDate = transformDate(data.start_date);
-    const endDate = data.end_date ? transformDate(data.end_date) : undefined;
+    const startDate = transformDateToUTC(data.start_date);
+    const endDate = data.end_date ? transformDateToUTC(data.end_date) : undefined;
     const { data: season, error: seasonError } = await createSeason({
       start_date: startDate,
       end_date: endDate,
@@ -106,7 +106,7 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
       description: (
         <>
           <Link href={`/seasons/${season!.id}`}>
-            <SeasonTitle date={season!.start_date} />
+            <SeasonTitle startDate={season!.start_date} />
           </Link>{" "}
           was created successfully.
         </>
@@ -116,12 +116,6 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
     if (onClose) {
       onClose();
     }
-  };
-
-  const transformDate = (date: Date) => {
-    return new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
-    );
   };
 
   const onSubmit = async (data: Inputs) => {
@@ -166,7 +160,7 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(date) => {
+                      disabled={season ? false : (date) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
                         return date < today;
@@ -211,7 +205,7 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(date) => {
+                      disabled={season ? false : (date) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
                         return date < today;

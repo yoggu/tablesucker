@@ -122,7 +122,7 @@ export async function getPlayers(includeArchived: boolean = false) {
   return { data, error, count };
 }
 
-export async function getPlayerById(id: number) {
+export async function getPlayer(id: number) {
   const supabase = createClient(cookies());
   const { data, error } = await supabase
     .from("players")

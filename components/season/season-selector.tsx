@@ -1,11 +1,15 @@
 "use client";
+import { SeasonWithState } from "@/types/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from "../ui/form";
 import {
@@ -15,15 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import SeasonTitle from "./season-title";
-import { Season } from "@/types/types";
 import SeasonBadge from "./season-badge";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import SeasonTitle from "./season-title";
 
 type SeasonSelectorProps = {
-  seasons: Season[];
+  seasons: SeasonWithState[];
 };
 
 const SeasonSelectorSchema = z.object({
@@ -83,8 +83,8 @@ export default function SeasonSelector({ seasons }: SeasonSelectorProps) {
                   {seasons.map((season) => (
                     <SelectItem key={season.id} value={season?.id?.toString()}>
                       <span className="flex gap-3">
-                        <SeasonTitle date={season.start_date} />
-                        <SeasonBadge date={season.end_date} />
+                        <SeasonTitle startDate={season.start_date} />
+                        <SeasonBadge state={season.state} />
                       </span>
                     </SelectItem>
                   ))}

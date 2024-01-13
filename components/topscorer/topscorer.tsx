@@ -1,10 +1,10 @@
-import { Season } from "@/types/types";
 import { getCachedGames } from "@/actions/game";
-import TopscorerList from "./topscorer-list";
+import { SeasonWithState } from "@/types/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import TopscorerList from "./topscorer-list";
 
 type TopscorerProps = {
-  season: Season;
+  season: SeasonWithState;
 };
 
 export default async function Topscorer({ season }: TopscorerProps) {

@@ -1,12 +1,12 @@
 import { getCachedGames } from "@/actions/game";
 import { calculatePlayerStats } from "@/lib/utils";
-import { Player, PlayerStats, Season } from "@/types/types";
+import { Player, PlayerStats, SeasonWithState } from "@/types/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { columns } from "./standings-columns";
 import { StandingsTable } from "./standings-table";
 
 type StandingsProps = {
-  season: Season;
+  season: SeasonWithState;
   player?: Player;
 };
 

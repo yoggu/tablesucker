@@ -1,6 +1,6 @@
 import PlayerAvatar from "@/components/ui/player-avatar";
 import { cn, formatDate } from "@/lib/utils";
-import { GameDetails, Player, Season, TEAM } from "@/types/types";
+import { GameDetails, Player, SeasonWithState, TeamEnum } from "@/types/types";
 import { User } from "@supabase/supabase-js";
 import { Award } from "lucide-react";
 import DeleteGameDialog from "../game/delete-game-dialog";
@@ -9,7 +9,7 @@ import EditGameDialog from "../game/edit-game-dialog";
 type GameListProps = {
   games: GameDetails[];
   user?: User | null;
-  seasons?: Season[] | null;
+  seasons?: SeasonWithState[] | null;
   players?: Player[] | null;
 };
 
@@ -40,7 +40,7 @@ export default function GamesList({
             <div className="flex justify-end ">
               <span className="relative">
                 Team Red
-                {game.winner === TEAM.Red && (
+                {game.winner === TeamEnum.Red && (
                   <Award className="absolute -left-6 top-0 size-5 sm:-left-8 sm:size-6" />
                 )}
               </span>
@@ -63,7 +63,7 @@ export default function GamesList({
             <div className="flex">
               <span className="relative">
                 Team Blue
-                {game.winner === TEAM.Blue && (
+                {game.winner === TeamEnum.Blue && (
                   <Award className="absolute -right-6 top-0 size-5 sm:-right-8 sm:size-6" />
                 )}
               </span>

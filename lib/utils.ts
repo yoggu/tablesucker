@@ -5,18 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const locale =
-    typeof navigator !== "undefined" ? navigator.language : "de-CH";
-  return date.toLocaleDateString(locale, {
-    day: "numeric",
-    month: "numeric",
-    year: "numeric",
-  });
-};
-
-import { TEAM, PlayerStats, GameDetails } from "@/types/types";
+import { TeamEnum, PlayerStats, GameDetails } from "@/types/types";
 
 export function calculatePlayerStats(games: GameDetails[]) {
   const playerStats: Record<number, PlayerStats> = {};
@@ -39,7 +28,7 @@ export function calculatePlayerStats(games: GameDetails[]) {
           goalDifference: 0,
         };
       }
-      if (winner === TEAM.Red) {
+      if (winner === TeamEnum.Red) {
         playerStats[player.id].wins += 1;
       }
       playerStats[player.id].games += 1;
@@ -60,7 +49,7 @@ export function calculatePlayerStats(games: GameDetails[]) {
           goalDifference: 0,
         };
       }
-      if (winner === TEAM.Blue) {
+      if (winner === TeamEnum.Blue) {
         playerStats[player.id].wins += 1;
       }
       playerStats[player.id].games += 1;
@@ -89,8 +78,30 @@ export function isCompletedSeason(dateString: string | null) {
   if (!dateString) return false;
 
   const endDate = new Date(dateString);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = transformDateToUTC(new Date())
 
   return endDate < today;
 }
+
+export function isUpcomingSeason(dateString: string) {
+  const date = new Date(dateString);
+  const today = transformDateToUTC(new Date());
+  return date > today;
+}
+
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const locale =
+    typeof navigator !== "undefined" ? navigator.language : "de-CH";
+  return date.toLocaleDateString(locale, {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+  });
+};
+
+export const transformDateToUTC = (date: Date) => {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+  );
+};

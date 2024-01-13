@@ -69,16 +69,10 @@ export const GameFormSchema = z
 
 export const SeasonFormSchema = z
   .object({
-    start_date: z.date().refine(
-      (value: Date) => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        return value >= today;
-      },
-      {
-        message: "Start date must be today or in the future",
-      },
-    ),
+    start_date: z.date({
+      required_error: "Please enter a start date",
+      invalid_type_error: "Not a valid date",
+    }),
     end_date: z.date().optional(),
   })
   .superRefine((data, ctx) => {

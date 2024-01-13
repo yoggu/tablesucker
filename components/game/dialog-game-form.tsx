@@ -1,5 +1,7 @@
 "use client";
+import { Player, SeasonWithState } from "@/types/types";
 import { useState } from "react";
+import AddButton from "../ui/add-button";
 import {
   Dialog,
   DialogContent,
@@ -8,11 +10,9 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import GameForm from "./game-form";
-import { Player, Season } from "@/types/types";
-import AddButton from "../ui/add-button";
 
 type DialogGameFormProps = {
-  seasons: Season[];
+  seasons: SeasonWithState[];
   players: Player[];
 };
 

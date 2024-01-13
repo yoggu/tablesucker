@@ -1,4 +1,6 @@
 "use client";
+import { SeasonWithState } from "@/types/types";
+import { EditIcon } from "lucide-react";
 import { useState } from "react";
 import {
   Dialog,
@@ -8,11 +10,9 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import SeasonForm from "./season-form";
-import { Season } from "@/types/types";
-import { EditIcon } from "lucide-react";
 import SeasonTitle from "./season-title";
 
-export default function EditSeasonDialog({ season }: { season: Season }) {
+export default function EditSeasonDialog({ season }: { season: SeasonWithState }) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const closeDialog = () => {
@@ -27,7 +27,7 @@ export default function EditSeasonDialog({ season }: { season: Season }) {
       <DialogContent className="max-h-dvh max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            Edit <SeasonTitle date={season.start_date} />
+            Edit <SeasonTitle startDate={season.start_date} />
           </DialogTitle>
         </DialogHeader>
         <SeasonForm season={season} onClose={closeDialog} />

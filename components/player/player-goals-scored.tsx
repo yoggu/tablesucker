@@ -1,12 +1,12 @@
 import { getCachedGames } from "@/actions/game";
-import { Player, Season } from "@/types/types";
 import { calculatePlayerStats } from "@/lib/utils";
+import { Player, SeasonWithState } from "@/types/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Counter from "../ui/counter";
 
 type PlayerGoalsScoredProps = {
   player: Player;
-  season: Season;
+  season: SeasonWithState;
 };
 
 export default async function PlayerGoalsScored({

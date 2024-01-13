@@ -1,17 +1,20 @@
-import { isCompletedSeason } from "@/lib/utils";
+import { isCompletedSeason, isUpcomingSeason } from "@/lib/utils";
 import { Badge } from "../ui/badge";
+import { SeasonState, SeasonStateEnum } from "@/types/types";
 
 type SeasonBadgeProps = {
-  date: string | null;
+  state: SeasonState;
 };
 
-export default function SeasonBadge({ date }: SeasonBadgeProps) {
+export default function SeasonBadge({ state }: SeasonBadgeProps) {
   return (
     <>
-      {isCompletedSeason(date) ? (
-        <Badge variant="destructive">completed</Badge>
+      {state === SeasonStateEnum.Completed ? (
+        <Badge variant="outline">completed</Badge>
+      ) : state === SeasonStateEnum.Upcoming ? (
+        <Badge variant="secondary">upcoming</Badge>
       ) : (
-        <Badge variant="secondary">active</Badge>
+        <Badge>active</Badge>
       )}
     </>
   );
