@@ -128,9 +128,9 @@ export async function getPlayers(includeArchived: boolean = false) {
 
 export async function getPlayer(id: number) {
   const supabase = createClient(cookies());
-  const query = supabase.from("players").select("*").eq("id", id);
+  const query = supabase.from("players").select("*").eq("id", id).single();
   try {
-    const { data, error } = await query.returns<Player[]>();
+    const { data, error } = await query;
     return { data, error };
   } catch (error) {
     return { data: null, error: error as Error };
