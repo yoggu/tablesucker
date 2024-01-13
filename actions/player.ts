@@ -5,6 +5,7 @@ import { createClient } from "../lib/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
 import { revalidateTag, unstable_cache } from "next/cache";
+import { Player } from "@/types/types";
 
 type PlayerFormInputs = z.infer<typeof PlayerFormSchema>;
 
@@ -73,7 +74,6 @@ export async function archivePlayer(id: number) {
 
     if (error) return { data: null, error };
     revalidateTag("players");
-
     return { data, error };
   } catch (error) {
     return { data: null, error: error as Error };
@@ -117,19 +117,24 @@ export async function getPlayers(includeArchived: boolean = false) {
   if (!includeArchived) {
     query.eq("is_archived", false);
   }
-  const { data, error, count } = await query;
+  try {
+    const { data, error, count } = await query.returns<Player[]>();
 
-  return { data, error, count };
+    return { data, error, count };
+  } catch (error) {
+    return { data: null, error: error as Error };
+  }
 }
 
 export async function getPlayer(id: number) {
   const supabase = createClient(cookies());
-  const { data, error } = await supabase
-    .from("players")
-    .select("*")
-    .eq("id", id)
-    .single();
-  return { data, error };
+  const query = supabase.from("players").select("*").eq("id", id);
+  try {
+    const { data, error } = await query.returns<Player[]>();
+    return { data, error };
+  } catch (error) {
+    return { data: null, error: error as Error };
+  }
 }
 
 function generateUniqueFilename(originalFilename: string) {
