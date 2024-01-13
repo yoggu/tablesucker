@@ -16,7 +16,6 @@ import { Suspense } from "react";
 
 export default async function Live() {
   const { data: seasons, error: seasonsError } = await getCachedSeasons([SeasonStateEnum.Active]);
-  console.log(seasons);
   if (seasonsError) throw seasonsError;
   const latestActiveSeason = seasons![0];
   const { data: players, error: playersError } = await getCachedPlayes();

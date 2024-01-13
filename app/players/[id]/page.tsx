@@ -39,7 +39,6 @@ export default async function PlayerPage({
     SeasonStateEnum.Active,
     SeasonStateEnum.Completed,
   ]);
-  console.log(seasons);
   if (seasonsError) throw seasonsError;
   const { data: player, error: playerError } = await getPlayer(params.id);
   if (playerError) throw playerError;
