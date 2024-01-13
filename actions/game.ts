@@ -4,7 +4,8 @@ import { GameFormSchema } from "@/utils/schema";
 import { createClient } from "../utils/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { Game, GameDetails, GamePlayer, TEAM } from "@/types/types";
+import { GameDetails } from "@/types/types";
+import { revalidateTag } from "next/cache";
 
 type GameFormInputs = z.infer<typeof GameFormSchema>;
 
@@ -66,6 +67,20 @@ export async function fetchGames(
   } catch (error) {
     console.error("Error fetching games:", error);
     return { data: null, error: error as Error };
+  }
+}
+
+export async function deleteGame(gameId: number) {
+  const supabase = createClient(cookies());
+
+  try {
+    const { error } = await supabase.from("games").delete().eq("id", gameId);
+    revalidateTag("games");
+
+    return { error };
+  } catch (error) {
+    console.error("Error deleting game:", error);
+    return { error: error as Error };
   }
 }
 

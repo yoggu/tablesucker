@@ -5,6 +5,7 @@ import { fetchGames } from "@/actions/game";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 import GamesList from "./games-list";
+import { User } from "@supabase/supabase-js";
 
 type GamesLoadMoreProps = {
   initialGames: GameDetails[];
@@ -13,6 +14,9 @@ type GamesLoadMoreProps = {
   player?: Player;
   initialOffset?: number;
   limit: number;
+  user?: User | null;
+  seasons?: Season[] | null;
+  players?: Player[] | null;
 };
 
 export default function GamesLoadMore({
@@ -22,6 +26,9 @@ export default function GamesLoadMore({
   player,
   initialOffset = 0,
   limit,
+  user,
+  seasons,
+  players,
 }: GamesLoadMoreProps) {
   const [isPending, startTransition] = useTransition();
   const [games, setGames] = useState<GameDetails[]>(initialGames);
@@ -47,7 +54,7 @@ export default function GamesLoadMore({
 
   return (
     <>
-      <GamesList games={games} />
+      <GamesList seasons={seasons} players={players} games={games} user={user} />
       {showLoadMore && (
         <div className="mt-6 flex justify-center">
           {isPending ? (

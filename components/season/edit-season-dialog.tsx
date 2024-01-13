@@ -10,6 +10,7 @@ import {
 import SeasonForm from "./season-form";
 import { Season } from "@/types/types";
 import { EditIcon } from "lucide-react";
+import SeasonTitle from "./season-title";
 
 export default function EditSeasonDialog({ season }: { season: Season }) {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -25,7 +26,9 @@ export default function EditSeasonDialog({ season }: { season: Season }) {
       </DialogTrigger>
       <DialogContent className="max-h-dvh max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Season</DialogTitle>
+          <DialogTitle>
+            Edit <SeasonTitle date={season.start_date} />
+          </DialogTitle>
         </DialogHeader>
         <SeasonForm season={season} onClose={closeDialog} />
       </DialogContent>

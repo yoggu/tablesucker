@@ -1,20 +1,41 @@
-import { GameDetails, TEAM } from "@/types/types";
-import { formatDate } from "@/utils/utils";
+import { GameDetails, Player, Season, TEAM } from "@/types/types";
+import { cn, formatDate } from "@/utils/utils";
 import PlayerAvatar from "@/components/ui/player-avatar";
 import { Award } from "lucide-react";
+import DeleteGameDialog from "../game/delete-game-dialog";
+import { User } from "@supabase/supabase-js";
+import EditGameDialog from "../game/edit-game-dialog";
 
 type GameListProps = {
   games: GameDetails[];
+  user?: User | null;
+  seasons?: Season[] | null;
+  players?: Player[] | null;
 };
 
-export default function GamesList({ games }: GameListProps) {
+export default function GamesList({
+  games,
+  user,
+  seasons,
+  players,
+}: GameListProps) {
   return (
-    <ul className="flex flex-col gap-6">
+    <ul
+      className={cn("flex flex-col gap-6 ", {
+        "gap-8 sm:gap-6": user,
+      })}
+    >
       {games?.map((game) => (
         <li
           key={game.id}
-          className="animate-fade-in grid grid-cols-[minmax(80px,1fr)_minmax(0,100px)_minmax(80px,1fr)] gap-2 border-b pb-4 last:border-0 last:pb-0 sm:gap-4 md:gap-8 xl:gap-12 dark:border-slate-700"
+          className="relative grid animate-fade-in grid-cols-[minmax(80px,1fr)_minmax(0,100px)_minmax(80px,1fr)] gap-2 border-b pb-4 last:border-0 last:pb-0 sm:gap-4 md:gap-8 xl:gap-12 dark:border-slate-700"
         >
+          {user && seasons && players && (
+            <div className="absolute -top-6 right-0 flex items-start gap-3 sm:top-0">
+              <EditGameDialog players={players} seasons={seasons} game={game} />
+              <DeleteGameDialog game={game} />
+            </div>
+          )}
           <div className="flex flex-col gap-3">
             <div className="flex justify-end ">
               <span className="relative">

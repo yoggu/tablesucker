@@ -14,7 +14,7 @@ export default function RealtimeGames() {
       .on(
         "postgres_changes",
         {
-          event: "INSERT",
+          event: "*",
           schema: "public",
           table: "games",
         },

@@ -66,13 +66,13 @@ export async function updateSeason(id: number, inputData: SeasonFormInputs) {
 export async function deleteSeason(id: number) {
   const supabase = createClient(cookies());
   try {
-    const { error: seasonError } = await supabase
+    const { error } = await supabase
       .from("seasons")
       .delete()
       .eq("id", id);
 
     revalidateTag("seasons");
-    return { error: seasonError };
+    return { error };
   } catch (error) {
     return { error: error as Error };
   }

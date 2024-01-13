@@ -1,5 +1,5 @@
 "use client";
-import { Player, Season } from "@/types/types";
+import { GameDetails, Season } from "@/types/types";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -11,23 +11,22 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { useState } from "react";
-import { ArchiveIcon } from "lucide-react";
-import { deleteSeason } from "@/actions/season";
+import { TrashIcon } from "lucide-react";
 import { useToast } from "@/utils/hooks/use-toast";
-import { archivePlayer } from "@/actions/player";
+import { deleteGame } from "@/actions/game";
 
-type ArchivePlayerDialogProps = {
-  player: Player;
+type DeleteGameDialogProps = {
+  game: GameDetails;
 };
 
-export default function ArchivePlayerDialog({
-  player,
-}: ArchivePlayerDialogProps) {
+export default function DeleteGameDialog({
+  game,
+}: DeleteGameDialogProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
 
-  const onArchive = async () => {
-    const { error } = await archivePlayer(player.id);
+  const onDelete = async () => {
+    const { error } = await deleteGame(game.id);
 
     if (error) {
       toast({
@@ -40,8 +39,12 @@ export default function ArchivePlayerDialog({
     }
 
     toast({
-      title: "Player archived",
-      description: <>{player.name} was archived successfully.</>,
+      title: "Game deleted",
+      description: (
+        <>
+          Game {game.id} was deleted successfully.
+        </>
+      ),
     });
     setDialogOpen(false);
   };
@@ -52,22 +55,24 @@ export default function ArchivePlayerDialog({
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger title="archive player" aria-label="archive player">
-        <ArchiveIcon className="size-5 text-yellow-600/80" />
+      <DialogTrigger title="delete game" aria-label="delete game">
+        <TrashIcon className="size-5 text-red-600/80" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Archive Player {player.name}</DialogTitle>
+          <DialogTitle>
+            Delete Game {game.id}
+          </DialogTitle>
           <DialogDescription>
-            This action will archive the player.
+            This action will delete the game.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="mt-4 gap-2">
           <Button variant="secondary" onClick={closeDialog}>
             Cancel
           </Button>
-          <Button  onClick={onArchive}>
-            Archive
+          <Button variant="destructive" onClick={onDelete}>
+            Delete
           </Button>
         </DialogFooter>
       </DialogContent>

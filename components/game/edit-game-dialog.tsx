@@ -7,11 +7,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Player } from "@/types/types";
+import { GameDetails, Player, Season } from "@/types/types";
 import { EditIcon } from "lucide-react";
-import PlayerForm from "./player-form";
+import GameForm from "./game-form";
 
-export default function EditPlayerDialog({ player }: { player: Player }) {
+type EditGameDialogProps = {
+  game: GameDetails;
+  players: Player[];
+  seasons: Season[];
+};
+
+export default function EditGameDialog({
+  game,
+  players,
+  seasons,
+}: EditGameDialogProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const closeDialog = () => {
@@ -20,14 +30,19 @@ export default function EditPlayerDialog({ player }: { player: Player }) {
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger title="edit player" aria-label="edit player">
+      <DialogTrigger title="edit game" aria-label="edit game">
         <EditIcon className="size-5" />
       </DialogTrigger>
       <DialogContent className="max-h-dvh max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Player {player.name}</DialogTitle>
+          <DialogTitle>Edit Game</DialogTitle>
         </DialogHeader>
-        <PlayerForm player={player} onClose={closeDialog} />
+        <GameForm
+          seasons={seasons}
+          players={players}
+          game={game}
+          onClose={closeDialog}
+        />
       </DialogContent>
     </Dialog>
   );

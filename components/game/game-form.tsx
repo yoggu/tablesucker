@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { GameFormSchema } from "@/utils/schema";
 import { createGame } from "@/actions/game";
-import { Player, Season } from "@/types/types";
+import { GameDetails, Player, Season } from "@/types/types";
 import {
   Select,
   SelectContent,
@@ -35,9 +35,10 @@ type GameFormProps = {
   players: Player[];
   seasons: Season[];
   onClose?: () => void;
+  game?: GameDetails;
 };
 
-export default function GameForm({ players, seasons, onClose }: GameFormProps) {
+export default function GameForm({ players, seasons, onClose, game }: GameFormProps) {
   const { toast } = useToast();
   const [teamRedPlayers, setTeamRedPlayers] = useState<Player[]>(players);
   const [teamBluePlayers, setTeamBluePlayers] = useState<Player[]>(players);
