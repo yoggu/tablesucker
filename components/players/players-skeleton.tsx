@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import PlayerAvatar from "../ui/player-avatar";
 import PlayerAvatarSkeleton from "../ui/player-avatar-skeleton";
 
 export default function PlayersSkeleton() {
