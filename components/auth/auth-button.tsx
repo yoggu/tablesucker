@@ -1,14 +1,13 @@
 import { signOut } from "@/actions/auth";
 import { getCurrentUser } from "@/actions/user";
-import { LogInIcon, LogOutIcon, Users } from "lucide-react";
+import { LogInIcon, LogOutIcon } from "lucide-react";
+import { Button } from "../ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { MenuLink } from "../layout/menu-link";
-import { Button } from "../ui/button";
 import DialogLoginForm from "./dialog-login-form";
 
 export default async function AuthButton() {
