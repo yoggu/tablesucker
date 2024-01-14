@@ -116,6 +116,6 @@ export async function getSeason(id: number) {
     const { data, error } = await query.returns<SeasonWithState[]>();
     return { data, error };
   } catch (error) {
-    return { error: error as Error };
+    return { data: null, error: error as Error };
   }
 }

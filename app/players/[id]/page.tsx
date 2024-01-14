@@ -35,10 +35,10 @@ export default async function PlayerPage({
   searchParams,
   params,
 }: PlayerProps) {
-  const { data: players, error: playerError } = await getPlayer(params.id);
+  const { data: playerData, error: playerError } = await getPlayer(params.id);
   if (playerError) throw playerError;
-  if (!players || players?.length === 0) return notFound();
-  const player = players[0];
+  const [player] = playerData as Player[];
+  if (!player) return notFound();
 
   const seasonId = parseInt(searchParams?.season);
   const { data: seasons, error: seasonsError } = await getCachedSeasons([

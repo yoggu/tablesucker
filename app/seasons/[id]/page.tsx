@@ -8,6 +8,7 @@ import SeasonTitle from "@/components/season/season-title";
 import Standings from "@/components/standings/standings";
 import CardSpinnerSkeleton from "@/components/ui/card-spinner-skeleton";
 import PageTitle from "@/components/ui/page-title";
+import { SeasonWithState } from "@/types/types";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -18,10 +19,10 @@ type SeasonProps = {
 };
 
 export default async function SeasonPage({ params }: SeasonProps) {
-  const { data: seasons, error: seasonError } = await getSeason(params.id);
+  const { data: seasonData, error: seasonError } = await getSeason(params.id);
   if (seasonError) throw seasonError;
-  if (!seasons || seasons?.length === 0) return notFound();
-  const season = seasons[0];
+  const [season] = seasonData as SeasonWithState[];
+  if (!season) return notFound();
 
   return (
     <>
