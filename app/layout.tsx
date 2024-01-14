@@ -1,12 +1,10 @@
-import { GeistSans } from "geist/font/sans";
-import "@/styles/globals.css";
-import Menu from "@/components/layout/menu";
-import { ThemeProvider } from "@/components/layout/theme-provider";
-import Header from "@/components/layout/page-header";
-import { Toaster } from "@/components/ui/toaster";
-import { ModeToggle } from "@/components/layout/mode-toggle";
-import MobileMenu from "@/components/layout/mobile-menu";
 import AuthButton from "@/components/auth/auth-button";
+import Menu from "@/components/layout/menu";
+import MobileMenu from "@/components/layout/mobile-menu";
+import { ThemeProvider } from "@/components/layout/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
+import "@/styles/globals.css";
+import { GeistSans } from "geist/font/sans";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`

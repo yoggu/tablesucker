@@ -1,9 +1,9 @@
 "use client";
-import { CalendarDays, Menu, Radio, Users, X } from "lucide-react";
-import { MenuLink } from "./menu-link";
-import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { CalendarDays, Menu, Radio, Users, X } from "lucide-react";
 import { useState } from "react";
+import { Button } from "../ui/button";
+import { MenuLink } from "./menu-link";
 import { ModeToggle } from "./mode-toggle";
 
 export default function MobileMenu({
@@ -52,7 +52,7 @@ export default function MobileMenu({
             </MenuLink>
           </li>
           <li className="mt-auto">
-              {children}
+            <div onClick={() => setOpen(false)}>{children}</div>
           </li>
           <li>
             <ModeToggle />
