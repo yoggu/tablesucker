@@ -37,6 +37,18 @@ type GameFormProps = {
   game?: GameDetails;
 };
 
+function getPlayerIdsFromTeam(players: Player[] | undefined): number[] {
+  return players?.map((player) => player.id) ?? [];
+}
+
+function excludePlayersByIds(idsToExclude: number[], players: Player[]): Player[] {
+  return players.filter((player) => !idsToExclude.includes(player.id));
+}
+
+function filterPlayerIdsToInclude(ids: number[], players: Player[]): number[] {
+  return ids.filter((id) => players.some((player) => player.id === id));
+}
+
 export default function GameForm({
   players,
   seasons,
@@ -44,27 +56,23 @@ export default function GameForm({
   game,
 }: GameFormProps) {
   const { toast } = useToast();
-  const gameTeamRedPlayerIds = game?.team_red?.players.map(
-    (player) => player.id,
-  );
-  const gameTeamBluePlayerIds = game?.team_blue?.players.map(
-    (player) => player.id,
-  );
+  const gameTeamRedPlayerIds = getPlayerIdsFromTeam(game?.team_red?.players);
+  const gameTeamBluePlayerIds = getPlayerIdsFromTeam(game?.team_blue?.players);
   const [teamRedPlayers, setTeamRedPlayers] = useState<Player[]>(
-    players.filter((player) => !gameTeamBluePlayerIds?.includes(player.id)),
+    excludePlayersByIds(gameTeamBluePlayerIds, players),
   );
   const [teamBluePlayers, setTeamBluePlayers] = useState<Player[]>(
-    players.filter((player) => !gameTeamRedPlayerIds?.includes(player.id)),
+    excludePlayersByIds(gameTeamRedPlayerIds, players),
   );
   const form = useForm<Inputs>({
     resolver: zodResolver(GameFormSchema),
     defaultValues: {
       team_red: {
-        players: gameTeamRedPlayerIds || [],
+        players: filterPlayerIdsToInclude(gameTeamRedPlayerIds, players),
         score: game?.team_red?.score?.toString() || "0",
       },
       team_blue: {
-        players: gameTeamBluePlayerIds || [],
+        players: filterPlayerIdsToInclude(gameTeamBluePlayerIds, players),
         score: game?.team_blue?.score?.toString() || "0",
       },
       season_id:
