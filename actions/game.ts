@@ -1,7 +1,8 @@
 "use server";
 
-import { GameDetails } from "@/types/types";
 import { GameFormSchema } from "@/lib/schema";
+import { transformGameDetail } from "@/lib/utils";
+import { GameDetails, GameDetailsView } from "@/types/types";
 import { revalidateTag, unstable_cache } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
@@ -98,7 +99,9 @@ export async function getGames(
   }
 
   if (playerId) {
-    query = query.contains("player_ids", [playerId]);
+    query = query.or(
+      `team_red_player_ids.cs.{${playerId}},team_blue_player_ids.cs.{${playerId}}`,
+    );
   }
 
   if (limit) {
@@ -106,11 +109,13 @@ export async function getGames(
   }
 
   try {
-    const { data, error } = await query.returns<GameDetails[]>();
-
+    const { data, error } = await query.returns<GameDetailsView[]>();
     if (error) return { data: null, error };
 
-    return { data, error: null };
+    const gameDetails: GameDetails[] = data.map((game) =>
+      transformGameDetail(game),
+    );
+    return { data: gameDetails, error: null };
   } catch (error) {
     console.error("Error fetching games:", error);
     return { data: null, error: error as Error };
@@ -141,11 +146,13 @@ export async function getGamesCount(seasonId?: number, playerId?: number) {
   }
 
   if (playerId) {
-    query = query.contains("player_ids", [playerId]);
+    query = query.or(
+      `team_red_player_ids.cs.{${playerId}},team_blue_player_ids.cs.{${playerId}}`,
+    );
   }
 
   try {
-    const { count, error } = await query;
+    const { count, error } = await query.returns<{ count: number }>();
 
     if (error) throw error;
 

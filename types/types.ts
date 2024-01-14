@@ -1,4 +1,4 @@
-import { Tables, Enums } from "./supabase";
+import { Tables, Enums, Json } from "./supabase";
 
 export type Game = Tables<"games">;
 
@@ -23,14 +23,29 @@ export enum SeasonStateEnum {
   Completed = "completed",
 }
 
-export interface SeasonWithState extends Tables<"seasons_with_state"> {
+export type SeasonWithStateView = Tables<"seasons_with_state">;
+
+export interface SeasonWithState extends SeasonWithStateView {
   id: number;
   created_at: string;
   start_date: string;
   end_date: string | null;
   state: SeasonState;
 }
-export interface GameDetails extends Tables<"game_details"> {
+
+export interface GameDetailsView extends Tables<"game_details"> {
+  created_at: string;
+  id: number;
+  season_id: number;
+  team_blue_player_ids: number[];
+  team_blue_players: Player[];
+  team_blue_score: number;
+  team_red_player_ids: number[];
+  team_red_players: Player[];
+  team_red_score: number;
+  winner: Team;
+}
+export interface GameDetails {
   id: number;
   created_at: string;
   player_ids: number[];

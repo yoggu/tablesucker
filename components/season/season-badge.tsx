@@ -1,6 +1,5 @@
-import { isCompletedSeason, isUpcomingSeason } from "@/lib/utils";
-import { Badge } from "../ui/badge";
 import { SeasonState, SeasonStateEnum } from "@/types/types";
+import { Badge } from "../ui/badge";
 
 type SeasonBadgeProps = {
   state: SeasonState;

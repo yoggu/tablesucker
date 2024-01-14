@@ -142,28 +142,37 @@ export interface Database {
         Row: {
           created_at: string | null
           id: number | null
-          player_ids: number[] | null
           season_id: number | null
-          team_blue: Json | null
-          team_red: Json | null
+          team_blue_player_ids: number[] | null
+          team_blue_players: Json | null
+          team_blue_score: number | null
+          team_red_player_ids: number[] | null
+          team_red_players: Json | null
+          team_red_score: number | null
           winner: string | null
         }
         Insert: {
           created_at?: string | null
           id?: number | null
-          player_ids?: never
           season_id?: number | null
-          team_blue?: never
-          team_red?: never
+          team_blue_player_ids?: never
+          team_blue_players?: never
+          team_blue_score?: number | null
+          team_red_player_ids?: never
+          team_red_players?: never
+          team_red_score?: number | null
           winner?: never
         }
         Update: {
           created_at?: string | null
           id?: number | null
-          player_ids?: never
           season_id?: number | null
-          team_blue?: never
-          team_red?: never
+          team_blue_player_ids?: never
+          team_blue_players?: never
+          team_blue_score?: number | null
+          team_red_player_ids?: never
+          team_red_players?: never
+          team_red_score?: number | null
           winner?: never
         }
         Relationships: [

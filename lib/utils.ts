@@ -1,11 +1,11 @@
-import { type ClassValue, clsx } from "clsx";
+import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-import { TeamEnum, PlayerStats, GameDetails } from "@/types/types";
+import { GameDetails, GameDetailsView, PlayerStats, TeamEnum } from "@/types/types";
 
 export function calculatePlayerStats(games: GameDetails[]) {
   const playerStats: Record<number, PlayerStats> = {};
@@ -74,19 +74,22 @@ export function calculatePlayerStats(games: GameDetails[]) {
   return Object.values(playerStats);
 }
 
-export function isCompletedSeason(dateString: string | null) {
-  if (!dateString) return false;
-
-  const endDate = new Date(dateString);
-  const today = transformDateToUTC(new Date())
-
-  return endDate < today;
-}
-
-export function isUpcomingSeason(dateString: string) {
-  const date = new Date(dateString);
-  const today = transformDateToUTC(new Date());
-  return date > today;
+export function transformGameDetail(gameDetail: GameDetailsView): GameDetails {
+  return {
+    id: gameDetail.id,
+    created_at: gameDetail.created_at,
+    season_id: gameDetail.season_id,
+    winner: gameDetail.winner,
+    player_ids: [...gameDetail.team_red_player_ids, ...gameDetail.team_blue_player_ids],
+    team_red: {
+      score: gameDetail.team_red_score,
+      players: gameDetail.team_red_players,
+    },
+    team_blue: {
+      score: gameDetail.team_blue_score,
+      players: gameDetail.team_blue_players,
+    },
+  };
 }
 
 export const formatDate = (dateString: string) => {
