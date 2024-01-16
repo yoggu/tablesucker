@@ -13,7 +13,7 @@ export const getCachedPlayes = unstable_cache(
   async (includeArchived: boolean = false) => getPlayers(includeArchived),
   ["players"],
   {
-    revalidate: 60,
+    revalidate: 3600,
     tags: ["players"],
   },
 );

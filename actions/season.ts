@@ -18,7 +18,7 @@ export const getCachedSeasons = unstable_cache(
   async (seasonStates: SeasonState[] = []) => getSeasons(seasonStates),
   ["seasons"],
   {
-    revalidate: 60,
+    revalidate: 3600,
     tags: ["seasons"],
   },
 );

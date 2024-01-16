@@ -5,6 +5,11 @@ const nextConfig = {
       bodySizeLimit: '5mb',
     },
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    }
+  },
 }
 
 module.exports = nextConfig
