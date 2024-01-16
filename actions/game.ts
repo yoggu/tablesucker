@@ -19,7 +19,7 @@ export const getCachedGames = unstable_cache(
   ) => getGames(seasonId, playerId, offset, limit),
   ["games"],
   {
-    revalidate: 3600,
+    revalidate: 60,
     tags: ["games"],
   },
 );
@@ -27,9 +27,9 @@ export const getCachedGames = unstable_cache(
 export const getCachedGamesCount = unstable_cache(
   async (seasonId?: number, playerId?: number) =>
     getGamesCount(seasonId, playerId),
-  ["games"],
+  ["games_count"],
   {
-    revalidate: 3600,
+    revalidate: 60,
     tags: ["games"],
   },
 );

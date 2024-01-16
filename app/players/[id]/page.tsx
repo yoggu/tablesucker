@@ -1,4 +1,4 @@
-import { getPlayer } from "@/actions/player";
+import { getCachedPlayer, getPlayer } from "@/actions/player";
 import { getCachedSeasons } from "@/actions/season";
 import Games from "@/components/games/games";
 import GamesSkeleton from "@/components/games/games-skeleton";
@@ -35,7 +35,7 @@ export default async function PlayerPage({
   searchParams,
   params,
 }: PlayerProps) {
-  const { data: playerData, error: playerError } = await getPlayer(params.id);
+  const { data: playerData, error: playerError } = await getCachedPlayer(params.id);
   if (playerError) throw playerError;
   const [player] = playerData as Player[];
   if (!player) return notFound();

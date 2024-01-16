@@ -1,5 +1,5 @@
 import { getCachedGames, getCachedGamesCount } from "@/actions/game";
-import { getCachedPlayes } from "@/actions/player";
+import { getCachedPlayers } from "@/actions/player";
 import { getCachedSeasons } from "@/actions/season";
 import { getCurrentUser } from "@/actions/user";
 import {
@@ -47,7 +47,7 @@ export default async function Games({
     const { data: seasonsData, error: seasonsError } = await getCachedSeasons();
     if (seasonsError) throw seasonsError;
     seasons = seasonsData;
-    const { data: playersData, error: playersError } = await getCachedPlayes();
+    const { data: playersData, error: playersError } = await getCachedPlayers();
     if (playersError) throw playersError;
     players = playersData;
   }

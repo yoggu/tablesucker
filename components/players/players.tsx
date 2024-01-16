@@ -1,5 +1,10 @@
-import { getPlayers } from "@/actions/player";
+import { getCachedPlayers } from "@/actions/player";
+import { getCurrentUser } from "@/actions/user";
 import PlayerAvatar from "@/components/ui/player-avatar";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import ArchivePlayerDialog from "../player/archive-player-dialog";
+import EditPlayerDialog from "../player/edit-player-dialog";
 import {
   Card,
   CardContent,
@@ -7,20 +12,9 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { unstable_cache } from "next/cache";
-import { getCurrentUser } from "@/actions/user";
-import EditPlayerDialog from "../player/edit-player-dialog";
-import ArchivePlayerDialog from "../player/archive-player-dialog";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-
-const getCachedPlayes = unstable_cache(() => getPlayers(), ["players"], {
-  revalidate: 60,
-  tags: ["players"],
-});
 
 export default async function Players() {
-  const { data, error, count } = await getCachedPlayes();
+  const { data, error, count } = await getCachedPlayers();
   if (error) throw error;
   const user = await getCurrentUser();
 

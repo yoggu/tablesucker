@@ -1,5 +1,5 @@
-import { getCachedPlayes } from "@/actions/player";
-import { getCachedSeasons, getSeasons } from "@/actions/season";
+import { getCachedPlayers } from "@/actions/player";
+import { getCachedSeasons } from "@/actions/season";
 import DialogGameForm from "@/components/game/dialog-game-form";
 import Games from "@/components/games/games";
 import GamesSkeleton from "@/components/games/games-skeleton";
@@ -22,7 +22,7 @@ export default async function Live() {
   if (!seasons || seasons?.length === 0) return <NoActiveSeason />;
   const latestActiveSeason = seasons[0];
 
-  const { data: players, error: playersError } = await getCachedPlayes();
+  const { data: players, error: playersError } = await getCachedPlayers();
   if (playersError) throw playersError;
   if (!players || players?.length === 0) return <NoPlayers />;
 

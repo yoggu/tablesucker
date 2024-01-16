@@ -1,4 +1,4 @@
-import { getSeason } from "@/actions/season";
+import { getCachedSeason } from "@/actions/season";
 import Games from "@/components/games/games";
 import GamesSkeleton from "@/components/games/games-skeleton";
 import PageHeader from "@/components/layout/page-header";
@@ -19,7 +19,7 @@ type SeasonProps = {
 };
 
 export default async function SeasonPage({ params }: SeasonProps) {
-  const { data: seasonData, error: seasonError } = await getSeason(params.id);
+  const { data: seasonData, error: seasonError } = await getCachedSeason(params.id);
   if (seasonError) throw seasonError;
   const [season] = seasonData as SeasonWithState[];
   if (!season) return notFound();

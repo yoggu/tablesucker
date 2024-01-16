@@ -9,11 +9,20 @@ import { Player } from "@/types/types";
 
 type PlayerFormInputs = z.infer<typeof PlayerFormSchema>;
 
-export const getCachedPlayes = unstable_cache(
+export const getCachedPlayers = unstable_cache(
   async (includeArchived: boolean = false) => getPlayers(includeArchived),
   ["players"],
   {
-    revalidate: 3600,
+    revalidate: 60,
+    tags: ["players"],
+  },
+);
+
+export const getCachedPlayer = unstable_cache(
+  async (id: number) => getPlayer(id),
+  ["player"],
+  {
+    revalidate: 60,
     tags: ["players"],
   },
 );
