@@ -14,6 +14,7 @@ import { useState } from "react";
 import { TrashIcon } from "lucide-react";
 import { useToast } from "@/lib/hooks/use-toast";
 import { deleteGame } from "@/actions/game";
+import { PostgrestError } from "@supabase/supabase-js";
 
 type DeleteGameDialogProps = {
   game: GameDetails;
@@ -33,7 +34,7 @@ export default function DeleteGameDialog({
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (error as Error).message || "An unexpected error occurred.",
+        (error as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }

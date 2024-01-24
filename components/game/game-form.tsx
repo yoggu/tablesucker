@@ -28,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { PostgrestError } from "@supabase/supabase-js";
 
 type Inputs = z.infer<typeof GameFormSchema>;
 type GameFormProps = {
@@ -87,7 +88,7 @@ export default function GameForm({
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (error as Error).message || "An unexpected error occurred.",
+          (error as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }
@@ -109,7 +110,7 @@ export default function GameForm({
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (error as Error).message || "An unexpected error occurred.",
+        (error as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }

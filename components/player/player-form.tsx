@@ -30,6 +30,7 @@ import ImageEditor from "@uppy/image-editor";
 import Link from "next/link";
 import { DialogClose } from "../ui/dialog";
 import { Player } from "@/types/types";
+import { PostgrestError } from "@supabase/supabase-js";
 
 type Inputs = z.infer<typeof PlayerFormSchema>;
 
@@ -94,7 +95,6 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
     if (player?.image_url) {
       fetchImage(player.image_url).then((file) => {
         if (file) {
-
           uppy.addFile({
             name: file.name,
             type: file.type,
@@ -114,7 +114,7 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (error as Error).message || "An unexpected error occurred.",
+          (error as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }
@@ -142,7 +142,7 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (error as Error).message || "An unexpected error occurred.",
+          (error as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }

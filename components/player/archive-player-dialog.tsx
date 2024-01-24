@@ -15,6 +15,7 @@ import { ArchiveIcon } from "lucide-react";
 import { deleteSeason } from "@/actions/season";
 import { useToast } from "@/lib/hooks/use-toast";
 import { archivePlayer } from "@/actions/player";
+import { PostgrestError } from "@supabase/supabase-js";
 
 type ArchivePlayerDialogProps = {
   player: Player;
@@ -34,7 +35,7 @@ export default function ArchivePlayerDialog({
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (error as Error).message || "An unexpected error occurred.",
+        (error as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }

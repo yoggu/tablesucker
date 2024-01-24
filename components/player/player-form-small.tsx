@@ -9,6 +9,7 @@ import { useState } from "react";
 import { createPlayer } from "@/actions/player";
 import { useToast } from "@/lib/hooks/use-toast";
 import { Player } from "@/types/types";
+import { PostgrestError } from "@supabase/supabase-js";
 
 type PlayerFormSmallProps = {
   updatePlayers: (player: Player) => void;
@@ -27,7 +28,7 @@ export default function PlayerFormSmall({
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (error as Error).message || "An unexpected error occurred.",
+        (error as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }

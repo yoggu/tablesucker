@@ -9,13 +9,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/lib/hooks/use-toast";
 import { LoginFormSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthError } from "@supabase/supabase-js";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useToast } from "@/lib/hooks/use-toast";
+import { Input } from "../ui/input";
 
 type Inputs = z.infer<typeof LoginFormSchema>;
 
@@ -36,7 +37,7 @@ export default function LoginForm({ onClose }: { onClose?: () => void }) {
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (error as Error).message || "An unexpected error occurred.",
+        (error as AuthError).message || "An unexpected error occurred.",
       });
       return;
     }

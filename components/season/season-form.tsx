@@ -30,6 +30,7 @@ import { SeasonWithState } from "@/types/types";
 import { CalendarIcon } from "lucide-react";
 import Link from "next/link";
 import SeasonTitle from "./season-title";
+import { PostgrestError } from "@supabase/supabase-js";
 
 type Inputs = z.infer<typeof SeasonFormSchema>;
 
@@ -57,12 +58,12 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
       end_date: endDate,
     });
 
-    if (seasonError) {
+    if (seasonError || !season) {
       toast({
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (seasonError as Error).message || "An unexpected error occurred.",
+        (seasonError as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }
@@ -71,8 +72,8 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
       title: "Season updated",
       description: (
         <>
-          <Link href={`/seasons/${season?.id}`}>
-            <SeasonTitle startDate={season?.start_date} />
+          <Link href={`/seasons/${season.id}`}>
+            <SeasonTitle startDate={season.start_date} />
           </Link>{" "}
           was updated successfully.
         </>
@@ -91,12 +92,12 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
       start_date: startDate,
       end_date: endDate,
     });
-    if (seasonError) {
+    if (seasonError || !season) {
       toast({
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (seasonError as Error).message || "An unexpected error occurred.",
+          (seasonError as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }
@@ -105,8 +106,8 @@ export default function SeasonForm({ season, onClose }: SeasonFromProps) {
       title: "Season created",
       description: (
         <>
-          <Link href={`/seasons/${season?.id}`}>
-            <SeasonTitle startDate={season?.start_date} />
+          <Link href={`/seasons/${season.id}`}>
+            <SeasonTitle startDate={season.start_date} />
           </Link>{" "}
           was created successfully.
         </>

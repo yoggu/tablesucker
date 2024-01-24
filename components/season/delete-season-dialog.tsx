@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import SeasonTitle from "./season-title";
+import { PostgrestError } from "@supabase/supabase-js";
 
 type DeleteSeasonDialogProps = {
   season: SeasonWithState;
@@ -34,7 +35,7 @@ export default function DeleteSeasonDialog({
         variant: "destructive",
         title: "There was a problem with your request.",
         description:
-          (error as Error).message || "An unexpected error occurred.",
+          (error as PostgrestError).message || "An unexpected error occurred.",
       });
       return;
     }
@@ -43,7 +44,8 @@ export default function DeleteSeasonDialog({
       title: "Season deleted",
       description: (
         <>
-          <SeasonTitle startDate={season?.start_date} /> was deleted successfully.
+          <SeasonTitle startDate={season?.start_date} /> was deleted
+          successfully.
         </>
       ),
     });
