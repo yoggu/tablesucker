@@ -32,20 +32,17 @@ export async function createPlayer(inputData: PlayerFormInputs) {
   const parsed = PlayerFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
 
-  try {
-    const { data, error } = await supabase
-      .from("players")
-      .insert([parsed.data])
-      .select()
-      .single();
+  const { data, error } = await supabase
+    .from("players")
+    .insert([parsed.data])
+    .select()
+    .single();
 
-    if (error) return { data: null, error };
-
+  if (!error) {
     revalidateTag("players");
-    return { data, error };
-  } catch (error) {
-    return { data: null, error: error as Error };
   }
+
+  return { data, error };
 }
 
 export async function updatePlayer(id: number, inputData: PlayerFormInputs) {
@@ -53,41 +50,34 @@ export async function updatePlayer(id: number, inputData: PlayerFormInputs) {
   const parsed = PlayerFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
 
-  try {
-    const { data, error } = await supabase
-      .from("players")
-      .update(parsed.data)
-      .eq("id", id)
-      .select()
-      .single();
+  const { data, error } = await supabase
+    .from("players")
+    .update(parsed.data)
+    .eq("id", id)
+    .select()
+    .single();
 
-    if (error) return { data: null, error };
-
+  if (!error) {
     revalidateTag("players");
-    return { data, error };
-  } catch (error) {
-    return { data: null, error: error as Error };
   }
+
+  return { data, error };
 }
 
 export async function archivePlayer(id: number) {
   const supabase = createClient(cookies());
+  const { data, error } = await supabase
+    .from("players")
+    .update({ is_archived: true })
+    .eq("id", id)
+    .select()
+    .single();
 
-  try {
-    const { data, error } = await supabase
-      .from("players")
-      .update({ is_archived: true })
-      .eq("id", id)
-      .select()
-      .single();
-
-    if (error) return { data: null, error };
+  if (!error) {
     revalidateTag("players");
-
-    return { data, error };
-  } catch (error) {
-    return { data: null, error: error as Error };
   }
+
+  return { data, error };
 }
 
 export async function uploadPlayerImage(formData: FormData) {
@@ -99,22 +89,18 @@ export async function uploadPlayerImage(formData: FormData) {
   }
   const uniqueFilename = generateUniqueFilename(file.name);
 
-  try {
-    const { data: uploadedFile, error: uploadedFileError } =
-      await supabase.storage.from("players").upload(uniqueFilename, file);
+  const { data: uploadedFile, error: uploadedFileError } =
+    await supabase.storage.from("players").upload(uniqueFilename, file);
 
-    if (uploadedFileError) return { data: null, uploadedFileError };
+  if (uploadedFileError) return { data: null, uploadedFileError };
 
-    const publicUrl = supabase.storage
-      .from("players")
-      .getPublicUrl(uploadedFile.path);
+  const publicUrl = supabase.storage
+    .from("players")
+    .getPublicUrl(uploadedFile.path);
 
-    const data = { ...uploadedFile, publicUrl: publicUrl?.data?.publicUrl };
+  const data = { ...uploadedFile, publicUrl: publicUrl?.data?.publicUrl };
 
-    return { data, error: uploadedFileError };
-  } catch (error) {
-    return { data: null, error: error as Error };
-  }
+  return { data, error: uploadedFileError };
 }
 
 export async function getPlayers(includeArchived: boolean = false) {
@@ -127,24 +113,16 @@ export async function getPlayers(includeArchived: boolean = false) {
   if (!includeArchived) {
     query.eq("is_archived", false);
   }
-  try {
-    const { data, error, count } = await query.returns<Player[]>();
 
-    return { data, error, count };
-  } catch (error) {
-    return { data: null, error: error as Error };
-  }
+  const { data, error, count } = await query.returns<Player[]>();
+  return { data, error, count };
 }
 
 export async function getPlayer(id: number) {
   const supabase = createClient(cookies());
   const query = supabase.from("players").select("*").eq("id", id);
-  try {
-    const { data, error } = await query.returns<Player[]>();
-    return { data, error };
-  } catch (error) {
-    return { data: null, error: error as Error };
-  }
+  const { data, error } = await query.returns<Player[]>();
+  return { data, error };
 }
 
 function generateUniqueFilename(originalFilename: string) {

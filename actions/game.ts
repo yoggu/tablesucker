@@ -39,46 +39,40 @@ export async function createGame(inputData: GameFormInputs) {
   const parsed = GameFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
 
-  try {
-    const { data, error } = await supabase
-      .rpc("create_game", {
-        p_season_id: parseInt(parsed.data.season_id),
-        p_team_red_players: parsed.data.team_red.players,
-        p_team_red_score: parseInt(parsed.data.team_red.score),
-        p_team_blue_players: parsed.data.team_blue.players,
-        p_team_blue_score: parseInt(parsed.data.team_blue.score),
-      })
-      .single();
+  const { data, error } = await supabase
+    .rpc("create_game", {
+      p_season_id: parseInt(parsed.data.season_id),
+      p_team_red_players: parsed.data.team_red.players,
+      p_team_red_score: parseInt(parsed.data.team_red.score),
+      p_team_blue_players: parsed.data.team_blue.players,
+      p_team_blue_score: parseInt(parsed.data.team_blue.score),
+    })
+    .single();
 
-    if (error) return { data: null, error };
-
+  if (!error) {
     revalidateTag("games");
-    return { data, error: null };
-  } catch (error) {
-    return { data: null, error: error as Error };
   }
+
+  return { data, error };
 }
 
 export async function updateGame(id: number, inputData: GameFormInputs) {
   const supabase = createClient(cookies());
   const parsed = GameFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
+  const { error } = await supabase.rpc("update_game", {
+    p_game_id: id,
+    p_season_id: parseInt(parsed.data.season_id),
+    p_team_red_players: parsed.data.team_red.players,
+    p_team_red_score: parseInt(parsed.data.team_red.score),
+    p_team_blue_players: parsed.data.team_blue.players,
+    p_team_blue_score: parseInt(parsed.data.team_blue.score),
+  });
 
-  try {
-    const { error } = await supabase.rpc("update_game", {
-      p_game_id: id,
-      p_season_id: parseInt(parsed.data.season_id),
-      p_team_red_players: parsed.data.team_red.players,
-      p_team_red_score: parseInt(parsed.data.team_red.score),
-      p_team_blue_players: parsed.data.team_blue.players,
-      p_team_blue_score: parseInt(parsed.data.team_blue.score),
-    });
-
+  if (!error) {
     revalidateTag("games");
-    return { error };
-  } catch (error) {
-    return { data: null, error: error as Error };
   }
+  return { error };
 }
 
 export async function getGames(
@@ -108,32 +102,24 @@ export async function getGames(
     query = query.range(offset, offset + limit - 1);
   }
 
-  try {
-    const { data, error } = await query.returns<GameDetailsView[]>();
-    if (error) return { data: null, error };
+  const { data, error } = await query.returns<GameDetailsView[]>();
+  if (error) return { data, error };
 
-    const gameDetails: GameDetails[] = data.map((game) =>
-      transformGameDetail(game),
-    );
-    return { data: gameDetails, error: null };
-  } catch (error) {
-    console.error("Error fetching games:", error);
-    return { data: null, error: error as Error };
-  }
+  const gameDetails: GameDetails[] = data.map((game) =>
+    transformGameDetail(game),
+  );
+  return { data: gameDetails, error: null };
 }
 
 export async function deleteGame(gameId: number) {
   const supabase = createClient(cookies());
 
-  try {
-    const { error } = await supabase.from("games").delete().eq("id", gameId);
+  const { error } = await supabase.from("games").delete().eq("id", gameId);
 
+  if (!error) {
     revalidateTag("games");
-    return { error };
-  } catch (error) {
-    console.error("Error deleting game:", error);
-    return { error: error as Error };
   }
+  return { error };
 }
 
 export async function getGamesCount(seasonId?: number, playerId?: number) {
@@ -151,14 +137,6 @@ export async function getGamesCount(seasonId?: number, playerId?: number) {
     );
   }
 
-  try {
-    const { count, error } = await query.returns<{ count: number }>();
-
-    if (error) throw error;
-
-    return { data: count, error: null };
-  } catch (error) {
-    console.error("Error fetching game count:", error);
-    return { data: null, error: error as Error };
-  }
+  const { count, error } = await query.returns<{ count: number }>();
+  return { data: count, error };
 }
