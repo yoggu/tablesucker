@@ -1,4 +1,5 @@
 import AuthButton from "@/components/auth/auth-button";
+import AppleSplash from "@/components/layout/apple-splash";
 import Menu from "@/components/layout/menu";
 import MobileMenu from "@/components/layout/mobile-menu";
 import { ThemeProvider } from "@/components/layout/theme-provider";
@@ -23,6 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+      <head>
+        <AppleSplash />
+      </head>
       <body className=" min-h-screen bg-gray-100 sm:grid sm:grid-cols-[56px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)] dark:bg-gray-900">
         <ThemeProvider
           attribute="class"
