@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "See who sucks at tablesoccer",
     start_url: "/",
     display: "standalone",
-    background_color: "#020617",
+    background_color: "#111827",
     theme_color: "#020617",
     icons: [
       {
