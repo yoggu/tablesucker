@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ModeToggle } from "./mode-toggle";
 import AuthButton from "../auth/auth-button";
+import Notifications from "../ui/notifications";
 
 export default function Menu() {
   return (
@@ -77,6 +78,9 @@ export default function Menu() {
         </li>
         <li>
           <ModeToggle />
+        </li>
+        <li>
+          <Notifications />
         </li>
       </menu>
     </nav>

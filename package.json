@@ -42,12 +42,14 @@
     "tailwindcss": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.3.3",
+    "web-push": "^3.6.7",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "20.3.1",
     "@types/react": "18.2.8",
     "@types/react-dom": "18.2.5",
+    "@types/web-push": "^3.6.3",
     "encoding": "^0.1.13",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.9",

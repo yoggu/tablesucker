@@ -1,4 +1,6 @@
+import { Table } from "@tanstack/react-table";
 import { Tables, Enums, Json } from "./supabase";
+import { PushSubscription } from "web-push";
 
 export type Game = Tables<"games">;
 
@@ -85,4 +87,10 @@ export interface PlayerStats {
   goalsFor: number;
   goalsAgainst: number;
   goalDifference: number;
+}
+
+export interface Subscription extends Tables<"subscriptions"> {
+  id: number;
+  created_at: string;
+  subscription: string;
 }

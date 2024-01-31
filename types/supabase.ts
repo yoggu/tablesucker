@@ -136,6 +136,24 @@ export interface Database {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          created_at: string
+          id: number
+          subscription: Json | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          subscription?: Json | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          subscription?: Json | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       game_details: {

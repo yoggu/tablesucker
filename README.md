@@ -14,7 +14,7 @@ npm run dev
 
 cmd to generate types:
 ```
-npx supabase gen types typescript --project-id "[PROJECT_ID]" --schema public > types/supabase.ts
+npx supabase gen types typescript --project-id "qewlkgtrjssdmsvdydac" --schema public > types/supabase.ts
 ```
 
 cmd to generate assets:
