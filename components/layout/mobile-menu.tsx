@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { MenuLink } from "./menu-link";
 import { ModeToggle } from "./mode-toggle";
+import Notifications from "../ui/notifications";
 
 export default function MobileMenu({
   children,
@@ -56,6 +57,9 @@ export default function MobileMenu({
           </li>
           <li>
             <ModeToggle />
+          </li>
+          <li>
+            <Notifications />
           </li>
         </menu>
       </div>
