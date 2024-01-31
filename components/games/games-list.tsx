@@ -5,6 +5,7 @@ import { User } from "@supabase/supabase-js";
 import { Award } from "lucide-react";
 import DeleteGameDialog from "../game/delete-game-dialog";
 import EditGameDialog from "../game/edit-game-dialog";
+import FormatDate from "../ui/format-date";
 
 type GameListProps = {
   games: GameDetails[];
@@ -57,7 +58,7 @@ export default function GamesList({
             <span className="text-4xl lg:text-5xl">
               {game.team_red.score}:{game.team_blue.score}
             </span>
-            <span className="mt-3 text-xs">{formatDate(game.created_at)}</span>
+            <span className="mt-3 text-xs"><FormatDate date={game.created_at} /></span>
           </div>
           <div className="flex flex-col gap-3">
             <div className="flex">

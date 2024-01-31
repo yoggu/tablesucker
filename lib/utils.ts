@@ -5,7 +5,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-import { GameDetails, GameDetailsView, PlayerStats, TeamEnum } from "@/types/types";
+import {
+  GameDetails,
+  GameDetailsView,
+  PlayerStats,
+  TeamEnum,
+} from "@/types/types";
 
 export function calculatePlayerStats(games: GameDetails[]) {
   const playerStats: Record<number, PlayerStats> = {};
@@ -80,7 +85,10 @@ export function transformGameDetail(gameDetail: GameDetailsView): GameDetails {
     created_at: gameDetail.created_at,
     season_id: gameDetail.season_id,
     winner: gameDetail.winner,
-    player_ids: [...gameDetail.team_red_player_ids, ...gameDetail.team_blue_player_ids],
+    player_ids: [
+      ...gameDetail.team_red_player_ids,
+      ...gameDetail.team_blue_player_ids,
+    ],
     team_red: {
       score: gameDetail.team_red_score,
       players: gameDetail.team_red_players,

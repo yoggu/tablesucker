@@ -1,6 +1,7 @@
 "use client";
 
-import { cn, formatDate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import FormatDate from "../ui/format-date";
 
 type SeasonDateRangeProps = {
   startDate: string;
@@ -15,8 +16,8 @@ export default function SeasonDateRange({
 }: SeasonDateRangeProps) {
   return (
     <div className={cn("text-xs", className)}>
-      {formatDate(startDate)}
-      {endDate && ` - ${formatDate(endDate)}`}
+      <FormatDate date={startDate} />
+      {endDate && <> - <FormatDate date={startDate} /> </>}
     </div>
   );
 }
