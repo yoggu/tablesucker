@@ -70,14 +70,14 @@ export default function GameForm({
     defaultValues: {
       team_red: {
         players: filterPlayerIdsToInclude(gameTeamRedPlayerIds, players),
-        score: game?.team_red?.score?.toString() || "0",
+        score: game?.team_red?.score || 0,
       },
       team_blue: {
         players: filterPlayerIdsToInclude(gameTeamBluePlayerIds, players),
-        score: game?.team_blue?.score?.toString() || "0",
+        score: game?.team_blue?.score || 0,
       },
       season_id:
-        game?.season_id?.toString() || seasons[0]?.id?.toString() || "",
+        game?.season_id || seasons[0]?.id || undefined,
     },
   });
 

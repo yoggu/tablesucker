@@ -41,11 +41,11 @@ export async function createGame(inputData: GameFormInputs) {
 
   const { data, error } = await supabase
     .rpc("create_game", {
-      p_season_id: parseInt(parsed.data.season_id),
+      p_season_id: parsed.data.season_id,
       p_team_red_players: parsed.data.team_red.players,
-      p_team_red_score: parseInt(parsed.data.team_red.score),
+      p_team_red_score: parsed.data.team_red.score,
       p_team_blue_players: parsed.data.team_blue.players,
-      p_team_blue_score: parseInt(parsed.data.team_blue.score),
+      p_team_blue_score: parsed.data.team_blue.score,
     })
     .single();
 
@@ -62,11 +62,11 @@ export async function updateGame(id: number, inputData: GameFormInputs) {
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
   const { error } = await supabase.rpc("update_game", {
     p_game_id: id,
-    p_season_id: parseInt(parsed.data.season_id),
+    p_season_id: parsed.data.season_id,
     p_team_red_players: parsed.data.team_red.players,
-    p_team_red_score: parseInt(parsed.data.team_red.score),
+    p_team_red_score: parsed.data.team_red.score,
     p_team_blue_players: parsed.data.team_blue.players,
-    p_team_blue_score: parseInt(parsed.data.team_blue.score),
+    p_team_blue_score: parsed.data.team_blue.score,
   });
 
   if (!error) {
