@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   console.log("teamRedScore", teamRedScore);
   console.log("teamBlueScore", teamBlueScore);
 
-  if (teamRedScore !== 0 || teamBlueScore !== 0) {
+  if (teamRedScore !== 0 && teamBlueScore !== 0) {
     return new Response("No notification sent", { status: 200 });
   }
 
