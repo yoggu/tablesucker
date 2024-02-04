@@ -14,13 +14,10 @@ export async function POST(request: Request) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const body = await request.json();
-  console.log("body",body);
 
   const teamRedScore = body.record.team_red_score;
   const teamBlueScore = body.record.team_blue_score;
   const gameID = body.record.id;
-  console.log("teamRedScore", teamRedScore);
-  console.log("teamBlueScore", teamBlueScore);
 
   if (teamRedScore !== 0 && teamBlueScore !== 0) {
     return new Response("No notification sent", { status: 200 });
@@ -56,7 +53,6 @@ export async function POST(request: Request) {
   }
 
   let messageTitle = "";
-  let messageBody = "Check out the latest game results.";
   if (teamRedScore === 0) {
     messageTitle = "Team Red just got table sucked!";
   } else if (teamBlueScore === 0) {
@@ -65,14 +61,12 @@ export async function POST(request: Request) {
 
   const payload = JSON.stringify({
     title: messageTitle,
-    body: messageBody,
+    body: "Check out the latest game results",
+    url: 'https://tablesucker.vercel.app'
   });
 
-  console.log("subscriptionData", subscriptionData);
-  console.log("payload", payload);
   subscriptionData.forEach((row) => {
     const pushSubscription: PushSubscription = JSON.parse(row.subscription);
-    console.log("pushSubscription", pushSubscription);
     webpush.sendNotification(pushSubscription, payload).catch((error) => {
       console.error(error);
     });
