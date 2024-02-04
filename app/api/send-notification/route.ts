@@ -55,10 +55,6 @@ export async function POST(request: Request) {
     });
   }
 
-  if ( !subscriptionData || subscriptionData.length === 0) {
-    return new Response("No subscriptions found", { status: 404 });
-  }
-
   let messageTitle = "";
   let messageBody = "Check out the latest game results.";
   if (teamRedScore === 0) {
@@ -72,8 +68,11 @@ export async function POST(request: Request) {
     body: messageBody,
   });
 
+  console.log("subscriptionData", subscriptionData);
+  console.log("payload", payload);
   subscriptionData.forEach((row) => {
     const pushSubscription: PushSubscription = JSON.parse(row.subscription);
+    console.log("pushSubscription", pushSubscription);
     webpush.sendNotification(pushSubscription, payload).catch((error) => {
       console.error(error);
     });
