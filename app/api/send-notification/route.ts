@@ -1,33 +1,76 @@
 import { createClient } from "@/lib/supabase/server";
-import { Subscription } from "@/types/types";
+import { transformGameDetail } from "@/lib/utils";
+import { GameDetails, GameDetailsView, Subscription } from "@/types/types";
 import { cookies } from "next/headers";
 import webpush, { PushSubscription } from "web-push";
 
 webpush.setVapidDetails(
-  "mailto:test@example.com",
+  "https://tablesucker.vercel.app",
   process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
   process.env.VAPID_PRIVATE_KEY!,
 );
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const query = supabase
-  .from("subscriptions")
-    .select("*");
+  const body = await request.json();
 
-  const { data, error } = await query.returns<Subscription[]>();
+  const teamRedScore = body.record.team_red_score;
+  const teamBlueScore = body.record.team_blue_score;
+  const gameID = body.record.id;
 
-  if (error) {
-    return new Response(JSON.stringify(error.message), { status: 500 });
+  if (teamRedScore !== 0 || teamBlueScore !== 0) {
+    return new Response("No notification sent", { status: 200 });
   }
 
-  data.forEach((row) => {
-    const pushSubscription: PushSubscription = JSON.parse(row.subscription);
-    const payload = JSON.stringify({
-      title: "New message",
-      body: "This is a test message.",
+  // const { data: gameData, error: gameError } = await supabase
+  //   .from("game_details")
+  //   .select("*")
+  //   .eq("id", gameID)
+  //   .returns<GameDetailsView[]>();
+
+  // if (gameError) {
+  //   return new Response(JSON.stringify(gameError.message), {
+  //     status: 500,
+  //   });
+  // }
+
+  // if (!gameData || gameData.length === 0) {
+  //   return new Response("No game found", { status: 404 });
+  // }
+
+  // const gameDetail: GameDetails = transformGameDetail(gameData[0]);
+
+  const { data: subscriptionData, error: subscriptionError } = await supabase
+    .from("subscriptions")
+    .select("*")
+    .returns<Subscription[]>();
+
+  if (subscriptionError) {
+    return new Response(JSON.stringify(subscriptionError.message), {
+      status: 500,
     });
+  }
+
+  if ( !subscriptionData || subscriptionData.length === 0) {
+    return new Response("No subscriptions found", { status: 404 });
+  }
+
+  let messageTitle = "";
+  let messageBody = "Check out the latest game results.";
+  if (teamRedScore === 0) {
+    messageTitle = "Team Red just got table sucked!";
+  } else if (teamBlueScore === 0) {
+    messageTitle = "Team Blue just got table sucked!";
+  }
+
+  const payload = JSON.stringify({
+    title: messageTitle,
+    body: messageBody,
+  });
+
+  subscriptionData.forEach((row) => {
+    const pushSubscription: PushSubscription = JSON.parse(row.subscription);
     webpush.sendNotification(pushSubscription, payload).catch((error) => {
       console.error(error);
     });
