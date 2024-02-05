@@ -43,15 +43,10 @@ export async function POST(request: Request) {
   const payload = JSON.stringify({
     title: messageTitle,
     body: "Check out the latest game results",
-    url: 'https://tablesucker.vercel.app'
+    url: "https://tablesucker.vercel.app",
   });
 
-  subscriptionData.forEach((row) => {
-    const pushSubscription: PushSubscription = JSON.parse(row.subscription);
-    webpush.sendNotification(pushSubscription, payload).catch((error) => {
-      console.error(error);
-    });
-  });
+  const result = await sendNotifications(subscriptionData, payload);
 
   return new Response("Notification sent", { status: 200 });
 }
@@ -74,15 +69,20 @@ export async function GET() {
   const payload = JSON.stringify({
     title: "test notification",
     body: "Check out the latest game results",
-    url: 'https://tablesucker.vercel.app'
+    url: "https://tablesucker.vercel.app",
   });
 
-  subscriptionData.forEach((row) => {
-    const pushSubscription: PushSubscription = JSON.parse(row.subscription);
-    webpush.sendNotification(pushSubscription, payload).catch((error) => {
-      console.error(error);
-    });
-  });
+  const result = await sendNotifications(subscriptionData, payload);
+  // TODO: remove subscriptions that are no longer valid
 
   return new Response("Notification sent", { status: 200 });
+}
+
+function sendNotifications(subscriptionData: Subscription[], payload: string) {
+  const sendNotificationPromises = subscriptionData.map((row) => {
+    const pushSubscription: PushSubscription = JSON.parse(row.subscription);
+    return webpush.sendNotification(pushSubscription, payload);
+  });
+
+  return Promise.allSettled(sendNotificationPromises);
 }
