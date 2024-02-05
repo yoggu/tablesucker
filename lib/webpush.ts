@@ -5,6 +5,25 @@ export async function unregisterServiceWorkers() {
   );
 }
 
+export async function hasSubscription() {
+  const swRegistration = await navigator.serviceWorker.getRegistration();
+  const subscription = await swRegistration?.pushManager.getSubscription();
+  console.log("currentSubscription", subscription);
+  return !!subscription;
+}
+
+export async function unsubscribe() {
+  const swRegistration = await navigator.serviceWorker.getRegistration();
+  const subscription = await swRegistration?.pushManager.getSubscription();
+
+  if (!subscription) {
+    throw new Error("No subscription found.");
+  }
+
+  await swRegistration?.unregister();
+
+  return await deleteSubscription(subscription);
+}
 
 export async function subscribe() {
   await unregisterServiceWorkers();
@@ -12,19 +31,13 @@ export async function subscribe() {
   const swRegistration = await navigator.serviceWorker.register("/sw.js");
   await window?.Notification.requestPermission();
 
+  const options = {
+    applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
+    userVisibleOnly: true,
+  };
+  const subscription = await swRegistration.pushManager.subscribe(options);
 
-  try {
-    const options = {
-      applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
-      userVisibleOnly: true,
-    }
-
-    const subscription = await swRegistration.pushManager.subscribe(options);
-
-    await saveSubscription(subscription);
-  } catch (error) {
-    console.error(error);
-  }
+  return await saveSubscription(subscription);
 }
 
 async function saveSubscription(subscription: PushSubscription) {
@@ -40,5 +53,21 @@ async function saveSubscription(subscription: PushSubscription) {
     throw new Error(response.statusText);
   }
 
-  return await response.json()
+  return await response.json();
+}
+
+async function deleteSubscription(subscription: PushSubscription) {
+  const response = await fetch("/api/delete-subscription", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(subscription),
+  });
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  return await response.json();
 }

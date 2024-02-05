@@ -139,16 +139,19 @@ export interface Database {
       subscriptions: {
         Row: {
           created_at: string
+          endpoint: string
           id: number
           subscription: Json | null
         }
         Insert: {
           created_at?: string
+          endpoint: string
           id?: number
           subscription?: Json | null
         }
         Update: {
           created_at?: string
+          endpoint?: string
           id?: number
           subscription?: Json | null
         }

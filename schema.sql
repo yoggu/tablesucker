@@ -2372,7 +2372,8 @@ ALTER TABLE public.seasons_with_state OWNER TO postgres;
 CREATE TABLE public.subscriptions (
     id bigint NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
-    subscription json
+    subscription json,
+    endpoint text NOT NULL
 );
 
 

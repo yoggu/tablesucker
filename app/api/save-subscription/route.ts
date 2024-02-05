@@ -13,7 +13,12 @@ export async function POST(request: Request) {
 
   const { data, error } = await supabase
     .from("subscriptions")
-    .insert([{ subscription: JSON.stringify(subscription) }])
+    .insert([
+      {
+        subscription: JSON.stringify(subscription),
+        endpoint: subscription.endpoint,
+      },
+    ])
     .select()
     .single();
 
