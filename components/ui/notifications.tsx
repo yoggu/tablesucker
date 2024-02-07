@@ -54,7 +54,7 @@ export default function Notifications() {
   if (isSubscribed) {
     return (
       <Button variant="ghost" size="icon" onClick={handleUnsubscribe}>
-        <BellOff width={20} height={20} />
+        <BellRing width={20} height={20} />
       </Button>
     );
   }
@@ -63,7 +63,7 @@ export default function Notifications() {
     <>
       {isNotificationSupported && (
         <Button variant="ghost" size="icon" onClick={handleSubscribe}>
-          <BellRing width={20} height={20} />
+          <BellOff width={20} height={20} />
         </Button>
       )}
     </>

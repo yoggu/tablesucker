@@ -91,6 +91,7 @@ export interface PlayerStats {
 
 export interface Subscription extends Tables<"subscriptions"> {
   id: number;
+  endpoint: string;
   created_at: string;
   subscription: string;
 }

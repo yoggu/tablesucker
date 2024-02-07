@@ -1,7 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
+import { createClient as createServiceClient } from "@supabase/supabase-js";
 import { Subscription } from "@/types/types";
 import { cookies } from "next/headers";
+import { Database } from "@/types/supabase";
 import webpush, { PushSubscription } from "web-push";
+
+type NotificationResult = {
+  status: "fulfilled" | "rejected";
+  value: Subscription;
+  reason?: any;
+};
 
 webpush.setVapidDetails(
   "https://tablesucker.vercel.app",
@@ -16,7 +24,6 @@ export async function POST(request: Request) {
 
   const teamRedScore = body.record.team_red_score;
   const teamBlueScore = body.record.team_blue_score;
-  const gameID = body.record.id;
 
   if (teamRedScore !== 0 && teamBlueScore !== 0) {
     return new Response("No notification sent", { status: 200 });
@@ -46,7 +53,11 @@ export async function POST(request: Request) {
     url: "https://tablesucker.vercel.app",
   });
 
-  const result = await sendNotifications(subscriptionData, payload);
+  const results = await sendNotifications(subscriptionData, payload);
+  const invalidSubscriptions = results
+    .filter((result) => result.status === "rejected")
+    .map((result) => result.value);
+  await deleteInvalidSubscriptions(invalidSubscriptions);
 
   return new Response("Notification sent", { status: 200 });
 }
@@ -72,17 +83,47 @@ export async function GET() {
     url: "https://tablesucker.vercel.app",
   });
 
-  const result = await sendNotifications(subscriptionData, payload);
-  // TODO: remove subscriptions that are no longer valid
+  const results = await sendNotifications(subscriptionData, payload);
+  const invalidSubscriptions = results
+    .filter((result) => result.status === "rejected")
+    .map((result) => result.value);
+  await deleteInvalidSubscriptions(invalidSubscriptions);
 
   return new Response("Notification sent", { status: 200 });
 }
 
-function sendNotifications(subscriptionData: Subscription[], payload: string) {
+function sendNotifications(
+  subscriptionData: Subscription[],
+  payload: string,
+): Promise<NotificationResult[]> {
   const sendNotificationPromises = subscriptionData.map((row) => {
     const pushSubscription: PushSubscription = JSON.parse(row.subscription);
-    return webpush.sendNotification(pushSubscription, payload);
+    return webpush
+      .sendNotification(pushSubscription, payload)
+      .then(() => ({ status: "fullfilled", value: row }))
+      .catch((error) => ({ status: "rejected", reason: error, value: row }));
   });
 
-  return Promise.allSettled(sendNotificationPromises);
+  return Promise.allSettled(sendNotificationPromises) as Promise<
+    NotificationResult[]
+  >;
+}
+
+async function deleteInvalidSubscriptions(subscriptionData: Subscription[]) {
+  const supabase = createServiceClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!,
+  );
+
+  const { error } = await supabase
+    .from("subscriptions")
+    .delete()
+    .in(
+      "endpoint",
+      subscriptionData.map((row) => row.endpoint),
+    );
+
+  if (error) {
+    console.error(error);
+  }
 }
