@@ -55,7 +55,7 @@ export async function POST(request: Request) {
 
   const results = await sendNotifications(subscriptionData, payload);
   const invalidSubscriptions = results
-    .filter((result) => result.status === "rejected")
+    .filter((result) => result.status === "rejected" && (result.reason.statusCode === 410 || result.reason.statusCode === 404))
     .map((result) => result.value);
   await deleteInvalidSubscriptions(invalidSubscriptions);
 
@@ -85,7 +85,7 @@ export async function GET() {
 
   const results = await sendNotifications(subscriptionData, payload);
   const invalidSubscriptions = results
-    .filter((result) => result.status === "rejected")
+    .filter((result) => result.status === "rejected" && (result.reason.statusCode === 410 || result.reason.statusCode === 404))
     .map((result) => result.value);
   await deleteInvalidSubscriptions(invalidSubscriptions);
 
@@ -100,7 +100,7 @@ function sendNotifications(
     const pushSubscription: PushSubscription = JSON.parse(row.subscription);
     return webpush
       .sendNotification(pushSubscription, payload)
-      .then(() => ({ status: "fullfilled", value: row }))
+      .then(() => ({ status: "fulfilled", value: row }))
       .catch((error) => ({ status: "rejected", reason: error, value: row }));
   });
 
