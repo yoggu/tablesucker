@@ -103,31 +103,40 @@ export function transformGameDetail(gameDetail: GameDetailsView): GameDetails {
   };
 }
 
-export function findNemesis(player: Player, games: GameDetails[]) {
-  const lostGames = games.filter((game) => {
-    const winningTeam = game[`${game.winner}`];
-    return !winningTeam.player_ids.includes(player.id);
-  });
-  console.log("lost games", lostGames);
+export function findNemesis(
+  player: Player,
+  games: GameDetails[],
+): { id: number; winRate: number } {
+  const opponents = games.reduce(
+    (acc: Record<string, { played: number; won: number }>, game) => {
+      const opposingTeam = game.team_red.player_ids.includes(player.id)
+        ? TeamEnum.Blue
+        : TeamEnum.Red;
 
-  const nemesisPlayers = lostGames.reduce((acc: any, game) => {
-    const winningTeam = game[`${game.winner}`];
-    winningTeam.player_ids.forEach((id) => {
-      if (!acc[id]) {
-        acc[id] = 1;
-      } else {
-        acc[id] += 1;
-      }
-    });
-    console.log("acc", acc);
+      const playerHasWon = game.winner !== opposingTeam;
+
+      game[opposingTeam].player_ids.forEach((id) => {
+        if (!acc[id]) acc[id] = { played: 1, won: playerHasWon ? 1 : 0 };
+        else {
+          acc[id].played += 1;
+          if (playerHasWon) acc[id].won += 1;
+        }
+      });
+      return acc;
+    },
+    {},
+  );
+
+  const winRates = Object.keys(opponents).reduce((acc: any, id) => {
+    acc[id] = Math.round((opponents[id].won / opponents[id].played) * 100);
     return acc;
   }, {});
 
-  const nemesisId = Object.keys(nemesisPlayers).reduce((a, b) =>
-    nemesisPlayers[a] > nemesisPlayers[b] ? a : b,
-  );
-  console.log("nemesis", nemesisId);
-  return parseInt(nemesisId);
+  const nemesisId = Object.keys(winRates).reduce((a, b) => {
+    return winRates[a] < winRates[b] ? a : b;
+  });
+
+  return { id: parseInt(nemesisId, 10), winRate: winRates[nemesisId] };
 }
 
 export const formatDate = (dateString: string) => {
