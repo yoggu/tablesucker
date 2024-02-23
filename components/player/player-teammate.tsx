@@ -1,6 +1,6 @@
 import { getCachedGames } from "@/actions/game";
 import { getCachedPlayer } from "@/actions/player";
-import { findNemesis } from "@/lib/utils";
+import { findBestTeamMate } from "@/lib/utils";
 import { Player, SeasonWithState } from "@/types/types";
 import {
   Card,
@@ -11,39 +11,39 @@ import {
 } from "../ui/card";
 import PlayerAvatar from "../ui/player-avatar";
 
-type PlayerNemesisProps = {
+type PlayerTeamMateProps = {
   player: Player;
   season: SeasonWithState;
 };
 
-export default async function PlayerNemesis({
+export default async function PlayerTeamMate({
   player,
   season,
-}: PlayerNemesisProps) {
+}: PlayerTeamMateProps) {
   const { data: games, error: gamesError } = await getCachedGames(
     season.id,
     player.id,
   );
   if (gamesError) throw gamesError;
-  const nemesis = findNemesis(player, games!);
+  const teamMate = findBestTeamMate(player, games!);
 
-  if (!nemesis) return null;
-  const { data: nemesisData, error: nemesisError } = await getCachedPlayer(
-    nemesis.id,
+  if (!teamMate) return null;
+  const { data: teamMateData, error: teamMateError } = await getCachedPlayer(
+    teamMate.id,
   );
-  if (nemesisError) throw nemesisError;
-  const [nemesisPlayer] = nemesisData as Player[];
+  if (teamMateError) throw teamMateError;
+  const [teamMatePlayer] = teamMateData as Player[];
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Nemesis</CardTitle>
+        <CardTitle>Best Teammate</CardTitle>
         <CardDescription>
-          You lost {(100-nemesis.winRate)}% of games against
+          You won {(teamMate.winRate)}% of games with
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <PlayerAvatar player={nemesisPlayer} showName link />
+        <PlayerAvatar player={teamMatePlayer} showName link />
       </CardContent>
     </Card>
   );
