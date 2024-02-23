@@ -13,7 +13,7 @@ import {
   TeamEnum,
 } from "@/types/types";
 
-export function calculatePlayerStats(games: GameDetails[]) {
+export function calculatePlayersStats(games: GameDetails[]) {
   const playerStats: Record<number, PlayerStats> = {};
 
   games.forEach((game) => {
