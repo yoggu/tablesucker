@@ -8,11 +8,12 @@ export function cn(...inputs: ClassValue[]) {
 import {
   GameDetails,
   GameDetailsView,
+  Player,
   PlayerStats,
   TeamEnum,
 } from "@/types/types";
 
-export function calculatePlayerStats(games: GameDetails[]) {
+export function calculatePlayersStats(games: GameDetails[]) {
   const playerStats: Record<number, PlayerStats> = {};
 
   games.forEach((game) => {
@@ -90,14 +91,88 @@ export function transformGameDetail(gameDetail: GameDetailsView): GameDetails {
       ...gameDetail.team_blue_player_ids,
     ],
     team_red: {
+      player_ids: gameDetail.team_red_player_ids,
       score: gameDetail.team_red_score,
       players: gameDetail.team_red_players,
     },
     team_blue: {
+      player_ids: gameDetail.team_blue_player_ids,
       score: gameDetail.team_blue_score,
       players: gameDetail.team_blue_players,
     },
   };
+}
+
+export function findNemesis(
+  player: Player,
+  games: GameDetails[],
+): { id: number; winRate: number } {
+  const opponents = games.reduce(
+    (acc: Record<string, { played: number; won: number }>, game) => {
+      const opposingTeam = game.team_red.player_ids.includes(player.id)
+        ? TeamEnum.Blue
+        : TeamEnum.Red;
+
+      const playerHasWon = game.winner !== opposingTeam;
+
+      game[opposingTeam].player_ids.forEach((id) => {
+        if (!acc[id]) acc[id] = { played: 1, won: playerHasWon ? 1 : 0 };
+        else {
+          acc[id].played += 1;
+          if (playerHasWon) acc[id].won += 1;
+        }
+      });
+      return acc;
+    },
+    {},
+  );
+
+  const winRates = Object.keys(opponents).reduce((acc: any, id) => {
+    acc[id] = Math.round((opponents[id].won / opponents[id].played) * 100);
+    return acc;
+  }, {});
+
+  const nemesisId = Object.keys(winRates).reduce((a, b) => {
+    return winRates[a] < winRates[b] ? a : b;
+  });
+
+  return { id: parseInt(nemesisId, 10), winRate: winRates[nemesisId] };
+}
+
+export function findBestTeamMate(
+  player: Player,
+  games: GameDetails[],
+): { id: number; winRate: number } {
+  const teamMates = games.reduce(
+    (acc: Record<string, { played: number; won: number }>, game) => {
+      const playerTeam = game.team_red.player_ids.includes(player.id)
+        ? TeamEnum.Red
+        : TeamEnum.Blue;
+
+      const playerHasWon = game.winner === playerTeam;
+
+      game[playerTeam].player_ids.forEach((id) => {
+        if (!acc[id]) acc[id] = { played: 1, won: playerHasWon ? 1 : 0 };
+        else {
+          acc[id].played += 1;
+          if (playerHasWon) acc[id].won += 1;
+        }
+      });
+      return acc;
+    },
+    {},
+  );
+
+  const winRates = Object.keys(teamMates).reduce((acc: any, id) => {
+    acc[id] = Math.round((teamMates[id].won / teamMates[id].played) * 100);
+    return acc;
+  }, {});
+
+  const teamMateId = Object.keys(winRates).reduce((a, b) => {
+    return winRates[a] > winRates[b] ? a : b;
+  });
+
+  return { id: parseInt(teamMateId, 10), winRate: winRates[teamMateId] };
 }
 
 export const formatDate = (dateString: string) => {

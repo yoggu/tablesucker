@@ -1,7 +1,7 @@
 import { getCachedGames } from "@/actions/game";
-import { calculatePlayerStats } from "@/lib/utils";
+import { calculatePlayersStats } from "@/lib/utils";
 import { Player, SeasonWithState } from "@/types/types";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import Counter from "../ui/counter";
 
 type PlayerGoalsScoredProps = {
@@ -15,18 +15,21 @@ export default async function PlayerGoalsScored({
 }: PlayerGoalsScoredProps) {
   const { data: games, error: gamesError } = await getCachedGames(season.id);
   if (gamesError) throw gamesError;
-  const playerStats = calculatePlayerStats(games!);
-  const playerWinRate =
-    playerStats?.find((stat) => stat.player.id === player.id)?.goalsFor ?? 0;
+  const playersStats = calculatePlayersStats(games!);
+  const playerStats = playersStats?.find((stat) => stat.player.id === player.id);
+  const goalsFor = playerStats?.goalsFor ?? 0;
+  const gamesPlayed = playerStats?.games ?? 1;
+  const playerGoalsPerGame = (goalsFor / gamesPlayed).toFixed(1);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Goals Scored</CardTitle>
+        <CardDescription>per Game { playerGoalsPerGame }</CardDescription>
       </CardHeader>
       <CardContent>
         <span className="text-4xl font-bold">
-          <Counter end={playerWinRate} />
+          <Counter end={playerStats?.goalsFor ?? 0} />
         </span>
       </CardContent>
     </Card>
