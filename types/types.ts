@@ -54,10 +54,12 @@ export interface GameDetails {
   season_id: number;
   winner: Team;
   team_red: {
+    player_ids: number[];
     score: number;
     players: Player[];
   };
   team_blue: {
+    player_ids: number[];
     score: number;
     players: Player[];
   };

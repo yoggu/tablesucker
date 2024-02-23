@@ -8,6 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 import {
   GameDetails,
   GameDetailsView,
+  Player,
   PlayerStats,
   TeamEnum,
 } from "@/types/types";
@@ -90,14 +91,43 @@ export function transformGameDetail(gameDetail: GameDetailsView): GameDetails {
       ...gameDetail.team_blue_player_ids,
     ],
     team_red: {
+      player_ids: gameDetail.team_red_player_ids,
       score: gameDetail.team_red_score,
       players: gameDetail.team_red_players,
     },
     team_blue: {
+      player_ids: gameDetail.team_blue_player_ids,
       score: gameDetail.team_blue_score,
       players: gameDetail.team_blue_players,
     },
   };
+}
+
+export function findNemesis(player: Player, games: GameDetails[]) {
+  const lostGames = games.filter((game) => {
+    const winningTeam = game[`${game.winner}`];
+    return !winningTeam.player_ids.includes(player.id);
+  });
+  console.log("lost games", lostGames);
+
+  const nemesisPlayers = lostGames.reduce((acc: any, game) => {
+    const winningTeam = game[`${game.winner}`];
+    winningTeam.player_ids.forEach((id) => {
+      if (!acc[id]) {
+        acc[id] = 1;
+      } else {
+        acc[id] += 1;
+      }
+    });
+    console.log("acc", acc);
+    return acc;
+  }, {});
+
+  const nemesisId = Object.keys(nemesisPlayers).reduce((a, b) =>
+    nemesisPlayers[a] > nemesisPlayers[b] ? a : b,
+  );
+  console.log("nemesis", nemesisId);
+  return parseInt(nemesisId);
 }
 
 export const formatDate = (dateString: string) => {

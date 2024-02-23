@@ -4,6 +4,7 @@ import Games from "@/components/games/games";
 import GamesSkeleton from "@/components/games/games-skeleton";
 import PageHeader from "@/components/layout/page-header";
 import PlayerGoalsScored from "@/components/player/player-goals-scored";
+import PlayerNemesis from "@/components/player/player-nemesis";
 import PlayerWinRate from "@/components/player/player-win-rate";
 import SeasonSelector from "@/components/season/season-selector";
 import SeasonTitle from "@/components/season/season-title";
@@ -90,6 +91,9 @@ export default async function PlayerPage({
           </Suspense>
           <Suspense fallback={<CardSpinnerSkeleton title="Goals Scored" />}>
             <PlayerGoalsScored player={player} season={season} />
+          </Suspense>
+          <Suspense fallback={<CardSpinnerSkeleton title="Nemesis" />}>
+            <PlayerNemesis player={player} season={season} />
           </Suspense>
         </div>
       </div>
