@@ -1,6 +1,6 @@
 import { getCachedGames } from "@/actions/game";
 import { getCachedPlayer } from "@/actions/player";
-import { findBestTeamMate } from "@/lib/utils";
+import { getBestTeamMate } from "@/lib/utils";
 import { Player, SeasonWithState } from "@/types/types";
 import {
   Card,
@@ -25,7 +25,7 @@ export default async function PlayerTeamMate({
     player.id,
   );
   if (gamesError) throw gamesError;
-  const teamMate = findBestTeamMate(player, games!);
+  const teamMate = getBestTeamMate(player, games!);
 
   if (!teamMate) return null;
   const { data: teamMateData, error: teamMateError } = await getCachedPlayer(

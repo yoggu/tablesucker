@@ -1,5 +1,5 @@
 import { getCachedGames } from "@/actions/game";
-import { calculatePlayersStats } from "@/lib/utils";
+import { getPlayersStats } from "@/lib/utils";
 import { Player, PlayerStats, SeasonWithState } from "@/types/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { columns } from "./standings-columns";
@@ -13,7 +13,7 @@ type StandingsProps = {
 export default async function Standings({ season, player }: StandingsProps) {
   const { data: games, error: gamesError } = await getCachedGames(season.id);
   if (gamesError) throw gamesError;
-  const playersStats: PlayerStats[] = calculatePlayersStats(games!);
+  const playersStats: PlayerStats[] = getPlayersStats(games!);
 
   return (
     <Card>

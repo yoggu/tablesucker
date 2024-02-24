@@ -1,5 +1,5 @@
 import { GameDetails } from "@/types/types";
-import { calculatePlayersStats } from "@/lib/utils";
+import { getPlayersStats } from "@/lib/utils";
 import RankingList from "@/components/ranking/ranking-list";
 import RankingListItem from "@/components/ranking/ranking-list-item";
 import PlayerAvatar from "@/components/ui/player-avatar";
@@ -9,7 +9,7 @@ type TopscorerListProps = {
 };
 
 export default function TopscorerList({ games }: TopscorerListProps) {
-  const playersStats = calculatePlayersStats(games!);
+  const playersStats = getPlayersStats(games!);
   const topScorers = playersStats.toSorted((a, b) => b.goalsFor - a.goalsFor);
 
   return (

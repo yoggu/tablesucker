@@ -7,6 +7,7 @@ import PlayerGoalsScored from "@/components/player/player-goals-scored";
 import PlayerNemesis from "@/components/player/player-nemesis";
 import PlayerTeamMate from "@/components/player/player-teammate";
 import PlayerWinRate from "@/components/player/player-win-rate";
+import PlayerWinRateChart from "@/components/player/player-win-rate-chart";
 import SeasonSelector from "@/components/season/season-selector";
 import SeasonTitle from "@/components/season/season-title";
 import Standings from "@/components/standings/standings";
@@ -81,6 +82,9 @@ export default async function PlayerPage({
         <div className="order-2 col-span-full grid gap-6 md:order-none md:col-span-5">
           <Suspense fallback={<GamesSkeleton />}>
             <Games season={season} player={player} limit={5} />
+          </Suspense>
+          <Suspense fallback={<CardSpinnerSkeleton title="Win Rate over time" />}>
+            <PlayerWinRateChart player={player} season={season} />
           </Suspense>
           <Suspense fallback={<CardSpinnerSkeleton title="Standings" />}>
             <Standings player={player} season={season} />

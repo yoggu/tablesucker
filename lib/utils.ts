@@ -13,7 +13,7 @@ import {
   TeamEnum,
 } from "@/types/types";
 
-export function calculatePlayersStats(games: GameDetails[]) {
+export function getPlayersStats(games: GameDetails[]) {
   const playerStats: Record<number, PlayerStats> = {};
 
   games.forEach((game) => {
@@ -80,6 +80,27 @@ export function calculatePlayersStats(games: GameDetails[]) {
   return Object.values(playerStats);
 }
 
+export function getWinRateOverTime(games: GameDetails[], player: Player) {
+  return games
+    .reverse()
+    .reduce((acc: Array<{ game: number; wins: number }>, game, index) => {
+      const isWin =
+        game.winner === TeamEnum.Red
+          ? game.team_red.player_ids.includes(player.id)
+          : game.team_blue.player_ids.includes(player.id);
+      const win = isWin ? 1 : 0;
+      const previousWins = index > 0 ? acc[index - 1].wins : 0;
+
+      acc.push({ game: index + 1, wins: win + previousWins });
+
+      return acc;
+    }, [])
+    .map((game) => ({
+      game: game.game,
+      winrate: Math.round((game.wins / game.game) * 100),
+    }));
+}
+
 export function transformGameDetail(gameDetail: GameDetailsView): GameDetails {
   return {
     id: gameDetail.id,
@@ -103,7 +124,7 @@ export function transformGameDetail(gameDetail: GameDetailsView): GameDetails {
   };
 }
 
-export function findNemesis(
+export function getNemesis(
   player: Player,
   games: GameDetails[],
 ): { id: number; winRate: number } {
@@ -139,7 +160,7 @@ export function findNemesis(
   return { id: parseInt(nemesisId, 10), winRate: winRates[nemesisId] };
 }
 
-export function findBestTeamMate(
+export function getBestTeamMate(
   player: Player,
   games: GameDetails[],
 ): { id: number; winRate: number } {
