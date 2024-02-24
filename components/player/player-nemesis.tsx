@@ -1,6 +1,6 @@
 import { getCachedGames } from "@/actions/game";
 import { getCachedPlayer } from "@/actions/player";
-import { findNemesis } from "@/lib/utils";
+import { getNemesis } from "@/lib/utils";
 import { Player, SeasonWithState } from "@/types/types";
 import {
   Card,
@@ -25,7 +25,7 @@ export default async function PlayerNemesis({
     player.id,
   );
   if (gamesError) throw gamesError;
-  const nemesis = findNemesis(player, games!);
+  const nemesis = getNemesis(player, games!);
 
   if (!nemesis) return null;
   const { data: nemesisData, error: nemesisError } = await getCachedPlayer(

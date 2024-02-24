@@ -1,5 +1,5 @@
 import { getCachedGames } from "@/actions/game";
-import { calculatePlayersStats } from "@/lib/utils";
+import { getPlayersStats } from "@/lib/utils";
 import { Player, SeasonWithState } from "@/types/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Counter from "../ui/counter";
@@ -13,9 +13,9 @@ export default async function PlayerWinRate({
   player,
   season,
 }: PlayerWinRateProps) {
-  const { data: games, error: gamesError } = await getCachedGames(season.id);
+  const { data: games, error: gamesError } = await getCachedGames(season.id, player.id);
   if (gamesError) throw gamesError;
-  const playersStats = calculatePlayersStats(games!);
+  const playersStats = getPlayersStats(games!);
   const playerWinRate =
     playersStats?.find((stat) => stat.player.id === player.id)?.winRate ?? 0;
 

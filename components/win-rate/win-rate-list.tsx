@@ -1,5 +1,5 @@
 import { GameDetails } from "@/types/types";
-import { calculatePlayersStats } from "@/lib/utils";
+import { getPlayersStats } from "@/lib/utils";
 import PlayerAvatar from "@/components/ui/player-avatar";
 import RankingList from "@/components/ranking/ranking-list";
 import RankingListItem from "@/components/ranking/ranking-list-item";
@@ -9,7 +9,7 @@ type WinRateListProps = {
 };
 
 export default function WinRateList({ games }: WinRateListProps) {
-  const playersStats = calculatePlayersStats(games!);
+  const playersStats = getPlayersStats(games!);
   const winRates = playersStats.toSorted((a, b) => b.winRate - a.winRate);
 
   return (
