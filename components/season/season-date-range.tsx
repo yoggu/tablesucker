@@ -17,7 +17,7 @@ export default function SeasonDateRange({
   return (
     <div className={cn("text-xs", className)}>
       <FormatDate date={startDate} />
-      {endDate && <> - <FormatDate date={startDate} /> </>}
+      {endDate && <> - <FormatDate date={endDate} /> </>}
     </div>
   );
 }
