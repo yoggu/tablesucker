@@ -13,13 +13,6 @@ const nextConfig = {
       bodySizeLimit: '5mb',
     },
   },
-
-  // Logging config
-  logging: {
-    fetches: {
-      fullUrl: false,
-    },
-  },
 }
 
 module.exports = nextConfig
