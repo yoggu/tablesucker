@@ -179,9 +179,9 @@ export default function GameForm({
             </FormItem>
           )}
         />
-        <div className="mt-8 flex flex-col gap-8 @lg:flex-row @xl:gap-10">
+        <div className="mt-8 flex flex-col gap-8 @lg:flex-row @lg:justify-center @xl:gap-10">
           <div className="flex flex-col gap-4">
-            <FormLabel>Team Red</FormLabel>
+            <span className="text-sm font-medium leading-none">Team Red</span>
             <FormField
               control={form.control}
               name="team_red.players"
@@ -260,7 +260,7 @@ export default function GameForm({
             :
           </div>
           <div className="flex flex-col gap-4">
-            <FormLabel>Team Blue</FormLabel>
+            <span className="text-sm font-medium leading-none">Team Blue</span>
             <FormField
               control={form.control}
               name="team_blue.players"
@@ -274,7 +274,7 @@ export default function GameForm({
                           name="team_blue.players"
                           render={({ field }) => {
                             return (
-                              <FormItem className="flex items-center">
+                              <FormItem className="flex items-center space-y-0">
                                 <FormControl>
                                   <AvatarCheckbox
                                     title={player.name}
