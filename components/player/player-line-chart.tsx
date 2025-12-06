@@ -7,7 +7,6 @@ import {
   LineChart,
   ResponsiveContainer,
   Tooltip,
-  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
@@ -48,10 +47,14 @@ export default function PlayerLineChart({ data }: PlayerLineChartProps) {
   );
 }
 
-const CustomTooltip: React.FC<TooltipProps<number, string>> = ({
+const CustomTooltip = ({
   active,
   payload,
   label,
+}: {
+  active?: boolean;
+  payload?: Array<{ value?: number }>;
+  label?: string | number;
 }) => {
   if (active && payload && payload.length) {
     return (

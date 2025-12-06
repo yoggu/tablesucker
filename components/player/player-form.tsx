@@ -129,7 +129,7 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
       ),
     });
     form.reset();
-    uppy.close();
+    uppy.clear();
     if (onClose) {
       onClose();
     }
@@ -157,7 +157,7 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
       ),
     });
     form.reset();
-    uppy.close();
+    uppy.clear();
     if (onClose) {
       onClose();
     }
@@ -165,9 +165,9 @@ export default function PlayerForm({ player, onClose }: PlayerFormProps) {
 
   const onSubmit = async (data: Inputs) => {
     const file = uppy.getFiles()[0];
-    if (file) {
+    if (file && file.data) {
       const formData = new FormData();
-      formData.append("file", file.data, file.name);
+      formData.append("file", file.data as Blob, file.name);
       const { data: image, error: imageError } =
         await uploadPlayerImage(formData);
       if (imageError) {

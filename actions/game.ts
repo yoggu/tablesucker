@@ -3,39 +3,29 @@
 import { GameFormSchema } from "@/lib/schema";
 import { transformGameDetail } from "@/lib/utils";
 import { GameDetails, GameDetailsView } from "@/types/types";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
 import { createClient } from "../lib/supabase/server";
 
 type GameFormInputs = z.infer<typeof GameFormSchema>;
 
-export const getCachedGames = unstable_cache(
-  async (
-    seasonId?: number,
-    playerId?: number,
-    offset: number = 0,
-    limit?: number,
-  ) => getGames(seasonId, playerId, offset, limit),
-  ["games"],
-  {
-    revalidate: 60,
-    tags: ["games"],
-  },
-);
+// Note: unstable_cache removed - incompatible with cookies() in Next.js 16
+export async function getCachedGames(
+  seasonId?: number,
+  playerId?: number,
+  offset: number = 0,
+  limit?: number,
+) {
+  return getGames(seasonId, playerId, offset, limit);
+}
 
-export const getCachedGamesCount = unstable_cache(
-  async (seasonId?: number, playerId?: number) =>
-    getGamesCount(seasonId, playerId),
-  ["games_count"],
-  {
-    revalidate: 60,
-    tags: ["games"],
-  },
-);
+export async function getCachedGamesCount(seasonId?: number, playerId?: number) {
+  return getGamesCount(seasonId, playerId);
+}
 
 export async function createGame(inputData: GameFormInputs) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const parsed = GameFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
 
@@ -50,14 +40,14 @@ export async function createGame(inputData: GameFormInputs) {
     .single();
 
   if (!error) {
-    revalidateTag("games");
+    revalidateTag("games", "max");
   }
 
   return { data, error };
 }
 
 export async function updateGame(id: number, inputData: GameFormInputs) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const parsed = GameFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
   const { error } = await supabase.rpc("update_game", {
@@ -70,7 +60,7 @@ export async function updateGame(id: number, inputData: GameFormInputs) {
   });
 
   if (!error) {
-    revalidateTag("games");
+    revalidateTag("games", "max");
   }
   return { error };
 }
@@ -81,7 +71,7 @@ export async function getGames(
   offset: number = 0,
   limit?: number,
 ) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
 
   let query = supabase
     .from("game_details")
@@ -112,18 +102,18 @@ export async function getGames(
 }
 
 export async function deleteGame(gameId: number) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
 
   const { error } = await supabase.from("games").delete().eq("id", gameId);
 
   if (!error) {
-    revalidateTag("games");
+    revalidateTag("games", "max");
   }
   return { error };
 }
 
 export async function getGamesCount(seasonId?: number, playerId?: number) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
 
   let query = supabase.from("game_details").select("*", { count: "exact" });
 

@@ -26,18 +26,17 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 type PlayerProps = {
-  params: {
+  params: Promise<{
     id: number;
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     season: string;
-  };
+  }>;
 };
 
-export default async function PlayerPage({
-  searchParams,
-  params,
-}: PlayerProps) {
+export default async function PlayerPage(props: PlayerProps) {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const { data: playerData, error: playerError } = await getCachedPlayer(params.id);
   if (playerError) throw playerError;
   const [player] = playerData as Player[];

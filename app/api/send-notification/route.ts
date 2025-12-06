@@ -11,14 +11,17 @@ type NotificationResult = {
   reason?: any;
 };
 
-webpush.setVapidDetails(
-  "https://tablesucker.vercel.app",
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!,
-);
+// Only set VAPID details if environment variables are available
+if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
+  webpush.setVapidDetails(
+    "https://tablesucker.vercel.app",
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
+    process.env.VAPID_PRIVATE_KEY,
+  );
+}
 
 export async function POST(request: Request) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
   const body = await request.json();
 
@@ -63,7 +66,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
 
   const { data: subscriptionData, error: subscriptionError } = await supabase

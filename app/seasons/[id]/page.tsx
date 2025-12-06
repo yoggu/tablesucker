@@ -13,12 +13,13 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 type SeasonProps = {
-  params: {
+  params: Promise<{
     id: number;
-  };
+  }>;
 };
 
-export default async function SeasonPage({ params }: SeasonProps) {
+export default async function SeasonPage(props: SeasonProps) {
+  const params = await props.params;
   const { data: seasonData, error: seasonError } = await getCachedSeason(params.id);
   if (seasonError) throw seasonError;
   const [season] = seasonData as SeasonWithState[];

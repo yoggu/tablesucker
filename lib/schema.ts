@@ -23,19 +23,15 @@ export const PlayerFormSchema = z.object({
 
 export const GameFormSchema = z
   .object({
-    season_id: z.coerce.number().int({ message: "Season ID must be a number" }),
+    season_id: z.number().int({ message: "Season ID must be a number" }),
     team_red: z.object({
-      score: z.coerce
-        .number()
-        .nonnegative({ message: "Score must be a non-negative number" }),
+      score: z.number().nonnegative({ message: "Score must be a non-negative number" }),
       players: z.array(z.number().int()).min(1, {
         message: "At least one player is required.",
       }),
     }),
     team_blue: z.object({
-      score: z.coerce
-        .number()
-        .nonnegative({ message: "Score must be a non-negative number" }),
+      score: z.number().nonnegative({ message: "Score must be a non-negative number" }),
       players: z.array(z.number().int()).min(1, {
         message: "At least one player is required.",
       }),
@@ -65,8 +61,7 @@ export const GameFormSchema = z
 export const SeasonFormSchema = z
   .object({
     start_date: z.date({
-      required_error: "Please enter a start date",
-      invalid_type_error: "Not a valid date",
+      message: "Please enter a valid start date",
     }),
     end_date: z.date().optional(),
   })

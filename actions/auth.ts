@@ -8,13 +8,13 @@ import { z } from "zod";
 type LoginFormInputs = z.infer<typeof LoginFormSchema>;
 
 export const signOut = async () => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
   await supabase.auth.signOut();
 };
 
 export const signIn = async (data: LoginFormInputs) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
   const parsed = LoginFormSchema.safeParse(data);
   if (!parsed.success) return { error: parsed.error.flatten() };
@@ -29,10 +29,10 @@ export const signIn = async (data: LoginFormInputs) => {
 };
 
 export const signUp = async (formData: FormData) => {
-  const origin = headers().get("origin");
+  const origin = (await headers()).get("origin");
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
 
   const { error } = await supabase.auth.signUp({

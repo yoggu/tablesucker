@@ -2,7 +2,7 @@
 
 import { SeasonFormSchema } from "@/lib/schema";
 import { Season, SeasonState } from "@/types/types";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
 import { createClient } from "../lib/supabase/server";
@@ -11,26 +11,18 @@ import { SeasonWithState } from "./../types/types";
 type SeasonFormInputs = z.infer<typeof SeasonFormSchema>;
 type InsertSeason = Omit<Season, "id" | "created_at">;
 
-export const getCachedSeasons = unstable_cache(
-  async (seasonStates: SeasonState[] = []) => getSeasons(seasonStates),
-  ["seasons"],
-  {
-    revalidate: 60,
-    tags: ["seasons"],
-  },
-);
+// Note: unstable_cache removed - incompatible with cookies() in Next.js 16
+// These functions now directly call the getters
+export async function getCachedSeasons(seasonStates: SeasonState[] = []) {
+  return getSeasons(seasonStates);
+}
 
-export const getCachedSeason = unstable_cache(
-  async (id: number) => getSeason(id),
-  ["season"],
-  {
-    revalidate: 60,
-    tags: ["seasons"],
-  },
-);
+export async function getCachedSeason(id: number) {
+  return getSeason(id);
+}
 
 export async function createSeason(inputData: SeasonFormInputs) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const parsed = SeasonFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
 
@@ -48,13 +40,13 @@ export async function createSeason(inputData: SeasonFormInputs) {
     .single();
 
   if (!seasonError) {
-    revalidateTag("seasons");
+    revalidateTag("seasons", "max");
   }
   return { data: seasonData, error: seasonError };
 }
 
 export async function updateSeason(id: number, inputData: SeasonFormInputs) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const parsed = SeasonFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
   const seasonsRow: InsertSeason = {
@@ -70,23 +62,23 @@ export async function updateSeason(id: number, inputData: SeasonFormInputs) {
     .single();
 
   if (!seasonError) {
-    revalidateTag("seasons");
+    revalidateTag("seasons", "max");
   }
   return { data: seasonData, error: seasonError };
 }
 
 export async function deleteSeason(id: number) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const { error } = await supabase.from("seasons").delete().eq("id", id);
 
   if (!error) {
-    revalidateTag("seasons");
+    revalidateTag("seasons", "max");
   }
   return { error };
 }
 
 export async function getSeasons(seasonStates: SeasonState[] = []) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   let query = supabase
     .from("seasons_with_state")
     .select("*", { count: "exact" })
@@ -101,7 +93,7 @@ export async function getSeasons(seasonStates: SeasonState[] = []) {
 }
 
 export async function getSeason(id: number) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const query = supabase.from("seasons_with_state").select("*").eq("id", id);
   const { data, error } = await query.returns<SeasonWithState[]>();
   return { data, error };

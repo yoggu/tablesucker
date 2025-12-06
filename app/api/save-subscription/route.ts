@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   const subscription = (await request.json()) as PushSubscription;
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
 
   if (!subscription) {

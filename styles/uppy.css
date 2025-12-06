@@ -15,17 +15,28 @@
 }
 
 .uppy-wrapper .uppy-Dashboard-AddFiles {
-  @apply rounded-md dark:border-slate-800;
+  border-radius: 0.375rem;
 }
 
 .uppy-wrapper .uppy-Dashboard-inner {
-  @apply rounded-md dark:border-slate-800 dark:bg-slate-950;
-}
-
-.uppy-wrapper .uppy-DashboardContent-bar {
-  @apply  dark:border-slate-800 dark:bg-slate-950;
+  border-radius: 0.375rem;
 }
 
 .uppy-wrapper .uppy-Dashboard-AddFiles-info {
   display: none;
+}
+
+/* Dark mode styles */
+.dark .uppy-wrapper .uppy-Dashboard-AddFiles {
+  border-color: rgb(30 41 59);
+}
+
+.dark .uppy-wrapper .uppy-Dashboard-inner {
+  border-color: rgb(30 41 59);
+  background-color: rgb(2 6 23);
+}
+
+.dark .uppy-wrapper .uppy-DashboardContent-bar {
+  border-color: rgb(30 41 59);
+  background-color: rgb(2 6 23);
 }
