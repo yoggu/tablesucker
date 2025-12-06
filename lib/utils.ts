@@ -101,6 +101,63 @@ export function getWinRateOverTime(games: GameDetails[], player: Player) {
     }));
 }
 
+export function getAllPlayersWinRateOverTime(games: GameDetails[]) {
+  // Get all unique players from the games
+  const playersMap = new Map<number, Player>();
+  games.forEach((game) => {
+    game.team_red.players.forEach((p) => playersMap.set(p.id, p));
+    game.team_blue.players.forEach((p) => playersMap.set(p.id, p));
+  });
+  const players = Array.from(playersMap.values());
+
+  // Track cumulative stats per player
+  const playerStats: Record<number, { games: number; wins: number }> = {};
+  players.forEach((p) => {
+    playerStats[p.id] = { games: 0, wins: 0 };
+  });2
+
+  // Sort games chronologically (oldest first)
+  const sortedGames = [...games].sort(
+    (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+  );
+
+  // Build the data array
+  const data: Array<{ game: number } & Record<string, number>> = [];
+
+  sortedGames.forEach((game, index) => {
+    const gameNumber = index + 1;
+    const dataPoint: { game: number } & Record<string, number> = { game: gameNumber };
+
+    // Update stats for players in this game
+    const allPlayersInGame = [
+      ...game.team_red.players,
+      ...game.team_blue.players,
+    ];
+    allPlayersInGame.forEach((player) => {
+      const isWin =
+        game.winner === TeamEnum.Red
+          ? game.team_red.player_ids.includes(player.id)
+          : game.team_blue.player_ids.includes(player.id);
+      playerStats[player.id].games += 1;
+      if (isWin) playerStats[player.id].wins += 1;
+    });
+
+    // Calculate win rate for all players who have played at least one game
+    players.forEach((player) => {
+      const stats = playerStats[player.id];
+      if (stats.games > 0) {
+        dataPoint[`player_${player.id}`] = Math.round(
+          (stats.wins / stats.games) * 100
+        );
+      }
+    });
+
+    data.push(dataPoint);
+  });
+
+  return { data, players };
+}
+
 export function transformGameDetail(gameDetail: GameDetailsView): GameDetails {
   return {
     id: gameDetail.id,
@@ -137,6 +194,7 @@ export function getNemesis(
       const playerHasWon = game.winner !== opposingTeam;
 
       game[opposingTeam].player_ids.forEach((id) => {
+        if (id === player.id) return;
         if (!acc[id]) acc[id] = { played: 1, won: playerHasWon ? 1 : 0 };
         else {
           acc[id].played += 1;
@@ -173,6 +231,7 @@ export function getBestTeamMate(
       const playerHasWon = game.winner === playerTeam;
 
       game[playerTeam].player_ids.forEach((id) => {
+        if (id === player.id) return;
         if (!acc[id]) acc[id] = { played: 1, won: playerHasWon ? 1 : 0 };
         else {
           acc[id].played += 1;

@@ -10,6 +10,7 @@ import SeasonTitle from "@/components/season/season-title";
 import Topscorer from "@/components/topscorer/topscorer";
 import PageTitle from "@/components/ui/page-title";
 import WinRate from "@/components/win-rate/win-rate";
+import WinRateChart from "@/components/win-rate/win-rate-chart";
 import { SeasonStateEnum } from "@/types/types";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -46,7 +47,10 @@ export default async function Live() {
         <div className="col-span-full flex flex-col gap-6 lg:col-span-4">
           <RealtimeGames />
           <Suspense fallback={<GamesSkeleton />}>
-            <Games season={latestActiveSeason} limit={5} />
+            <Games season={latestActiveSeason} limit={3} />
+          </Suspense>
+          <Suspense fallback={<div className="h-[400px] animate-pulse rounded-lg bg-slate-800" />}>
+            <WinRateChart season={latestActiveSeason} />
           </Suspense>
         </div>
         <div className="col-span-full flex flex-col gap-6 lg:col-span-2">
