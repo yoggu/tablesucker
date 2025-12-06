@@ -25,6 +25,24 @@ const retroVariants = [
     description: "Fight! Blood, gold, and fatality vibes from the arcade",
     colors: "from-[#8B0000] via-[#FFD700] to-[#8B0000]",
   },
+  {
+    name: "Cuphead",
+    href: "/design-variants/retro/cuphead",
+    description: "1930s cartoon aesthetic with watercolor and film grain",
+    colors: "from-[#8B4513] via-[#DAA520] to-[#C41E3A]",
+  },
+  {
+    name: "Game Boy",
+    href: "/design-variants/retro/gameboy",
+    description: "Classic dot matrix LCD with 4-shade green palette",
+    colors: "from-[#0F380F] via-[#306230] to-[#9BBC0F]",
+  },
+  {
+    name: "Foosball",
+    href: "/design-variants/retro/foosball",
+    description: "Table football aesthetic with green felt and wooden rails",
+    colors: "from-[#5D4037] via-[#4CAF50] to-[#5D4037]",
+  },
 ];
 
 export default function RetroVariantsPage() {
