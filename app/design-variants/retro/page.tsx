@@ -43,6 +43,18 @@ const retroVariants = [
     description: "Table football aesthetic with green felt and wooden rails",
     colors: "from-[#5D4037] via-[#4CAF50] to-[#5D4037]",
   },
+  {
+    name: "Kanagawa",
+    href: "/design-variants/retro/kanagawa",
+    description: "Japanese wave art inspired with indigo and cream tones",
+    colors: "from-[#1F1F28] via-[#7E9CD8] to-[#DCD7BA]",
+  },
+  {
+    name: "Catppuccin",
+    href: "/design-variants/retro/catppuccin",
+    description: "Soothing pastel colors on a warm dark background",
+    colors: "from-[#F38BA8] via-[#CBA6F7] to-[#89B4FA]",
+  },
 ];
 
 export default function RetroVariantsPage() {
