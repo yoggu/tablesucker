@@ -13,12 +13,17 @@ const NumberInput = ({ field, ...props }: NumberInputProps) => {
 
     const handleDecrement = () => {
       const currentValue = Number(field.value);
-      field.onChange(Math.max(currentValue - 1, 0).toString()); // Prevents going below 0
+      field.onChange(Math.max(currentValue - 1, 0));
     };
 
     const handleIncrement = () => {
       const currentValue = Number(field.value);
-      field.onChange((currentValue + 1).toString());
+      field.onChange(currentValue + 1);
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.valueAsNumber;
+      field.onChange(isNaN(value) ? 0 : value);
     };
 
     return (
@@ -30,6 +35,7 @@ const NumberInput = ({ field, ...props }: NumberInputProps) => {
           type="number"
           {...props}
           {...field}
+          onChange={handleChange}
         />
         <Button type="button" variant="secondary" onClick={handleIncrement}>
           <Plus />
