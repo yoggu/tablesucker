@@ -36,7 +36,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-dump.sql
+# database
+/supabase
+backup.sql
 
 # ai
 .claude
+
+# ide
+.vscode/
