@@ -17,7 +17,7 @@ const nextConfig = {
   // Logging config
   logging: {
     fetches: {
-      fullUrl: true,
+      fullUrl: false,
     },
   },
 }

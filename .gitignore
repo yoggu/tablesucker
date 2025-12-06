@@ -7,8 +7,8 @@
 .yarn/install-state.gz
 
 # testing
-/test-results/
-/playwright-report/
+/test-results
+/playwright-report
 
 # next.js
 /.next/
