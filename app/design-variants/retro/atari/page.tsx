@@ -8,6 +8,24 @@ const atariVariants = [
     colors: "from-[#FF6600] to-[#FFCC00]",
   },
   {
+    name: "Mint Arcade",
+    href: "/design-variants/retro/atari/mint",
+    description: "Cool teal and turquoise - refreshing retro vibes",
+    colors: "from-[#20B2AA] to-[#40E0D0]",
+  },
+  {
+    name: "Cherry Arcade",
+    href: "/design-variants/retro/atari/cherry",
+    description: "Bold crimson and coral - classic cabinet energy",
+    colors: "from-[#DC143C] to-[#FF6B6B]",
+  },
+  {
+    name: "Grape Arcade",
+    href: "/design-variants/retro/atari/grape",
+    description: "Soft purple and lavender - mellow CRT glow",
+    colors: "from-[#9370DB] to-[#DDA0DD]",
+  },
+  {
     name: "Cool Blue",
     href: "/design-variants/retro/atari/cool",
     description: "Ice blue and cyan - clean and modern arcade",
