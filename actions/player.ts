@@ -4,18 +4,38 @@ import { PlayerFormSchema } from "@/lib/schema";
 import { createClient } from "../lib/supabase/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { revalidateTag } from "next/cache";
+import { cacheTag, updateTag } from "next/cache";
 import { Player } from "@/types/types";
 
 type PlayerFormInputs = z.infer<typeof PlayerFormSchema>;
 
-// Note: unstable_cache removed - incompatible with cookies() in Next.js 16
+// Cached getter with private cache (allows cookies())
 export async function getCachedPlayers(includeArchived: boolean = false) {
-  return getPlayers(includeArchived);
+  "use cache: private";
+  cacheTag("players");
+
+  const supabase = createClient(await cookies());
+  const query = supabase
+    .from("players")
+    .select("*", { count: "exact" })
+    .order("name", { ascending: true });
+
+  if (!includeArchived) {
+    query.eq("is_archived", false);
+  }
+
+  const { data, error, count } = await query.returns<Player[]>();
+  return { data, error, count };
 }
 
 export async function getCachedPlayer(id: number) {
-  return getPlayer(id);
+  "use cache: private";
+  cacheTag("players");
+
+  const supabase = createClient(await cookies());
+  const query = supabase.from("players").select("*").eq("id", id);
+  const { data, error } = await query.returns<Player[]>();
+  return { data, error };
 }
 
 export async function createPlayer(inputData: PlayerFormInputs) {
@@ -30,7 +50,7 @@ export async function createPlayer(inputData: PlayerFormInputs) {
     .single();
 
   if (!error) {
-    revalidateTag("players", "max");
+    updateTag("players");
   }
 
   return { data, error };
@@ -49,7 +69,7 @@ export async function updatePlayer(id: number, inputData: PlayerFormInputs) {
     .single();
 
   if (!error) {
-    revalidateTag("players", "max");
+    updateTag("players");
   }
 
   return { data, error };
@@ -65,7 +85,7 @@ export async function archivePlayer(id: number) {
     .single();
 
   if (!error) {
-    revalidateTag("players", "max");
+    updateTag("players");
   }
 
   return { data, error };
@@ -92,28 +112,6 @@ export async function uploadPlayerImage(formData: FormData) {
   const data = { ...uploadedFile, publicUrl: publicUrl?.data?.publicUrl };
 
   return { data, error: uploadedFileError };
-}
-
-export async function getPlayers(includeArchived: boolean = false) {
-  const supabase = createClient(await cookies());
-  const query = supabase
-    .from("players")
-    .select("*", { count: "exact" })
-    .order("name", { ascending: true });
-
-  if (!includeArchived) {
-    query.eq("is_archived", false);
-  }
-
-  const { data, error, count } = await query.returns<Player[]>();
-  return { data, error, count };
-}
-
-export async function getPlayer(id: number) {
-  const supabase = createClient(await cookies());
-  const query = supabase.from("players").select("*").eq("id", id);
-  const { data, error } = await query.returns<Player[]>();
-  return { data, error };
 }
 
 function generateUniqueFilename(originalFilename: string) {

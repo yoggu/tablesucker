@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Note: cacheComponents disabled for now - requires wrapping dynamic data access in Suspense
-  // cacheComponents: true,
+  // Enable Cache Components (allows "use cache" directive)
+  cacheComponents: true,
 
   // Enable React Compiler (stable in Next.js 16)
   reactCompiler: true,

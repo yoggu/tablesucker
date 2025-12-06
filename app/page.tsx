@@ -15,7 +15,15 @@ import { SeasonStateEnum } from "@/types/types";
 import Link from "next/link";
 import { Suspense } from "react";
 
-export default async function Live() {
+export default function LivePage() {
+  return (
+    <Suspense fallback={<LivePageSkeleton />}>
+      <LivePageContent />
+    </Suspense>
+  );
+}
+
+async function LivePageContent() {
   const { data: seasons, error: seasonsError } = await getCachedSeasons([
     SeasonStateEnum.Active,
   ]);
@@ -66,6 +74,27 @@ export default async function Live() {
   );
 }
 
+function LivePageSkeleton() {
+  return (
+    <>
+      <PageHeader>
+        <div>
+          <PageTitle>Active Season</PageTitle>
+          <div className="mt-1 h-6 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+        </div>
+      </PageHeader>
+      <div className="grid grid-cols-6 gap-6">
+        <div className="col-span-full flex flex-col gap-6 lg:col-span-4">
+          <GamesSkeleton />
+        </div>
+        <div className="col-span-full flex flex-col gap-6 lg:col-span-2">
+          <RankingSkeleton title="Win Rate" />
+          <RankingSkeleton title="Topscorer" />
+        </div>
+      </div>
+    </>
+  );
+}
 
 function NoActiveSeason() {
   return (
