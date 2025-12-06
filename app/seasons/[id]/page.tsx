@@ -13,12 +13,41 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 type SeasonProps = {
-  params: {
+  params: Promise<{
     id: number;
-  };
+  }>;
 };
 
-export default async function SeasonPage({ params }: SeasonProps) {
+function SeasonPageSkeleton() {
+  return (
+    <>
+      <PageHeader>
+        <div>
+          <div className="h-8 w-48 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+          <div className="mt-1 flex items-center gap-3">
+            <div className="h-5 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+          </div>
+        </div>
+      </PageHeader>
+      <div className="grid grid-cols-6 gap-6">
+        <div className="col-span-full">
+          <CardSpinnerSkeleton title="Standings" />
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default function SeasonPage(props: SeasonProps) {
+  return (
+    <Suspense fallback={<SeasonPageSkeleton />}>
+      <SeasonPageContent {...props} />
+    </Suspense>
+  );
+}
+
+async function SeasonPageContent(props: SeasonProps) {
+  const params = await props.params;
   const { data: seasonData, error: seasonError } = await getCachedSeason(params.id);
   if (seasonError) throw seasonError;
   const [season] = seasonData as SeasonWithState[];

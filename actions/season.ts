@@ -2,7 +2,7 @@
 
 import { SeasonFormSchema } from "@/lib/schema";
 import { Season, SeasonState } from "@/types/types";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { cacheTag, updateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
 import { createClient } from "../lib/supabase/server";
@@ -11,26 +11,37 @@ import { SeasonWithState } from "./../types/types";
 type SeasonFormInputs = z.infer<typeof SeasonFormSchema>;
 type InsertSeason = Omit<Season, "id" | "created_at">;
 
-export const getCachedSeasons = unstable_cache(
-  async (seasonStates: SeasonState[] = []) => getSeasons(seasonStates),
-  ["seasons"],
-  {
-    revalidate: 60,
-    tags: ["seasons"],
-  },
-);
+// Cached getter with private cache (allows cookies())
+export async function getCachedSeasons(seasonStates: SeasonState[] = []) {
+  "use cache: private";
+  cacheTag("seasons");
 
-export const getCachedSeason = unstable_cache(
-  async (id: number) => getSeason(id),
-  ["season"],
-  {
-    revalidate: 60,
-    tags: ["seasons"],
-  },
-);
+  const supabase = createClient(await cookies());
+  let query = supabase
+    .from("seasons_with_state")
+    .select("*", { count: "exact" })
+    .order("start_date", { ascending: false });
+
+  if (seasonStates.length > 0) {
+    query = query.in("state", seasonStates);
+  }
+
+  const { data, error, count } = await query.returns<SeasonWithState[]>();
+  return { data, error, count };
+}
+
+export async function getCachedSeason(id: number) {
+  "use cache: private";
+  cacheTag("seasons");
+
+  const supabase = createClient(await cookies());
+  const query = supabase.from("seasons_with_state").select("*").eq("id", id);
+  const { data, error } = await query.returns<SeasonWithState[]>();
+  return { data, error };
+}
 
 export async function createSeason(inputData: SeasonFormInputs) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const parsed = SeasonFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
 
@@ -48,13 +59,13 @@ export async function createSeason(inputData: SeasonFormInputs) {
     .single();
 
   if (!seasonError) {
-    revalidateTag("seasons");
+    updateTag("seasons");
   }
   return { data: seasonData, error: seasonError };
 }
 
 export async function updateSeason(id: number, inputData: SeasonFormInputs) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const parsed = SeasonFormSchema.safeParse(inputData);
   if (!parsed.success) return { data: null, error: parsed.error.flatten() };
   const seasonsRow: InsertSeason = {
@@ -70,39 +81,17 @@ export async function updateSeason(id: number, inputData: SeasonFormInputs) {
     .single();
 
   if (!seasonError) {
-    revalidateTag("seasons");
+    updateTag("seasons");
   }
   return { data: seasonData, error: seasonError };
 }
 
 export async function deleteSeason(id: number) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const { error } = await supabase.from("seasons").delete().eq("id", id);
 
   if (!error) {
-    revalidateTag("seasons");
+    updateTag("seasons");
   }
   return { error };
-}
-
-export async function getSeasons(seasonStates: SeasonState[] = []) {
-  const supabase = createClient(cookies());
-  let query = supabase
-    .from("seasons_with_state")
-    .select("*", { count: "exact" })
-    .order("start_date", { ascending: false });
-
-  if (seasonStates.length > 0) {
-    query = query.in("state", seasonStates);
-  }
-
-  const { data, error, count } = await query.returns<SeasonWithState[]>();
-  return { data, error, count };
-}
-
-export async function getSeason(id: number) {
-  const supabase = createClient(cookies());
-  const query = supabase.from("seasons_with_state").select("*").eq("id", id);
-  const { data, error } = await query.returns<SeasonWithState[]>();
-  return { data, error };
 }

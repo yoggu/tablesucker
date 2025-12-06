@@ -1,4 +1,4 @@
-import { getCachedPlayer, getPlayer } from "@/actions/player";
+import { getCachedPlayer } from "@/actions/player";
 import { getCachedSeasons } from "@/actions/season";
 import Games from "@/components/games/games";
 import GamesSkeleton from "@/components/games/games-skeleton";
@@ -26,18 +26,43 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 type PlayerProps = {
-  params: {
+  params: Promise<{
     id: number;
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     season: string;
-  };
+  }>;
 };
 
-export default async function PlayerPage({
-  searchParams,
-  params,
-}: PlayerProps) {
+function PlayerPageSkeleton() {
+  return (
+    <>
+      <PageHeader>
+        <div className="flex items-center gap-4">
+          <div className="h-12 w-12 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800 xl:h-16 xl:w-16" />
+          <div className="h-8 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+        </div>
+      </PageHeader>
+      <div className="grid grid-cols-6 gap-6">
+        <div className="col-span-full">
+          <CardSpinnerSkeleton title="Season" />
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default function PlayerPage(props: PlayerProps) {
+  return (
+    <Suspense fallback={<PlayerPageSkeleton />}>
+      <PlayerPageContent {...props} />
+    </Suspense>
+  );
+}
+
+async function PlayerPageContent(props: PlayerProps) {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const { data: playerData, error: playerError } = await getCachedPlayer(params.id);
   if (playerError) throw playerError;
   const [player] = playerData as Player[];

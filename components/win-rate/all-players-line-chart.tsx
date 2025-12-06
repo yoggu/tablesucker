@@ -10,7 +10,6 @@ import {
   LineChart,
   ResponsiveContainer,
   Tooltip,
-  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
@@ -70,7 +69,10 @@ export default function AllPlayersLineChart({
   );
 }
 
-type CustomTooltipProps = TooltipProps<number, string> & {
+type CustomTooltipProps = {
+  active?: boolean;
+  payload?: Array<{ value?: number; dataKey?: string; color?: string }>;
+  label?: string | number;
   players: Player[];
 };
 
