@@ -89,7 +89,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
     );
 
     return (
-      <div className="rounded-lg bg-slate-800 px-3 py-2">
+      <div className="rounded-lg bg-muted px-3 py-2">
         <p className="mb-2 font-semibold">{`Game ${label}`}</p>
         <div className="flex flex-col gap-2">
           {sortedPayload.map((entry) => {

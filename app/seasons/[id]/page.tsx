@@ -23,9 +23,9 @@ function SeasonPageSkeleton() {
     <>
       <PageHeader>
         <div>
-          <div className="h-8 w-48 animate-pulse rounded bg-slate-800" />
+          <div className="h-8 w-48 animate-pulse rounded bg-muted" />
           <div className="mt-1 flex items-center gap-3">
-            <div className="h-5 w-32 animate-pulse rounded bg-slate-800" />
+            <div className="h-5 w-32 animate-pulse rounded bg-muted" />
           </div>
         </div>
       </PageHeader>
@@ -62,7 +62,7 @@ async function SeasonPageContent(props: SeasonProps) {
           </PageTitle>
           <div className="mt-1 flex items-center gap-3">
             <SeasonDateRange
-              className="text-base text-slate-400"
+              className="text-base text-muted-foreground"
               startDate={season.start_date}
               endDate={season.end_date}
             />

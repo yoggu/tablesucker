@@ -11,7 +11,7 @@ import Notifications from "../ui/notifications";
 
 export default function Menu() {
   return (
-    <nav className="relative z-10 h-full min-h-screen border-r border-slate-800 bg-slate-900 px-2 py-8 @container">
+    <nav className="relative z-10 h-full min-h-screen border-r border-sidebar-border bg-sidebar px-2 py-8 @container">
       <menu className="sticky bottom-8 top-8 flex h-full max-h-[calc(100vh-64px)] flex-col gap-2">
         <li>
           <MenuLink href="/">

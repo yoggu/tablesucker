@@ -27,7 +27,7 @@ export default function RootLayout({
       <head>
         <AppleSplash />
       </head>
-      <body className="min-h-screen bg-slate-950 text-slate-50 sm:grid sm:grid-cols-[56px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)]">
+      <body className="min-h-screen bg-background text-foreground sm:grid sm:grid-cols-[56px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,1fr)]">
         <aside className="hidden sm:block">
           <Suspense fallback={<MenuSkeleton />}>
             <Menu />
@@ -51,13 +51,13 @@ export default function RootLayout({
 
 function MenuSkeleton() {
   return (
-    <nav className="relative z-10 h-full min-h-screen border-r border-slate-800 bg-slate-900 px-2 py-8">
+    <nav className="relative z-10 h-full min-h-screen border-r border-sidebar-border bg-sidebar px-2 py-8">
       <menu className="sticky bottom-8 top-8 flex h-full max-h-[calc(100vh-64px)] flex-col gap-2">
-        <li className="h-10 w-10 animate-pulse rounded-md bg-slate-800" />
-        <li className="h-10 w-10 animate-pulse rounded-md bg-slate-800" />
-        <li className="h-10 w-10 animate-pulse rounded-md bg-slate-800" />
-        <li className="mt-auto h-10 w-10 animate-pulse rounded-md bg-slate-800" />
-        <li className="h-10 w-10 animate-pulse rounded-md bg-slate-800" />
+        <li className="h-10 w-10 animate-pulse rounded-md bg-muted" />
+        <li className="h-10 w-10 animate-pulse rounded-md bg-muted" />
+        <li className="h-10 w-10 animate-pulse rounded-md bg-muted" />
+        <li className="mt-auto h-10 w-10 animate-pulse rounded-md bg-muted" />
+        <li className="h-10 w-10 animate-pulse rounded-md bg-muted" />
       </menu>
     </nav>
   );
@@ -65,15 +65,15 @@ function MenuSkeleton() {
 
 function AuthButtonSkeleton() {
   return (
-    <div className="h-10 w-10 animate-pulse rounded-md bg-slate-800" />
+    <div className="h-10 w-10 animate-pulse rounded-md bg-muted" />
   );
 }
 
 function MobileMenuSkeleton() {
   return (
-    <nav className="relative z-[50] pt-2 sm:hidden">
+    <nav className="relative z-50 pt-2 sm:hidden">
       <div className="flex justify-between gap-4 px-2">
-        <div className="h-10 w-10 animate-pulse rounded-md bg-slate-800" />
+        <div className="h-10 w-10 animate-pulse rounded-md bg-muted" />
       </div>
     </nav>
   );

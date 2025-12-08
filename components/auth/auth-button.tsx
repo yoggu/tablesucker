@@ -20,7 +20,7 @@ export default async function AuthButton() {
           <TooltipTrigger asChild>
             <Button
               variant={"ghost"}
-              className="flex h-10 w-10 items-center justify-center gap-3 rounded-md hover:bg-slate-800 hover:text-slate-50 @[180px]:w-full @[180px]:justify-start @[180px]:px-3"
+              className="flex h-10 w-10 items-center justify-center gap-3 rounded-md hover:bg-accent hover:text-accent-foreground @[180px]:w-full @[180px]:justify-start @[180px]:px-3"
             >
               <LogOutIcon size={20} className="flex-shrink-0" />
               <p className="hidden max-w-36 overflow-hidden overflow-ellipsis @[180px]:block @[180px]:max-w-full">
@@ -39,7 +39,7 @@ export default async function AuthButton() {
       <Tooltip delayDuration={0}>
         <DialogLoginForm
           trigger={
-            <a className="flex h-10 w-10 cursor-pointer items-center justify-center gap-3 rounded-md hover:bg-slate-800 hover:text-slate-50 @[180px]:w-full @[180px]:justify-start @[180px]:px-3">
+            <a className="flex h-10 w-10 cursor-pointer items-center justify-center gap-3 rounded-md hover:bg-accent hover:text-accent-foreground @[180px]:w-full @[180px]:justify-start @[180px]:px-3">
               <TooltipTrigger>
                 <LogInIcon size={20} />
               </TooltipTrigger>

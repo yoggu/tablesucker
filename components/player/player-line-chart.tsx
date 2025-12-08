@@ -58,7 +58,7 @@ const CustomTooltip = ({
 }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-lg bg-slate-800 px-3 py-2">
+      <div className="rounded-lg bg-muted px-3 py-2">
         <p>{`Game ${label}`}</p>
         <p>{`Win Rate: ${payload[0].value}%`}</p>
       </div>

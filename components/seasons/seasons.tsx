@@ -30,7 +30,7 @@ export default async function Seasons() {
           {data?.map((season) => (
             <li
               key={season.id}
-              className="flex animate-fade-in justify-between border-b border-slate-700 pb-4 last-of-type:border-0 last-of-type:pb-0"
+              className="flex animate-fade-in justify-between border-b border-border pb-4 last-of-type:border-0 last-of-type:pb-0"
             >
               <Link
                 className="w-full hover:text-blue-400"

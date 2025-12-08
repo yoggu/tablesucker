@@ -43,7 +43,7 @@ async function LivePageContent() {
           <div className="mt-1">
             <Link
               href={`/seasons/${latestActiveSeason.id}`}
-              className="text-slate-400 hover:text-blue-400"
+              className="text-muted-foreground hover:text-blue-400"
             >
               <SeasonTitle startDate={latestActiveSeason.start_date} />
             </Link>
@@ -57,7 +57,7 @@ async function LivePageContent() {
           <Suspense fallback={<GamesSkeleton />}>
             <Games season={latestActiveSeason} limit={3} />
           </Suspense>
-          <Suspense fallback={<div className="h-[400px] animate-pulse rounded-lg bg-slate-800" />}>
+          <Suspense fallback={<div className="h-[400px] animate-pulse rounded-lg bg-muted" />}>
             <WinRateChart season={latestActiveSeason} />
           </Suspense>
         </div>
@@ -80,7 +80,7 @@ function LivePageSkeleton() {
       <PageHeader>
         <div>
           <PageTitle>Active Season</PageTitle>
-          <div className="mt-1 h-6 w-32 animate-pulse rounded bg-slate-800" />
+          <div className="mt-1 h-6 w-32 animate-pulse rounded bg-muted" />
         </div>
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">

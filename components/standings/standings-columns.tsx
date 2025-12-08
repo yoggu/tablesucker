@@ -98,7 +98,7 @@ function SortableHeader<TData, TValue>({
   return (
     <Button
       className={cn({
-        "text-slate-50": isSorted,
+        "text-foreground": isSorted,
       })}
       variant="ghost"
       onClick={() => {

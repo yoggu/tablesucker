@@ -29,7 +29,7 @@ export default async function Players() {
           {data?.map((player) => (
             <li
               className={cn(
-                "flex animate-fade-in justify-between border-b border-slate-700 pb-4 last:border-b-0 last:pb-0 lg:col-span-1",
+                "flex animate-fade-in justify-between border-b border-border pb-4 last:border-b-0 last:pb-0 lg:col-span-1",
                 {
                   "lg:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+2)]:pb-0":
                     data.length % 2 === 0,
