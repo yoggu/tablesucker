@@ -55,6 +55,48 @@ const retroVariants = [
     description: "Soothing pastel colors on a warm dark background",
     colors: "from-[#F38BA8] via-[#CBA6F7] to-[#89B4FA]",
   },
+  {
+    name: "Stadium Scoreboard",
+    href: "/design-variants/retro/scoreboard",
+    description: "LED dot-matrix display with amber glow and live updates",
+    colors: "from-[#FF6B00] via-[#FF0000] to-[#00BFFF]",
+  },
+  {
+    name: "Sports Bar",
+    href: "/design-variants/retro/sportsbar",
+    description: "Warm wood tones, brass accents, and neon beer signs",
+    colors: "from-[#8B4513] via-[#FFD700] to-[#228B22]",
+  },
+  {
+    name: "Vintage Foosball",
+    href: "/design-variants/retro/vintage-foosball",
+    description: "Classic wood grain and brass plaque championship style",
+    colors: "from-[#B8860B] via-[#DEB887] to-[#8B0000]",
+  },
+  {
+    name: "Pub League",
+    href: "/design-variants/retro/pub-league",
+    description: "Tuesday night football at the local with pints and banter",
+    colors: "from-[#1B5E20] via-[#FDD835] to-[#D32F2F]",
+  },
+  {
+    name: "FIFA 98",
+    href: "/design-variants/retro/fifa98",
+    description: "EA Sports Road to World Cup with gold menus and blue chrome",
+    colors: "from-[#0D1F33] via-[#FFD700] to-[#1E3A5F]",
+  },
+  {
+    name: "Sensible Soccer",
+    href: "/design-variants/retro/sensible-soccer",
+    description: "16-bit Amiga classic with pixel-perfect aftertouch",
+    colors: "from-[#5A8F29] via-[#FFFF00] to-[#FF0000]",
+  },
+  {
+    name: "Subbuteo",
+    href: "/design-variants/retro/subbuteo",
+    description: "Flick to kick tabletop miniatures since 1947",
+    colors: "from-[#4A7C23] via-[#F5F5DC] to-[#C41E3A]",
+  },
 ];
 
 export default function RetroVariantsPage() {
