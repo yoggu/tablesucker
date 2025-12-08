@@ -29,7 +29,7 @@ export default async function Players() {
           {data?.map((player) => (
             <li
               className={cn(
-                "flex animate-fade-in justify-between border-b pb-4 last:border-b-0 last:pb-0 lg:col-span-1 dark:border-gray-700 ",
+                "flex animate-fade-in justify-between border-b border-slate-700 pb-4 last:border-b-0 last:pb-0 lg:col-span-1",
                 {
                   "lg:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+2)]:pb-0":
                     data.length % 2 === 0,
@@ -38,7 +38,7 @@ export default async function Players() {
               key={player.id}
             >
               <Link
-                className="w-full hover:text-blue-600 dark:hover:text-blue-400"
+                className="w-full hover:text-blue-400"
                 href={`/players/${player.id}`}
                 title={player.name}
               >

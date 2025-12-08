@@ -6,13 +6,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ModeToggle } from "./mode-toggle";
 import AuthButton from "../auth/auth-button";
 import Notifications from "../ui/notifications";
 
 export default function Menu() {
   return (
-    <nav className="relative z-10 h-full min-h-screen border-r bg-white px-2 py-8 @container dark:border-slate-700 dark:bg-slate-950">
+    <nav className="relative z-10 h-full min-h-screen border-r border-slate-800 bg-slate-900 px-2 py-8 @container">
       <menu className="sticky bottom-8 top-8 flex h-full max-h-[calc(100vh-64px)] flex-col gap-2">
         <li>
           <MenuLink href="/">
@@ -75,9 +74,6 @@ export default function Menu() {
         </li>
         <li className="mt-auto">
           <AuthButton />
-        </li>
-        <li>
-          <ModeToggle />
         </li>
         <li>
           <Notifications />

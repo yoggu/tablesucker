@@ -39,8 +39,8 @@ function PlayerPageSkeleton() {
     <>
       <PageHeader>
         <div className="flex items-center gap-4">
-          <div className="h-12 w-12 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800 xl:h-16 xl:w-16" />
-          <div className="h-8 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+          <div className="h-12 w-12 animate-pulse rounded-full bg-slate-800 xl:h-16 xl:w-16" />
+          <div className="h-8 w-32 animate-pulse rounded bg-slate-800" />
         </div>
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
@@ -147,7 +147,7 @@ function NoSeasons({ player }: { player: Player }) {
         </div>
       </PageHeader>
       <div className="text-center">
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-slate-400">
           No seasons found. Create a season to get started.
         </p>
       </div>

@@ -4,7 +4,6 @@ import { CalendarDays, Menu, Radio, Users, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { MenuLink } from "./menu-link";
-import { ModeToggle } from "./mode-toggle";
 import Notifications from "../ui/notifications";
 
 export default function MobileMenu({
@@ -29,7 +28,7 @@ export default function MobileMenu({
         </Button>
       </div>
       <div
-        className={cn("absolute hidden w-full bg-white px-2 dark:bg-gray-950", {
+        className={cn("absolute hidden w-full bg-slate-950 px-2", {
           "block h-[calc(100dvh-48px)]": open,
         })}
       >
@@ -54,9 +53,6 @@ export default function MobileMenu({
           </li>
           <li className="mt-auto">
             <div onClick={() => setOpen(false)}>{children}</div>
-          </li>
-          <li>
-            <ModeToggle />
           </li>
           <li>
             <Notifications />

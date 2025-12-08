@@ -29,7 +29,7 @@ export default function GamesList({
       {games?.map((game) => (
         <li
           key={game.id}
-          className="relative grid animate-fade-in grid-cols-[minmax(80px,1fr)_minmax(0,100px)_minmax(80px,1fr)] gap-2 border-b pb-4 last:border-0 last:pb-0 sm:gap-4 md:gap-8 xl:gap-12 dark:border-slate-700"
+          className="relative grid animate-fade-in grid-cols-[minmax(80px,1fr)_minmax(0,100px)_minmax(80px,1fr)] gap-2 border-b border-slate-700 pb-4 last:border-0 last:pb-0 sm:gap-4 md:gap-8 xl:gap-12"
         >
           {user && seasons && players && (
             <div className="absolute -top-6 right-0 flex items-start gap-3 sm:top-0">

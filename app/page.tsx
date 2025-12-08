@@ -43,7 +43,7 @@ async function LivePageContent() {
           <div className="mt-1">
             <Link
               href={`/seasons/${latestActiveSeason.id}`}
-              className="hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400"
+              className="text-slate-400 hover:text-blue-400"
             >
               <SeasonTitle startDate={latestActiveSeason.start_date} />
             </Link>
@@ -80,7 +80,7 @@ function LivePageSkeleton() {
       <PageHeader>
         <div>
           <PageTitle>Active Season</PageTitle>
-          <div className="mt-1 h-6 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+          <div className="mt-1 h-6 w-32 animate-pulse rounded bg-slate-800" />
         </div>
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
