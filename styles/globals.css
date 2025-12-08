@@ -56,6 +56,14 @@
   --color-accent: #1e293b;            /* slate-800 */
   --color-accent-foreground: #f8fafc; /* slate-50 */
 
+  /* Link colors */
+  --color-link: #60a5fa;              /* blue-400 - default link */
+  --color-link-hover: #93c5fd;        /* blue-300 - link hover */
+
+  /* Interactive hover states */
+  --color-hover: rgba(255, 255, 255, 0.08);  /* subtle white overlay */
+  --color-hover-muted: rgba(148, 163, 184, 0.15);  /* slate-400 @ 15% */
+
   /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;

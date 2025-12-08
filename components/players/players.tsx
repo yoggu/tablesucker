@@ -38,7 +38,7 @@ export default async function Players() {
               key={player.id}
             >
               <Link
-                className="w-full hover:text-blue-400"
+                className="w-full hover:text-link-hover"
                 href={`/players/${player.id}`}
                 title={player.name}
               >

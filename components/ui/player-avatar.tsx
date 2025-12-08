@@ -20,7 +20,7 @@ export default function PlayerAvatar({
   return link ? (
     <Link
       title={player.name}
-      className="hover:text-blue-400"
+      className="hover:text-link-hover"
       href={`/players/${player.id}`}
     >
       <AvatarContent

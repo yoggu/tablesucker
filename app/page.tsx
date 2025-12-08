@@ -43,7 +43,7 @@ async function LivePageContent() {
           <div className="mt-1">
             <Link
               href={`/seasons/${latestActiveSeason.id}`}
-              className="text-muted-foreground hover:text-blue-400"
+              className="text-muted-foreground hover:text-link-hover"
             >
               <SeasonTitle startDate={latestActiveSeason.start_date} />
             </Link>
