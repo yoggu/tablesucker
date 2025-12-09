@@ -14,16 +14,16 @@ import {
   YAxis,
 } from "recharts";
 
-// Color palette for player lines
+// Color palette for player lines (bright, high contrast on dark bg)
 const COLORS = [
-  "#3b82f6", // blue
-  "#ef4444", // red
-  "#22c55e", // green
-  "#f59e0b", // amber
-  "#8b5cf6", // violet
-  "#ec4899", // pink
-  "#06b6d4", // cyan
-  "#f97316", // orange
+  "#60A5FA", // sky-400
+  "#F472B6", // pink-400
+  "#34D399", // emerald-400
+  "#FBBF24", // amber-400
+  "#A78BFA", // violet-400
+  "#FB923C", // orange-400
+  "#22D3EE", // cyan-400
+  "#F87171", // red-400
 ];
 
 type AllPlayersLineChartProps = {
@@ -89,7 +89,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
     );
 
     return (
-      <div className="rounded-lg bg-slate-800 px-3 py-2">
+      <div className="rounded-lg bg-muted px-3 py-2">
         <p className="mb-2 font-semibold">{`Game ${label}`}</p>
         <div className="flex flex-col gap-2">
           {sortedPayload.map((entry) => {

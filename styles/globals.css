@@ -1,8 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
-
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
@@ -15,6 +13,56 @@
 }
 
 @theme {
+  /* Background colors */
+  --color-background: #020617;        /* slate-950 - main page bg */
+  --color-foreground: #f8fafc;        /* slate-50 - main text */
+
+  /* Card/Surface colors */
+  --color-card: #0f172a;              /* slate-900 - card bg */
+  --color-card-foreground: #f8fafc;   /* slate-50 - card text */
+
+  /* Muted colors (for secondary text, placeholders) */
+  --color-muted: #1e293b;             /* slate-800 - muted bg */
+  --color-muted-foreground: #94a3b8;  /* slate-400 - muted text */
+
+  /* Primary (buttons, links, accents) */
+  --color-primary: #ffffff;           /* white */
+  --color-primary-foreground: #0f172a;/* slate-900 */
+
+  /* Secondary */
+  --color-secondary: #1e293b;         /* slate-800 */
+  --color-secondary-foreground: #f8fafc;/* slate-50 */
+
+  /* Destructive */
+  --color-destructive: #7f1d1d;       /* red-900 */
+  --color-destructive-foreground: #f8fafc;/* slate-50 */
+
+  /* Border & Ring */
+  --color-border: #334155;            /* slate-700 */
+  --color-ring: #ffffff;              /* white */
+
+  /* Sidebar */
+  --color-sidebar: #0f172a;           /* slate-900 */
+  --color-sidebar-foreground: #f8fafc;/* slate-50 */
+  --color-sidebar-border: #1e293b;    /* slate-800 */
+  --color-sidebar-accent: rgba(255, 255, 255, 0.1); /* white/10 */
+
+  /* Input */
+  --color-input: #334155;             /* slate-700 - input border */
+
+  /* Accent (hover states) */
+  --color-accent: #1e293b;            /* slate-800 */
+  --color-accent-foreground: #f8fafc; /* slate-50 */
+
+  /* Link colors */
+  --color-link: #60a5fa;              /* blue-400 - default link */
+  --color-link-hover: #93c5fd;        /* blue-300 - link hover */
+
+  /* Interactive hover states */
+  --color-hover: rgba(255, 255, 255, 0.08);  /* subtle white overlay */
+  --color-hover-muted: rgba(148, 163, 184, 0.15);  /* slate-400 @ 15% */
+
+  /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-fade-in: fade-in 0.2s ease-out;
@@ -59,6 +107,6 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    border-color: var(--color-border);
   }
 }

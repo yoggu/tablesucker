@@ -41,13 +41,13 @@ export default function PlayerFormSmall({
         <Button
           type="button"
           variant={"outline"}
-          className="rounded-full px-2 dark:border-gray-400"
+          className="rounded-full px-2 border-muted-foreground"
         >
-          <Plus className="dark:text-gray-400" />
+          <Plus className="text-muted-foreground" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="space-y-2">
-        <PopoverArrow className="dark:fill-slate-800" />
+        <PopoverArrow className="fill-muted" />
         <Input
           value={name}
           onChange={(e) => setName(e.target.value)}

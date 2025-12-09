@@ -4,7 +4,7 @@ export default function RankingListItem({
   children,
 }: HTMLAttributes<HTMLLIElement>) {
   return (
-    <li className="animate-fade-in grid grid-cols-6 items-center gap-4 border-b pb-4 last:border-0 last:pb-0 dark:border-gray-700">
+    <li className="animate-fade-in grid grid-cols-6 items-center gap-4 border-b border-border pb-4 last:border-0 last:pb-0">
       {children}
     </li>
   );

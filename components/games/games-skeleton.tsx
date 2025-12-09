@@ -21,7 +21,7 @@ export default function GamesSkeleton() {
 
 function GameListItemSkeleton() {
   return (
-    <li className="grid grid-cols-[minmax(80px,1fr)_minmax(0,100px)_minmax(80px,1fr)] gap-2 border-b pb-4 last:border-0 last:pb-0 sm:gap-4 md:gap-8 xl:gap-12 dark:border-slate-700">
+    <li className="grid grid-cols-[minmax(80px,1fr)_minmax(0,100px)_minmax(80px,1fr)] gap-2 border-b border-border pb-4 last:border-0 last:pb-0 sm:gap-4 md:gap-8 xl:gap-12">
       <div className="flex flex-col gap-3">
         <div className="flex justify-end ">
           <span className="relative">Team Red</span>
