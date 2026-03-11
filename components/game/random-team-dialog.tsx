@@ -74,14 +74,14 @@ export default function RandomTeamDialog({
   const selectablePlayers = useMemo(() => {
     const activePlayers = players.filter((player) => !player.is_archived);
 
-    // Sort by last game date ascending (longest ago first, never-played at top)
+    // Sort by last game date descending (most recently played first)
     return activePlayers.sort((a, b) => {
       const dateA = getLastGameDate(a.id, games);
       const dateB = getLastGameDate(b.id, games);
       if (!dateA && !dateB) return 0;
-      if (!dateA) return -1;
-      if (!dateB) return 1;
-      return new Date(dateA).getTime() - new Date(dateB).getTime();
+      if (!dateA) return 1;
+      if (!dateB) return -1;
+      return new Date(dateB).getTime() - new Date(dateA).getTime();
     });
   }, [players, games]);
 
