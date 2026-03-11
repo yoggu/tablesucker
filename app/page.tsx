@@ -1,3 +1,4 @@
+import { getCachedGames } from "@/actions/game";
 import { getCachedPlayers } from "@/actions/player";
 import { getCachedSeasons } from "@/actions/season";
 import DialogGameForm from "@/components/game/dialog-game-form";
@@ -36,6 +37,8 @@ async function LivePageContent() {
   if (playersError) throw playersError;
   if (!players || players?.length === 0) return <NoPlayers />;
 
+  const { data: games } = await getCachedGames(latestActiveSeason.id);
+
   return (
     <>
       <PageHeader>
@@ -52,7 +55,7 @@ async function LivePageContent() {
         </div>
         <div className="flex gap-2">
           <DialogGameForm seasons={seasons} players={players} />
-          <RandomTeamDialog seasons={seasons} players={players} />
+          <RandomTeamDialog seasons={seasons} players={players} games={games ?? []} />
         </div>
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">

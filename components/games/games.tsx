@@ -69,7 +69,7 @@ export default async function Games({
         {user && seasons && players && (
           <div className="flex gap-2 self-end sm:self-start">
             <DialogGameForm seasons={seasons} players={players} />
-            <RandomTeamDialog seasons={seasons} players={players} />
+            <RandomTeamDialog seasons={seasons} players={players} games={games ?? []} />
           </div>
         )}
       </CardHeader>
