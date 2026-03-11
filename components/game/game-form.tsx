@@ -31,11 +31,18 @@ import {
 import { PostgrestError } from "@supabase/supabase-js";
 
 type Inputs = z.infer<typeof GameFormSchema>;
+
+export type DefaultTeams = {
+  teamRed: number[];
+  teamBlue: number[];
+};
+
 type GameFormProps = {
   players: Player[];
   seasons: SeasonWithState[];
   onClose?: () => void;
   game?: GameDetails;
+  defaultTeams?: DefaultTeams;
 };
 
 function getPlayerIdsFromTeam(players: Player[] | undefined): number[] {
@@ -55,29 +62,44 @@ export default function GameForm({
   seasons,
   onClose,
   game,
+  defaultTeams,
 }: GameFormProps) {
   const { toast } = useToast();
   const gameTeamRedPlayerIds = getPlayerIdsFromTeam(game?.team_red?.players);
   const gameTeamBluePlayerIds = getPlayerIdsFromTeam(game?.team_blue?.players);
+
+  const initialTeamRedPlayerIds = filterPlayerIdsToInclude(
+    game
+      ? gameTeamRedPlayerIds
+      : defaultTeams?.teamRed ?? [],
+    players,
+  );
+  const initialTeamBluePlayerIds = filterPlayerIdsToInclude(
+    game
+      ? gameTeamBluePlayerIds
+      : defaultTeams?.teamBlue ?? [],
+    players,
+  );
+
   const [teamRedPlayers, setTeamRedPlayers] = useState<Player[]>(
-    excludePlayersByIds(gameTeamBluePlayerIds, players),
+    excludePlayersByIds(initialTeamBluePlayerIds, players),
   );
   const [teamBluePlayers, setTeamBluePlayers] = useState<Player[]>(
-    excludePlayersByIds(gameTeamRedPlayerIds, players),
+    excludePlayersByIds(initialTeamRedPlayerIds, players),
   );
+
   const form = useForm<Inputs>({
     resolver: zodResolver(GameFormSchema),
     defaultValues: {
       team_red: {
-        players: filterPlayerIdsToInclude(gameTeamRedPlayerIds, players),
+        players: initialTeamRedPlayerIds,
         score: game?.team_red?.score || 0,
       },
       team_blue: {
-        players: filterPlayerIdsToInclude(gameTeamBluePlayerIds, players),
+        players: initialTeamBluePlayerIds,
         score: game?.team_blue?.score || 0,
       },
-      season_id:
-        game?.season_id || seasons[0]?.id || undefined,
+      season_id: game?.season_id || seasons[0]?.id || undefined,
     },
   });
 

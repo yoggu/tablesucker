@@ -1,6 +1,5 @@
 import { getCachedPlayers } from "@/actions/player";
 import { getCachedSeasons } from "@/actions/season";
-import DialogGameForm from "@/components/game/dialog-game-form";
 import Games from "@/components/games/games";
 import GamesSkeleton from "@/components/games/games-skeleton";
 import RealtimeGames from "@/components/games/realtime-games";
@@ -49,7 +48,6 @@ async function LivePageContent() {
             </Link>
           </div>
         </div>
-        <DialogGameForm seasons={seasons} players={players} />
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-full flex flex-col gap-6 lg:col-span-4">
