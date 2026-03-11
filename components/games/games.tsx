@@ -2,8 +2,6 @@ import { getCachedGames, getCachedGamesCount } from "@/actions/game";
 import { getCachedPlayers } from "@/actions/player";
 import { getCachedSeasons } from "@/actions/season";
 import { getCurrentUser } from "@/actions/user";
-import DialogGameForm from "@/components/game/dialog-game-form";
-import RandomTeamDialog from "@/components/game/random-team-dialog";
 import {
   Card,
   CardContent,
@@ -59,19 +57,11 @@ export default async function Games({
 
   return (
     <Card>
-      <CardHeader className="gap-4 sm:flex-row sm:items-start sm:justify-between sm:space-y-0">
-        <div>
-          <CardTitle>Games</CardTitle>
-          <CardDescription>
-            {count} {count === 1 ? "Game" : "Games"} Played
-          </CardDescription>
-        </div>
-        {user && seasons && players && (
-          <div className="flex gap-2 self-end sm:self-start">
-            <DialogGameForm seasons={seasons} players={players} />
-            <RandomTeamDialog seasons={seasons} players={players} games={games ?? []} />
-          </div>
-        )}
+      <CardHeader>
+        <CardTitle>Games</CardTitle>
+        <CardDescription>
+          {count} {count === 1 ? "Game" : "Games"} Played
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <GamesLoadMore
