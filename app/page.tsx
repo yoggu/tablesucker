@@ -1,5 +1,7 @@
 import { getCachedPlayers } from "@/actions/player";
 import { getCachedSeasons } from "@/actions/season";
+import DialogGameForm from "@/components/game/dialog-game-form";
+import RandomTeamDialog from "@/components/game/random-team-dialog";
 import Games from "@/components/games/games";
 import GamesSkeleton from "@/components/games/games-skeleton";
 import RealtimeGames from "@/components/games/realtime-games";
@@ -47,6 +49,10 @@ async function LivePageContent() {
               <SeasonTitle startDate={latestActiveSeason.start_date} />
             </Link>
           </div>
+        </div>
+        <div className="flex gap-2">
+          <DialogGameForm seasons={seasons} players={players} />
+          <RandomTeamDialog seasons={seasons} players={players} />
         </div>
       </PageHeader>
       <div className="grid grid-cols-6 gap-6">
